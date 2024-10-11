@@ -4,7 +4,7 @@ import { defineNuxtConfig } from "nuxt/config";
 export default defineNuxtConfig({
   compatibilityDate: "2024-10-10",
   devtools: { enabled: false },
-  modules: ["@nuxtjs/eslint-module", "@nuxtjs/tailwindcss"],
+  modules: ["@nuxtjs/eslint-module", "@nuxtjs/tailwindcss", "@nuxtjs/i18n"],
 
   // add postcss support for tailwindcss
   postcss: {

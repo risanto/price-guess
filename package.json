@@ -10,8 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/i18n": "^8.5.5",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "flowbite": "^2.5.2",
+    "i18n": "^0.15.1",
     "nuxt": "^3.13.0",
     "vue": "latest",
     "vue-router": "latest"
