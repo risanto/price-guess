@@ -10,7 +10,7 @@
           <h1
             class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
           >
-            {{ $t("Masuk") }}
+            {{ $t("Daftar") }}
           </h1>
           <form class="space-y-4 md:space-y-6" @submit.prevent="login">
             <div>
@@ -62,10 +62,10 @@
 
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               {{ $t("Belum punya akun?") }}
-              <NuxtLink
-                to="/register"
+              <a
+                href="#"
                 class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >{{ $t("Daftar") }}</NuxtLink
+                >{{ $t("Daftar") }}</a
               >
             </p>
           </form>

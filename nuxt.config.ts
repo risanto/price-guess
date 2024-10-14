@@ -20,7 +20,13 @@ export default defineNuxtConfig({
   },
   eslint: {
     lintOnStart: false, // Disable linting on startup
-    // lintOnSave: true, // Enable linting on file save
     fix: true, // Automatically fix linting errors when possible
+  },
+  runtimeConfig: {
+    public: {
+      supabase: {
+        redirect: false,
+      },
+    },
   },
 });
