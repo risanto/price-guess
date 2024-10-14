@@ -1,8 +1,10 @@
 {
     "Masuk": "Masuk",
     "Daftar": "Daftar",
+    "Email": "Email",
     "Nomor handphone": "Nomor handphone",
     "Kata sandi": "Kata sandi",
     "Lupa kata sandi?": "Lupa kata sandi?",
-    "Belum punya akun?": "Belum punya akun?"
+    "Belum punya akun?": "Belum punya akun?",
+    "Invalid login credentials": "Email/password salah"
 }
