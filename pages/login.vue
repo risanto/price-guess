@@ -1,22 +1,22 @@
 <template>
   <section class="bg-gray-50 dark:bg-gray-900">
     <div
-      class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0"
+      class="mx-auto flex h-screen flex-col items-center justify-center px-6 py-8 lg:py-0"
     >
       <div
-        class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+        class="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0"
       >
-        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <div class="space-y-4 p-6 sm:p-8 md:space-y-6">
           <h1
-            class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+            class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl"
           >
             {{ $t("Masuk") }}
           </h1>
           <form class="space-y-4 md:space-y-6" @submit.prevent="login">
             <div>
               <label
-                for="phone"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                for="email"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >{{ $t("Email") }}</label
               >
               <input
@@ -24,7 +24,7 @@
                 name="email"
                 id="email"
                 v-model="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 placeholder="mail@gmail.com"
                 required="true"
               />
@@ -32,7 +32,7 @@
             <div>
               <label
                 for="password"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >{{ $t("Kata sandi") }}</label
               >
               <input
@@ -41,7 +41,7 @@
                 id="password"
                 placeholder="••••••••"
                 v-model="password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 required="true"
               />
             </div>
@@ -55,7 +55,7 @@
             </div>
             <button
               type="submit"
-              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              class="w-full rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
               {{ $t("Masuk") }}
             </button>
@@ -76,7 +76,12 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: "auth",
+});
+
 const supabase = useSupabaseClient();
+const { saveUser } = useAuth();
 
 const email = ref("");
 const password = ref("");
@@ -85,10 +90,7 @@ const error = ref("");
 const login = async () => {
   error.value = ""; // Reset the error
 
-  const {
-    data: { user },
-    error: loginError,
-  } = await supabase.auth.signInWithPassword({
+  const { data, error: loginError } = await supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value,
   });
@@ -96,9 +98,12 @@ const login = async () => {
   if (loginError) {
     error.value = loginError.message; // Show the error message
   } else {
-    // Handle successful login
-    console.log("Logged in user:", user);
-    navigateTo("/dashboard"); // Redirect to the dashboard or another page
+    saveUser({
+      email: data.user.email as string,
+      phone: data.user.user_metadata.phone,
+      points: data.user.user_metadata.points,
+    });
+    navigateTo("/");
   }
 };
 

@@ -2,20 +2,32 @@ import type { UserData } from "~/types/auth";
 
 export function useAuth() {
   // Global state for user
-  const user: Ref<UserData | null> = useState("user", () => null); // This creates a global state for 'user'
+  const user: Ref<UserData | null> = useState("user", () => {
+    if (import.meta.client) {
+      const storedUser = localStorage.getItem("user") as string;
+      return JSON.parse(storedUser);
+    }
 
-  // Method to log in user (dummy function, replace with your logic)
-  const login = (userData: UserData) => {
+    return null;
+  });
+
+  const saveUser = (userData: UserData) => {
     user.value = userData;
+
+    if (import.meta.client) {
+      localStorage.setItem("user", JSON.stringify(userData));
+    }
   };
 
-  // Method to log out
   const logout = () => {
     user.value = null;
+
+    if (import.meta.client) {
+      localStorage.removeItem("user");
+    }
   };
 
-  // Check if user is authenticated
   const isAuthenticated = computed(() => !!user.value);
 
-  return { user, login, logout, isAuthenticated };
+  return { user, logout, isAuthenticated, saveUser };
 }

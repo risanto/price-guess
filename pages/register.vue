@@ -1,22 +1,22 @@
 <template>
   <section class="bg-gray-50 dark:bg-gray-900">
     <div
-      class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0"
+      class="mx-auto flex h-screen flex-col items-center justify-center px-6 py-8 lg:py-0"
     >
       <div
-        class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+        class="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0"
       >
-        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <div class="space-y-4 p-6 sm:p-8 md:space-y-6">
           <h1
-            class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+            class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl"
           >
             {{ $t("Daftar") }}
           </h1>
-          <form class="space-y-4 md:space-y-6" @submit.prevent="login">
+          <form class="space-y-4 md:space-y-6" @submit.prevent="register">
             <div>
               <label
-                for="phone"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                for="email"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >{{ $t("Email") }}</label
               >
               <input
@@ -24,15 +24,33 @@
                 name="email"
                 id="email"
                 v-model="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 placeholder="mail@gmail.com"
                 required="true"
               />
             </div>
+
+            <div>
+              <label
+                for="phone"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                >{{ $t("Nomor handphone") }}</label
+              >
+              <input
+                type="phone"
+                name="phone"
+                id="phone"
+                v-model="phone"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                placeholder="mail@gmail.com"
+                required="true"
+              />
+            </div>
+
             <div>
               <label
                 for="password"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >{{ $t("Kata sandi") }}</label
               >
               <input
@@ -41,31 +59,25 @@
                 id="password"
                 placeholder="••••••••"
                 v-model="password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 required="true"
               />
             </div>
             <div v-if="error" class="text-red-500">{{ $t(`${error}`) }}</div>
-            <div class="flex items-center justify-end">
-              <a
-                href="#"
-                class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >{{ $t("Lupa kata sandi?") }}</a
-              >
-            </div>
+
             <button
               type="submit"
-              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              class="w-full rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
-              {{ $t("Masuk") }}
+              {{ $t("Daftar") }}
             </button>
 
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-              {{ $t("Belum punya akun?") }}
-              <a
-                href="#"
+              {{ $t("Sudah punya akun?") }}
+              <NuxtLink
+                href="/login"
                 class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >{{ $t("Daftar") }}</a
+                >{{ $t("Masuk") }}</NuxtLink
               >
             </p>
           </form>
@@ -76,33 +88,75 @@
 </template>
 
 <script setup lang="ts">
-const supabase = useSupabaseClient();
+import type { Database } from "~/types/supabase";
+
+definePageMeta({
+  middleware: "auth",
+});
+
+const supabase = useSupabaseClient<Database>();
+const { showToast } = useToast();
+const { t } = useI18n();
 
 const email = ref("");
 const password = ref("");
+const phone = ref("");
 const error = ref("");
 
-const login = async () => {
+const register = async () => {
   error.value = ""; // Reset the error
 
-  const {
-    data: { user },
-    error: loginError,
-  } = await supabase.auth.signInWithPassword({
+  const { data: existingUser, error: checkError } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email.value);
+
+  if (checkError) {
+    error.value = t(checkError.message);
+    return;
+  }
+  if (existingUser!.length > 0) {
+    error.value = t("Email sudah terdaftar");
+    return;
+  }
+
+  const { error: registerError } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
+    options: {
+      data: {
+        phone: phone.value,
+        points: 0,
+      },
+    },
   });
-
-  if (loginError) {
-    error.value = loginError.message; // Show the error message
-  } else {
-    // Handle successful login
-    console.log("Logged in user:", user);
-    navigateTo("/dashboard"); // Redirect to the dashboard or another page
+  if (registerError) {
+    error.value = t(registerError.message);
+    return;
   }
+
+  const response = await fetch("/api/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email: email.value }),
+  });
+  const { error: insertError } = await response.json();
+
+  if (insertError) {
+    error.value = t(insertError.message);
+    return;
+  }
+
+  showToast(t("Registrasi berhasil!<br/> Silakan verifikasi email"));
+  navigateTo("/");
 };
 
 watch(email, () => {
+  if (error.value) error.value = "";
+});
+watch(phone, () => {
   if (error.value) error.value = "";
 });
 watch(password, () => {
