@@ -19,4 +19,10 @@ export default {
   "Registrasi berhasil!<br/> Silakan verifikasi email":
     "Registrasi berhasil!<br/> Silakan verifikasi email",
   "Email not confirmed": "Silakan verifikasi email dahulu",
+
+  "Tebak apakah harga akan naik atau turun setelah ini?":
+    "Tebak apakah harga akan naik atau turun setelah ini?",
+  Naik: "Naik",
+  Turun: "Turun",
+  "Berita Relevan": "Berita Relevan",
 };
