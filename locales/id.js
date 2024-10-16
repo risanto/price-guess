@@ -25,4 +25,7 @@ export default {
   Naik: "Naik",
   Turun: "Turun",
   "Berita Relevan": "Berita Relevan",
+
+  "Tebak nominal harga emas terhadap USD berdasarkan chart ini":
+    "Tebak nominal harga emas terhadap USD berdasarkan chart ini",
 };

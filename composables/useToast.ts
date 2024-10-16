@@ -1,7 +1,8 @@
 import { createApp } from "vue";
 import ToastSuccess from "@/components/ToastSuccess.vue";
+import ToastDanger from "~/components/ToastDanger.vue";
 
-function showToast(message: string, type = "success") {
+function showToast(message: string, type: "success" | "danger" = "success") {
   if (!import.meta.client) return;
 
   const toastContainer = document.getElementById("toast-container");
@@ -11,8 +12,20 @@ function showToast(message: string, type = "success") {
   const toastDiv = document.createElement("div");
   toastContainer.appendChild(toastDiv);
 
+  let toastType;
+
+  switch (type) {
+    case "danger":
+      toastType = ToastDanger;
+      break;
+
+    default:
+      toastType = ToastSuccess;
+      break;
+  }
+
   // Create the Vue app with the ToastSuccess component
-  const app = createApp(ToastSuccess, { message, type }); // Pass props if needed
+  const app = createApp(toastType, { message, type }); // Pass props if needed
   app.mount(toastDiv);
 
   setTimeout(() => {
