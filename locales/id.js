@@ -28,4 +28,9 @@ export default {
 
   "Tebak nominal harga emas terhadap USD berdasarkan chart ini":
     "Tebak nominal harga emas terhadap USD berdasarkan chart ini",
+  "Benar!": "Benar!",
+  "Salah :(": "Salah :(",
+  Ok: "Ok",
+  "Semua kolom harus diisi": "Semua kolom harus diisi",
+  "Jawaban yang tepat!": "Jawaban yang tepat!"
 };

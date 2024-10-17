@@ -1,31 +1,156 @@
 <template>
-  <section class="flex flex-col place-content-center md:col-span-1 md:p-4">
-    <h2 class="mt-4 text-center">
+  <section
+    class="flex flex-col place-content-center py-4 md:col-span-1 md:px-4"
+  >
+    <h2 class="mt-4 text-center md:mt-0">
       {{ $t("Tebak nominal harga emas terhadap USD berdasarkan chart ini") }}
     </h2>
 
-    <div class="mt-4 flex place-content-center">
-      <button
-        @click="answerQ1('naik')"
-        type="button"
-        class="mb-2 me-4 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+    <div class="mx-auto mt-4 flex flex-col">
+      <div
+        v-for="(_, answerSection) in answer"
+        :class="['flex', { 'mt-4': currentSection > 0 }]"
       >
-        {{ $t("Naik") }}
-      </button>
+        <input
+          v-if="currentSection > answerSection - 1"
+          v-for="(_, idx) in q2Answer"
+          v-model="answer[answerSection][idx]"
+          :class="[
+            'me-2 h-8 w-8 border border-gray-300 text-center',
+            `row-${answerSection}`,
+            `box-${answerSection}-${idx}`,
+            answerBgColors[answerSection][idx],
+          ]"
+          :disabled="
+            idx < 2 ||
+            idx === q2Answer.length - 2 ||
+            answerSection < currentSection
+              ? true
+              : false
+          "
+          @input="handleInput"
+          maxlength="1"
+        />
+        <button
+          v-if="currentSection === answerSection"
+          @click="handleAnswer"
+          class="absolute h-[2.1rem] w-12 translate-x-[500%] transform rounded-sm bg-primary-100 hover:bg-primary-200"
+        >
+          {{ $t("Ok") }}
+        </button>
+      </div>
 
-      <button
-        @click="answerQ1('turun')"
-        type="button"
-        class="mb-2 me-4 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-      >
-        {{ $t("Turun") }}
-      </button>
+      <div v-if="error" class="mt-4 text-center text-red-600">{{ error }}</div>
+      <div v-if="success" class="mt-4 text-center text-green-500">
+        {{ success }}
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-const { answerQ1 } = defineProps<{
-  answerQ1: (answer: "naik" | "turun") => void;
-}>();
+const { t } = useI18n();
+
+const { q2Answer } = defineProps({
+  q2Answer: {
+    type: String,
+    required: true,
+  },
+});
+const error = ref("");
+const success = ref("");
+const currentSection = ref(0);
+
+const answer = ref([
+  [q2Answer[0], q2Answer[1], "", "", ".", ""],
+  [q2Answer[0], q2Answer[1], "", "", ".", ""],
+  [q2Answer[0], q2Answer[1], "", "", ".", ""],
+]);
+const answerBgColors = ref([
+  ["bg-slate-100", "bg-slate-100", "", "", "bg-slate-100", ""],
+  ["bg-slate-100", "bg-slate-100", "", "", "bg-slate-100", ""],
+  ["bg-slate-100", "bg-slate-100", "", "", "bg-slate-100", ""],
+]);
+
+const handleAnswer = () => {
+  const currentAnswer = answer.value[currentSection.value];
+
+  if (currentAnswer.includes("")) {
+    error.value = t("Semua kolom harus diisi");
+    return;
+  }
+
+  const correctNumbers = [q2Answer[2], q2Answer[3], q2Answer[5]];
+
+  for (let i = 2; i < 6; i++) {
+    if (i === 4) continue;
+
+    const box = document.querySelector<HTMLElement>(
+      `.box-${currentSection.value}-${i}`,
+    );
+    if (box) {
+      box.style.animation = "flipIn 0.6s ease forwards";
+    }
+
+    // let bgColor = answerBgColors.value[currentSection.value][i];
+
+    if (currentAnswer[i] === q2Answer[i]) {
+      answerBgColors.value[currentSection.value][i] = "bg-green-400";
+    } else if (correctNumbers.includes(currentAnswer[i])) {
+      answerBgColors.value[currentSection.value][i] = "bg-amber-400";
+    } else {
+      answerBgColors.value[currentSection.value][i] = "bg-slate-400";
+    }
+  }
+
+  if (currentSection.value === 2) {
+    if (answer.value[2].join("") === q2Answer) {
+      success.value = t("Hebat! Jawabanmu benar!");
+      triggerWinningAnimation();
+    } else {
+      error.value = t("Jawaban masih belum tepat :(");
+    }
+
+    function triggerWinningAnimation() {
+      const letterBoxes = document.querySelectorAll<HTMLElement>(".row-2");
+
+      letterBoxes.forEach((box, index) => {
+        setTimeout(() => {
+          box.style.animation = `flipIn 0.6s ease forwards, pop 0.3s ${index * 0.1}s ease forwards`;
+          box.style.backgroundColor = "rgb(34 197 94)";
+        }, index * 200); // Delays each letter's animation for a cascading effect
+      });
+    }
+  }
+  currentSection.value++;
+};
+const handleInput = () => {
+  error.value = "";
+};
 </script>
+
+<style>
+@keyframes flipIn {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>

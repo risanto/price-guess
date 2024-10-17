@@ -1,15 +1,18 @@
 <template>
   <Header />
 
-  <main class="flex flex-col px-4 py-2 md:grid md:grid-cols-3 md:px-6 md:py-4">
+  <main
+    class="flex flex-col overflow-hidden px-4 py-2 md:grid md:grid-cols-3 md:px-6 md:py-4"
+  >
     <section class="h-48 w-full bg-slate-500 md:col-span-2 md:h-80"></section>
 
     <transition name="slide" mode="out-in">
       <component
         :is="currentQuestion"
         :key="currentQuestionKey"
-        :answerQ1="answerQ1"
-        :correct="correct"
+        :handleQ1Answer="handleQ1Answer"
+        :q1Correct="q1Correct"
+        :q2Answer="q2Answer"
       />
     </transition>
 
@@ -31,15 +34,15 @@ import Question1Result from "./components/Question1Result.vue";
 import Question2 from "./components/Question2.vue";
 
 const q1Answer = ref("naik");
-const q2Answer = ref(2665.7);
+const q2Answer = ref("2665.7");
 
 const currentQuestion = shallowRef<any>(Question1);
 const currentQuestionKey = ref("q1");
-const correct = ref(false);
+const q1Correct = ref(false);
 
-const answerQ1 = (answer: "naik" | "turun") => {
+const handleQ1Answer = (answer: "naik" | "turun") => {
   if (q1Answer.value === answer) {
-    correct.value = true;
+    q1Correct.value = true;
   }
   currentQuestion.value = Question1Result;
   currentQuestionKey.value = "q1R";
