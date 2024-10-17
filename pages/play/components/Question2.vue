@@ -1,7 +1,5 @@
 <template>
-  <section
-    class="flex flex-col place-content-center py-4 md:col-span-1 md:px-4"
-  >
+  <SectionParent>
     <h2 class="mt-4 text-center md:mt-0">
       {{ $t("Tebak nominal harga emas terhadap USD berdasarkan chart ini") }}
     </h2>
@@ -45,10 +43,12 @@
         {{ success }}
       </div>
     </div>
-  </section>
+  </SectionParent>
 </template>
 
 <script setup lang="ts">
+import SectionParent from "./SectionParent.vue";
+
 const { t } = useI18n();
 
 const { q2Answer } = defineProps({

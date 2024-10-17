@@ -47,7 +47,7 @@ const handleQ1Answer = (answer: "naik" | "turun") => {
   currentQuestion.value = Question1Result;
   currentQuestionKey.value = "q1R";
 
-  delay(3000).then(() => {
+  delay(2000).then(() => {
     currentQuestion.value = Question2;
     currentQuestionKey.value = "q2";
   });

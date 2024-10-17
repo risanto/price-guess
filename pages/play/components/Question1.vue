@@ -1,5 +1,5 @@
 <template>
-  <section class="flex flex-col place-content-center md:col-span-1 md:p-4">
+  <SectionParent>
     <h2 class="mt-4 text-center">
       {{ $t("Tebak apakah harga akan naik atau turun setelah ini?") }}
     </h2>
@@ -21,10 +21,12 @@
         {{ $t("Turun") }}
       </button>
     </div>
-  </section>
+  </SectionParent>
 </template>
 
 <script setup lang="ts">
+import SectionParent from "./SectionParent.vue";
+
 const { handleQ1Answer } = defineProps<{
   handleQ1Answer: (answer: "naik" | "turun") => void;
 }>();

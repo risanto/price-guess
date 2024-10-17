@@ -1,5 +1,5 @@
 <template>
-  <section class="flex place-content-center p-4 md:col-span-1">
+  <SectionParent>
     <div v-if="q1Correct" class="flex flex-col items-center justify-center">
       <div
         class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200"
@@ -45,10 +45,12 @@
         {{ $t("Salah :(") }}
       </div>
     </div>
-  </section>
+  </SectionParent>
 </template>
 
 <script setup lang="ts">
+import SectionParent from "./SectionParent.vue";
+
 const { q1Correct } = defineProps({
   q1Correct: {
     type: Boolean,
