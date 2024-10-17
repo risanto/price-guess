@@ -25,6 +25,15 @@
             >
           </template>
 
+          <!-- Logout: Web -->
+          <button
+            v-if="isAuthenticated"
+            @click="handleLogout()"
+            class="mr-2 hidden rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:block lg:px-5 lg:py-2.5"
+          >
+            {{ $t("Keluar") }}
+          </button>
+
           <!-- Hint: Mobile -->
           <button
             class="mr-6 block md:hidden"
@@ -163,22 +172,32 @@
               </svg>
             </li>
 
+            <!-- Login/Register: Mobile -->
             <template v-if="!isAuthenticated">
               <li>
                 <NuxtLink
                   href="/login"
-                  class="block border-b border-gray-100 py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:hidden lg:border-0 lg:p-0 lg:hover:bg-transparent lg:hover:text-primary-700 lg:dark:hover:bg-transparent lg:dark:hover:text-white"
+                  class="inline-block w-full cursor-pointer rounded-lg border-2 px-12 py-3.5 text-center font-medium hover:bg-primary-200 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 md:hidden"
                   >{{ $t("Masuk") }}</NuxtLink
                 >
               </li>
               <li>
                 <NuxtLink
                   href="/register"
-                  class="block border-b border-gray-100 py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:hidden lg:border-0 lg:p-0 lg:hover:bg-transparent lg:hover:text-primary-700 lg:dark:hover:bg-transparent lg:dark:hover:text-white"
+                  class="mt-2 inline-block w-full cursor-pointer rounded-lg border-2 px-12 py-3.5 text-center font-medium hover:bg-primary-200 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 md:hidden"
                   >{{ $t("Daftar") }}</NuxtLink
                 >
               </li>
             </template>
+
+            <!-- Logout: Mobile -->
+            <li
+              v-if="isAuthenticated"
+              @click="handleLogout()"
+              class="inline-block cursor-pointer rounded-lg border-2 px-12 py-3.5 text-center font-medium hover:bg-primary-200 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 md:hidden"
+            >
+              {{ $t("Keluar") }}
+            </li>
           </ul>
         </div>
       </div>
@@ -194,4 +213,5 @@ import HintModal from "./Modals/HintModal.vue";
 import ProfileModal from "./Modals/ProfileModal.vue";
 
 const { isAuthenticated } = useAuth();
+const { handleLogout } = useSupabase();
 </script>

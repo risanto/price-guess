@@ -4,8 +4,7 @@
 </template>
 
 <script setup lang="ts">
-// import "flowbite";
-
+const router = useRouter();
 const supabase = useSupabaseClient();
 const { user, saveUser } = useAuth();
 
@@ -37,4 +36,13 @@ if (import.meta.client) {
     });
   });
 }
+watch(
+  () => router.currentRoute.value,
+  () => {
+    useFlowbite(async () => {
+      const { initFlowbite } = await import("flowbite");
+      initFlowbite();
+    });
+  },
+);
 </script>
