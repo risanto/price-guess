@@ -32,5 +32,9 @@ export default {
   "Salah :(": "Salah :(",
   Ok: "Ok",
   "Semua kolom harus diisi": "Semua kolom harus diisi",
-  "Jawaban yang tepat!": "Jawaban yang tepat!"
+  "Jawaban yang tepat!": "Jawaban yang tepat!",
+  "Jawaban masih belum tepat :(": "Jawaban masih belum tepat :(",
+
+  "Cara Bermain": "Cara Bermain",
+  Profil: "Profil",
 };

@@ -4,6 +4,8 @@
 </template>
 
 <script setup lang="ts">
+// import "flowbite";
+
 const supabase = useSupabaseClient();
 const { user, saveUser } = useAuth();
 

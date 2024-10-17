@@ -15,7 +15,7 @@
           <template v-if="!isAuthenticated">
             <NuxtLink
               href="/login"
-              class="mr-2 hidden rounded-lg px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:block lg:px-5 lg:py-2.5"
+              class="mr-2 hidden rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:block lg:px-5 lg:py-2.5"
               >{{ $t("Masuk") }}</NuxtLink
             >
             <NuxtLink
@@ -26,9 +26,13 @@
           </template>
 
           <!-- Hint: Mobile -->
-          <div class="mr-6 block md:hidden">
+          <button
+            class="mr-6 block md:hidden"
+            data-modal-target="hint-modal"
+            data-modal-toggle="hint-modal"
+          >
             <svg
-              class="h-6 w-6 cursor-pointer text-gray-800 hover:text-primary-500 dark:text-white"
+              class="h-8 w-8 text-gray-700 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -41,15 +45,19 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M9 9a3 3 0 0 1 3-3m-2 15h4m0-3c0-4.1 4-4.9 4-9A6 6 0 1 0 6 9c0 4 4 5 4 9h4Z"
+                d="M9.529 9.988a2.502 2.502 0 1 1 5 .191A2.441 2.441 0 0 1 12 12.582V14m-.01 3.008H12M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
               />
             </svg>
-          </div>
+          </button>
 
-          <!-- User: Mobile -->
-          <div class="mr-2 block md:hidden">
+          <!-- Profile: Mobile -->
+          <button
+            class="mr-2 block md:hidden"
+            data-modal-target="profile-modal"
+            data-modal-toggle="profile-modal"
+          >
             <svg
-              class="h-6 w-6 cursor-pointer text-gray-800 hover:text-primary-500 dark:text-white"
+              class="h-8 w-8 text-gray-700 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -59,24 +67,22 @@
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
                 stroke-width="2"
-                d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
               />
             </svg>
-          </div>
+          </button>
 
           <button
             data-collapse-toggle="mobile-menu-2"
             type="button"
-            class="ml-1 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden"
+            class="ml-1 inline-flex items-center rounded-lg p-2 text-sm text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden"
             aria-controls="mobile-menu-2"
             aria-expanded="false"
           >
             <span class="sr-only">Open main menu</span>
             <svg
-              class="h-6 w-6"
+              class="h-8 w-8"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +94,7 @@
               ></path>
             </svg>
             <svg
-              class="hidden h-6 w-6"
+              class="hidden h-8 w-8"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -109,10 +115,14 @@
           <ul
             class="mt-4 flex flex-col font-medium lg:mt-0 lg:flex-row lg:space-x-8"
           >
-            <!-- Hint -->
-            <li class="hidden md:block">
+            <!-- Hint: Web -->
+            <li
+              class="hidden cursor-pointer p-2 hover:bg-gray-200 md:block"
+              data-modal-target="hint-modal"
+              data-modal-toggle="hint-modal"
+            >
               <svg
-                class="h-6 w-6 cursor-pointer text-gray-800 hover:text-primary-500 dark:text-white"
+                class="h-8 w-8 text-gray-700 dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -125,15 +135,19 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M9 9a3 3 0 0 1 3-3m-2 15h4m0-3c0-4.1 4-4.9 4-9A6 6 0 1 0 6 9c0 4 4 5 4 9h4Z"
+                  d="M9.529 9.988a2.502 2.502 0 1 1 5 .191A2.441 2.441 0 0 1 12 12.582V14m-.01 3.008H12M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
             </li>
 
-            <!-- User -->
-            <li class="hidden md:block">
+            <!-- Profile: Web -->
+            <li
+              class="hidden cursor-pointer p-2 hover:bg-gray-200 md:block"
+              data-modal-target="profile-modal"
+              data-modal-toggle="profile-modal"
+            >
               <svg
-                class="h-6 w-6 cursor-pointer text-gray-800 hover:text-primary-500 dark:text-white"
+                class="h-8 w-8 cursor-pointer text-gray-700 hover:bg-gray-200 dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -143,10 +157,8 @@
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
                   stroke-width="2"
-                  d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                 />
               </svg>
             </li>
@@ -172,8 +184,14 @@
       </div>
     </nav>
   </header>
+
+  <ProfileModal />
+  <HintModal />
 </template>
 
 <script setup lang="ts">
+import HintModal from "./Modals/HintModal.vue";
+import ProfileModal from "./Modals/ProfileModal.vue";
+
 const { isAuthenticated } = useAuth();
 </script>
