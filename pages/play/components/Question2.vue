@@ -50,9 +50,13 @@ import SectionParent from "./SectionParent.vue";
 
 const { t } = useI18n();
 
-const { q2Answer } = defineProps({
+const { q2Answer, changeToFinished } = defineProps({
   q2Answer: {
     type: String,
+    required: true,
+  },
+  changeToFinished: {
+    type: Function,
     required: true,
   },
 });
@@ -81,6 +85,7 @@ const handleAnswer = () => {
 
   const correctNumbers = [q2Answer[2], q2Answer[3], q2Answer[5]];
 
+  // loop through all boxes except 4 (dot)
   for (let i = 2; i < 6; i++) {
     if (i === 4) continue;
 
@@ -103,25 +108,19 @@ const handleAnswer = () => {
     }
   }
 
-  if (currentSection.value === 2) {
-    if (answer.value[2].join("") === q2Answer) {
-      success.value = t("Hebat! Jawabanmu benar!");
-      triggerWinningAnimation();
-    } else {
-      error.value = t("Jawaban masih belum tepat :(");
-    }
-
-    function triggerWinningAnimation() {
-      const letterBoxes = document.querySelectorAll<HTMLElement>(".row-2");
-
-      letterBoxes.forEach((box, index) => {
-        setTimeout(() => {
-          box.style.animation = `flipIn 0.6s ease forwards, pop 0.3s ${index * 0.1}s ease forwards`;
-          box.style.backgroundColor = "rgb(34 197 94)";
-        }, index * 200); // Delays each letter's animation for a cascading effect
-      });
-    }
+  if (answer.value[currentSection.value].join("") === q2Answer) {
+    success.value = t("Hebat! Jawabanmu benar!");
+    triggerWinningAnimation(currentSection.value);
+    changeToFinished();
+    return;
   }
+
+  if (currentSection.value === 2) {
+    error.value = t("Jawaban masih belum tepat :(");
+    changeToFinished();
+    return;
+  }
+
   currentSection.value++;
 };
 const handleInput = (answerSection: number, idx: number) => {
@@ -131,6 +130,17 @@ const handleInput = (answerSection: number, idx: number) => {
     "",
   );
 };
+
+function triggerWinningAnimation(idx: number) {
+  const letterBoxes = document.querySelectorAll<HTMLElement>(".row-" + idx);
+
+  letterBoxes.forEach((box, index) => {
+    setTimeout(() => {
+      box.style.animation = `flipIn 0.6s ease forwards, pop 0.3s ${index * 0.1}s ease forwards`;
+      box.style.backgroundColor = "rgb(34 197 94)";
+    }, index * 200); // Delays each letter's animation for a cascading effect
+  });
+}
 </script>
 
 <style>

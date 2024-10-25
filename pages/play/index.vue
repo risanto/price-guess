@@ -4,7 +4,14 @@
   <main
     class="flex flex-col overflow-hidden px-4 py-2 md:grid md:grid-cols-3 md:px-6 md:py-4"
   >
-    <NuxtImg :src="content?.initial_img_url" class="col-span-2" />
+    <transition name="enlarge" mode="out-in">
+      <NuxtImg
+        v-if="!finished"
+        :src="content?.initial_img_url"
+        class="col-span-2"
+      />
+      <NuxtImg v-else :src="content?.answer_img_url" class="col-span-2" />
+    </transition>
 
     <transition name="slide" mode="out-in">
       <component
@@ -14,21 +21,30 @@
         :q1Correct="q1Correct"
         :q2Answer="content?.answer.toFixed(1) + ''"
         :priceGoesUp="content?.price_goes_up"
+        :changeToFinished="changeToFinished"
       />
     </transition>
 
-    <section class="mt-4 bg-primary-100 p-4 md:col-span-3">
-      <h3>{{ $t("Berita Relevan") }}</h3>
+    <section class="mt-2 bg-primary-50 p-4 md:col-span-2">
+      <h3 class="font-medium">{{ $t("Berita Relevan") }}</h3>
 
       <ul
-        class="mt-4 list-inside list-disc"
         v-for="(news, idx) in content?.info.news_items"
         :key="idx"
+        class="mt-2 list-inside list-disc"
       >
-        <li>
-          <a :href="news.link">{{ news.title }}</a>
+        <li class="hover:text-primary-600">
+          <a :href="news.link" target="_blank">{{ news.title }}</a>
         </li>
       </ul>
+    </section>
+
+    <section class="mt-2 bg-primary-50 p-4 md:col-span-1">
+      <template v-if="finished">
+        <h3 class="font-medium">{{ $t("Penjelasan") }}</h3>
+
+        <p class="mt-2">{{ content?.analysis }}</p>
+      </template>
     </section>
   </main>
 </template>
@@ -47,6 +63,11 @@ const content = ref<Content>();
 const currentQuestion = shallowRef<any>(Question1);
 const currentQuestionKey = ref("q1");
 const q1Correct = ref(false);
+const finished = ref(false);
+
+const changeToFinished = () => {
+  finished.value = true;
+};
 
 const doesPriceGoesUp = (answer: boolean) => {
   if (content.value?.price_goes_up === answer) {
@@ -89,5 +110,16 @@ fetchContent();
 .slide-leave-to {
   transform: translateX(-100%);
   z-index: -1;
+}
+
+.enlarge-enter-active,
+.enlarge-leave-active {
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+}
+.enlarge-enter, .enlarge-leave-to /* .enlarge-leave-active in <=Vue 2.5.19 */ {
+  transform: scale(0.8);
+  opacity: 0;
 }
 </style>
