@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxtjs/i18n",
     "@nuxtjs/supabase",
+    "@nuxt/image",
   ],
 
   // add postcss support for tailwindcss

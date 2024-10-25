@@ -19,7 +19,9 @@
       </div>
 
       <div class="mt-2">
-        {{ $t("Benar!") }}
+        {{ $t("Benar! Harga emas akan") }}
+        {{ priceGoesUp ? $t("naik") : $t("turun") }}
+        {{ $t("setelah ini.") }}
       </div>
     </div>
 
@@ -42,7 +44,9 @@
       </div>
 
       <div class="mt-2">
-        {{ $t("Salah :(") }}
+        {{ $t("Salah! Harga emas akan") }}
+        {{ priceGoesUp ? $t("naik") : $t("turun") }}
+        {{ $t("setelah ini.") }}
       </div>
     </div>
   </SectionParent>
@@ -53,6 +57,10 @@ import SectionParent from "./SectionParent.vue";
 
 const { q1Correct } = defineProps({
   q1Correct: {
+    type: Boolean,
+    required: true,
+  },
+  priceGoesUp: {
     type: Boolean,
     required: true,
   },

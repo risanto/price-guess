@@ -10,11 +10,11 @@
         :class="['flex', { 'mt-4': currentSection > 0 }]"
       >
         <input
-          v-if="currentSection > answerSection - 1"
           v-for="(_, idx) in q2Answer"
+          type="text"
           v-model="answer[answerSection][idx]"
           :class="[
-            'me-2 h-8 w-8 border border-gray-300 text-center',
+            'mb-4 me-2 h-8 w-8 border border-gray-300 p-0 text-center',
             `row-${answerSection}`,
             `box-${answerSection}-${idx}`,
             answerBgColors[answerSection][idx],
@@ -22,11 +22,10 @@
           :disabled="
             idx < 2 ||
             idx === q2Answer.length - 2 ||
-            answerSection < currentSection
-              ? true
-              : false
+            (answerSection < currentSection ? true : false) ||
+            currentSection < answerSection
           "
-          @input="handleInput"
+          @input="handleInput(answerSection, idx)"
           maxlength="1"
         />
         <button
@@ -92,14 +91,15 @@ const handleAnswer = () => {
       box.style.animation = "flipIn 0.6s ease forwards";
     }
 
-    // let bgColor = answerBgColors.value[currentSection.value][i];
-
     if (currentAnswer[i] === q2Answer[i]) {
+      // correct
       answerBgColors.value[currentSection.value][i] = "bg-green-400";
     } else if (correctNumbers.includes(currentAnswer[i])) {
+      // still wrong placement
       answerBgColors.value[currentSection.value][i] = "bg-amber-400";
     } else {
-      answerBgColors.value[currentSection.value][i] = "bg-slate-400";
+      // no placement
+      answerBgColors.value[currentSection.value][i] = "bg-red-400";
     }
   }
 
@@ -124,8 +124,12 @@ const handleAnswer = () => {
   }
   currentSection.value++;
 };
-const handleInput = () => {
+const handleInput = (answerSection: number, idx: number) => {
   error.value = "";
+  answer.value[answerSection][idx] = answer.value[answerSection][idx].replace(
+    /[^0-9.]/g,
+    "",
+  );
 };
 </script>
 

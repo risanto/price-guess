@@ -1,3 +1,6 @@
+import type { UserData } from "./auth";
+import type { Content, ContentInsertUpdate } from "./content";
+
 export type Json =
   | string
   | number
@@ -10,11 +13,7 @@ export interface Database {
   public: {
     Tables: {
       users: {
-        Row: {
-          // the data expected from .select()
-          id: number;
-          email: string;
-        };
+        Row: UserData;
         Insert: {
           // the data to be passed to .insert()
           id?: never; // generated columns must not be supplied
@@ -25,6 +24,11 @@ export interface Database {
           id?: never;
           email?: string; // `not null` columns are optional on .update()
         };
+      };
+      content: {
+        Row: Content;
+        Insert: ContentInsertUpdate;
+        Update: ContentInsertUpdate;
       };
     };
   };
