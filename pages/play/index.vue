@@ -4,40 +4,42 @@
   <main
     class="flex flex-col overflow-hidden px-4 py-2 md:grid md:grid-cols-3 md:px-6 md:py-4"
   >
-    <transition name="enlarge" mode="out-in">
-      <NuxtImg
-        v-if="!finished"
-        :src="content?.initial_img_url"
-        class="col-span-2"
-      />
-      <NuxtImg v-else :src="content?.answer_img_url" class="col-span-2" />
-    </transition>
+    <ClientOnly>
+      <transition name="enlarge" mode="out-in">
+        <NuxtImg
+          v-if="!finished"
+          :src="content?.initial_img_url"
+          class="col-span-2"
+        />
+        <NuxtImg v-else :src="content?.answer_img_url" class="col-span-2" />
+      </transition>
 
-    <transition name="slide" mode="out-in">
-      <component
-        :is="currentQuestion"
-        :key="currentQuestionKey"
-        :doesPriceGoesUp="doesPriceGoesUp"
-        :q1Correct="q1Correct"
-        :q2Answer="content?.answer.toFixed(1) + ''"
-        :priceGoesUp="content?.price_goes_up"
-        :changeToFinished="changeToFinished"
-      />
-    </transition>
+      <transition name="slide" mode="out-in">
+        <component
+          :is="currentQuestion"
+          :key="currentQuestionKey"
+          :doesPriceGoesUp="doesPriceGoesUp"
+          :q1Correct="q1Correct"
+          :q2Answer="content?.answer.toFixed(1) + ''"
+          :priceGoesUp="content?.price_goes_up"
+          :changeToFinished="changeToFinished"
+        />
+      </transition>
 
-    <section class="mt-2 bg-primary-50 p-4 md:col-span-2">
-      <h3 class="font-medium">{{ $t("Berita Relevan") }}</h3>
+      <section class="mt-2 bg-primary-50 p-4 md:col-span-2">
+        <h3 class="font-medium">{{ $t("Berita Relevan") }}</h3>
 
-      <ul
-        v-for="(news, idx) in content?.info.news_items"
-        :key="idx"
-        class="mt-2 list-inside list-disc"
-      >
-        <li class="hover:text-primary-600">
-          <a :href="news.link" target="_blank">{{ news.title }}</a>
-        </li>
-      </ul>
-    </section>
+        <ul
+          v-for="(news, idx) in content?.info.news_items"
+          :key="idx"
+          class="mt-2 list-inside list-disc"
+        >
+          <li class="hover:text-primary-600">
+            <a :href="news.link" target="_blank">{{ news.title }}</a>
+          </li>
+        </ul>
+      </section>
+    </ClientOnly>
 
     <section class="mt-2 bg-primary-50 p-4 md:col-span-1">
       <template v-if="finished">
