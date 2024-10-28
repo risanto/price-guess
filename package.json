@@ -14,6 +14,7 @@
     "@nuxtjs/i18n": "^8.5.5",
     "@nuxtjs/supabase": "^1.4.1",
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "@panzoom/panzoom": "^4.5.1",
     "flowbite": "^2.5.2",
     "i18n": "^0.15.1",
     "nuxt": "^3.13.0",

@@ -6,19 +6,23 @@
   >
     <ClientOnly>
       <transition name="enlarge" mode="out-in">
-        <NuxtImg
+        <ZoomableImg
           v-if="!finished"
-          :src="content?.initial_img_url"
+          :src="content?.initial_img_url as string"
           class="col-span-2"
         />
-        <NuxtImg v-else :src="content?.answer_img_url" class="col-span-2" />
+        <ZoomableImg
+          v-else
+          :src="content?.answer_img_url as string"
+          class="col-span-2"
+        />
       </transition>
 
       <transition name="slide" mode="out-in">
         <component
           :is="currentQuestion"
           :key="currentQuestionKey"
-          :doesPriceGoesUp="doesPriceGoesUp"
+          :doesPriceGoUp="doesPriceGoUp"
           :q1Correct="q1Correct"
           :q2Answer="content?.answer.toFixed(1) + ''"
           :priceGoesUp="content?.price_goes_up"
@@ -71,7 +75,7 @@ const changeToFinished = () => {
   finished.value = true;
 };
 
-const doesPriceGoesUp = (answer: boolean) => {
+const doesPriceGoUp = (answer: boolean) => {
   if (content.value?.price_goes_up === answer) {
     q1Correct.value = true;
   }
