@@ -1,7 +1,7 @@
 <template>
   <SectionParent>
     <h2 class="mt-4 text-center">
-      {{ $t("Tebak apakah harga akan naik atau turun setelah ini?") }}
+      {{ $t("Tebak apakah harga akan naik atau turun di bar selanjutnya?") }}
     </h2>
 
     <div class="mt-4 flex place-content-center">

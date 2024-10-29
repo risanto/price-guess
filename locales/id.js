@@ -20,8 +20,8 @@ export default {
     "Registrasi berhasil!<br/> Silakan verifikasi email",
   "Email not confirmed": "Silakan verifikasi email dahulu",
 
-  "Tebak apakah harga akan naik atau turun setelah ini?":
-    "Tebak apakah harga akan naik atau turun setelah ini?",
+  "Tebak apakah harga akan naik atau turun di bar selanjutnya?":
+    "Tebak apakah harga akan naik atau turun di bar selanjutnya?",
   Naik: "Naik",
   Turun: "Turun",
   "Berita Relevan": "Berita Relevan",
