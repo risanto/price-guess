@@ -1,10 +1,15 @@
 <template>
   <Header />
 
-  <main
-    class="flex flex-col overflow-hidden px-4 py-2 md:grid md:grid-cols-3 md:px-6 md:py-4"
-  >
-    <ClientOnly>
+  <ClientOnly>
+    <div class="flex h-full w-full items-center justify-center" v-if="loading">
+      <LoadingCircle />
+    </div>
+
+    <main
+      v-else
+      class="flex flex-col overflow-hidden px-4 py-2 md:grid md:grid-cols-3 md:px-6 md:py-4"
+    >
       <transition name="enlarge" mode="out-in">
         <ZoomableImg
           v-if="!finished"
@@ -43,16 +48,16 @@
           </li>
         </ul>
       </section>
-    </ClientOnly>
 
-    <section class="mt-2 bg-primary-50 p-4 md:col-span-1">
-      <template v-if="finished">
-        <h3 class="font-medium">{{ $t("Penjelasan") }}</h3>
+      <section class="mt-2 bg-primary-50 p-4 md:col-span-1">
+        <template v-if="finished">
+          <h3 class="font-medium">{{ $t("Penjelasan") }}</h3>
 
-        <p class="mt-2">{{ content?.analysis }}</p>
-      </template>
-    </section>
-  </main>
+          <p class="mt-2">{{ content?.analysis }}</p>
+        </template>
+      </section>
+    </main>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
@@ -61,9 +66,11 @@ import type { Content } from "~/types/content";
 import Question1 from "./components/Question1.vue";
 import Question1Result from "./components/Question1Result.vue";
 import Question2 from "./components/Question2.vue";
+import LoadingCircle from "~/components/LoadingCircle.vue";
 
 const { showToast } = useToast();
 const { t } = useI18n();
+const loading = ref(true);
 
 const content = ref<Content>();
 const currentQuestion = shallowRef<any>(Question1);
@@ -89,16 +96,24 @@ const doesPriceGoUp = (answer: boolean) => {
 };
 
 const fetchContent = async () => {
-  const { data, error } = await useFetch("/api/content");
+  try {
+    const { data, error } = await useFetch("/api/content");
 
-  if (error.value) {
-    console.error("/api/content:", error.value);
-    showToast(t("Error dari database, coba refresh"), "danger");
+    if (error.value) {
+      console.error("/api/content:", error.value);
+      showToast(t("Error dari database, coba refresh"), "danger");
+    }
+
+    const contentData = data.value?.data;
+    content.value = contentData?.[0];
+  } catch (error) {
+    if (error) {
+      console.error("/api/content:", error);
+      showToast(t("Error dari database, coba refresh"), "danger");
+    }
+  } finally {
+    loading.value = false;
   }
-
-  const contentData = data.value?.data;
-
-  content.value = contentData?.[0];
 };
 fetchContent();
 </script>
