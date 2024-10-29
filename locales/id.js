@@ -26,8 +26,8 @@ export default {
   Turun: "Turun",
   "Berita Relevan": "Berita Relevan",
 
-  "Tebak nominal harga emas terhadap USD berdasarkan chart ini":
-    "Tebak nominal harga emas terhadap USD berdasarkan chart ini",
+  "Tebak nominal harga emas terhadap USD di bar selanjutnya":
+    "Tebak nominal harga emas terhadap USD di bar selanjutnya",
   "Benar!": "Benar!",
   "Salah :(": "Salah :(",
   Ok: "Ok",

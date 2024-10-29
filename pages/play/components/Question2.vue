@@ -1,7 +1,7 @@
 <template>
   <SectionParent>
     <h2 class="mt-4 text-center md:mt-0">
-      {{ $t("Tebak nominal harga emas terhadap USD berdasarkan chart ini") }}
+      {{ $t("Tebak nominal harga emas terhadap USD di bar selanjutnya") }}
     </h2>
 
     <div class="mx-auto mt-4 flex flex-col">
@@ -11,6 +11,7 @@
       >
         <input
           v-for="(_, idx) in q2Answer"
+          @keyup.enter="handleAnswer"
           type="text"
           v-model="answer[answerSection][idx]"
           :class="[
