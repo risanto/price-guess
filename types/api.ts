@@ -6,3 +6,13 @@ export interface ApiResponse<T = any> {
     code?: string;
   };
 }
+
+export type Config = {
+  id: number;
+  items: {
+    current_content: {
+      id: number;
+      expires_at: string;
+    };
+  };
+};
