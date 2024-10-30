@@ -67,6 +67,7 @@ import Question1 from "./components/Question1.vue";
 import Question1Result from "./components/Question1Result.vue";
 import Question2 from "./components/Question2.vue";
 import LoadingCircle from "~/components/LoadingCircle.vue";
+import type { ApiResponse } from "~/types/api";
 
 const { showToast } = useToast();
 const { t } = useI18n();
@@ -97,15 +98,35 @@ const doesPriceGoUp = (answer: boolean) => {
 
 const fetchContent = async () => {
   try {
-    const { data, error } = await useFetch("/api/content");
+    const { data: dataCurrentContent, error: errorCurrentContent } =
+      await useFetch("/api/config/current-content");
 
-    if (error.value) {
-      console.error("/api/content:", error.value);
+    if (errorCurrentContent.value) {
+      console.error("/api/current-content:", errorCurrentContent.value);
       showToast(t("Error dari database, coba refresh"), "danger");
+      return;
     }
 
-    const contentData = data.value?.data;
-    content.value = contentData?.[0];
+    const {
+      data: { value: contentVal },
+      error,
+    } = await useFetch<ApiResponse>(
+      "/api/content/" + dataCurrentContent.value?.data?.id,
+    );
+
+    if (error.value) {
+      console.error("fetchError /api/content:", error.value);
+      showToast(t("Error dari database, coba refresh"), "danger");
+      return;
+    }
+    if (contentVal?.error) {
+      console.error("API content error:", contentVal?.error);
+      showToast(t("Error dari database, coba refresh"), "danger");
+      return;
+    }
+
+    const contentData = contentVal?.data as Content;
+    content.value = contentData;
   } catch (error) {
     if (error) {
       console.error("/api/content:", error);

@@ -5,10 +5,7 @@ import { Database } from "~/types/supabase"; // Adjust the import path as needed
 export default eventHandler(async (event): Promise<ApiResponse<Config>> => {
   const client = serverSupabaseServiceRole<Database>(event);
 
-  const { data, error } = await client
-    .from("config")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const { data, error } = await client.from("config").select("*").single();
 
   if (error) {
     return {
@@ -19,6 +16,6 @@ export default eventHandler(async (event): Promise<ApiResponse<Config>> => {
 
   return {
     statusCode: 200,
-    data: data[0],
+    data,
   };
 });
