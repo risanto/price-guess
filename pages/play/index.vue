@@ -2,7 +2,10 @@
   <Header />
 
   <ClientOnly>
-    <div class="flex h-full w-full items-center justify-center" v-if="loading">
+    <div
+      class="flex h-[80vh] w-full items-center justify-center"
+      v-if="loading"
+    >
       <LoadingCircle />
     </div>
 
