@@ -40,4 +40,6 @@ export default {
 
   "Cara Bermain": "Cara Bermain",
   Profil: "Profil",
+  "*Gambar bisa digeser & diperbesar": "*Gambar bisa digeser & diperbesar",
+  Poin: "Poin",
 };

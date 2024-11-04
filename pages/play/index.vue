@@ -101,46 +101,35 @@ const doesPriceGoUp = (answer: boolean) => {
 
 const fetchContent = async () => {
   try {
-    const {
-      data: { value: currentContentVal },
-      error: errorCurrentContent,
-    } = await useFetch("/api/config/current-content");
+    const { data: currentContentVal, error: errorCurrentContent } =
+      await $fetch("/api/config/current-content");
 
-    if (currentContentVal?.error) {
-      console.error("currentContentVal?.error:", currentContentVal.error);
+    if (errorCurrentContent) {
+      console.error("errorCurrentContent:", errorCurrentContent);
       showToast(t("Error dari database, coba refresh"), "danger");
       return;
     }
-    if (errorCurrentContent.value) {
-      console.error("errorCurrentContent.value:", errorCurrentContent.value);
-      showToast(t("Error dari database, coba refresh"), "danger");
-      return;
-    }
-    if (!currentContentVal?.data) {
-      console.error("error !currentContentVal?.data");
+    if (!currentContentVal) {
+      console.error("error !currentContentVal");
       showToast(t("Error dari database, coba refresh"), "danger");
       return;
     }
 
-    const {
-      data: { value: contentVal },
-      error,
-    } = await useFetch<ApiResponse>(
-      "/api/content/" + currentContentVal.data.id,
+    const { data: contentVal, error: errorContent } = await $fetch<ApiResponse>(
+      "/api/content/" + currentContentVal.id,
     );
-
-    if (contentVal?.error) {
-      console.error("contentVal?.error:", contentVal?.error);
+    if (errorContent) {
+      console.error("errorContent:", errorContent);
       showToast(t("Error dari database, coba refresh"), "danger");
       return;
     }
-    if (error.value) {
-      console.error("fetchError /api/content:", error.value);
+    if (!contentVal) {
+      console.error("error !contentVal");
       showToast(t("Error dari database, coba refresh"), "danger");
       return;
     }
 
-    const contentData = contentVal?.data as Content;
+    const contentData = contentVal as Content;
     content.value = contentData;
   } catch (error) {
     if (error) {
