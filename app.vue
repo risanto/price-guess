@@ -1,11 +1,12 @@
 <template>
   <div id="toast-container" class="fixed right-5 top-5 space-y-2" />
-  <NuxtPage />
+  <NuxtPage v-if="isMounted" />
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from "./stores/auth";
 const { isAuthenticated, fetchUser } = useAuthStore();
+const isMounted = ref(false);
 
 if (import.meta.client) {
   onMounted(async () => {
@@ -18,6 +19,7 @@ if (import.meta.client) {
       const { initFlowbite } = await import("flowbite");
       initFlowbite();
     });
+    isMounted.value = true;
   });
 }
 </script>

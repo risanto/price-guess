@@ -39,7 +39,7 @@
           </button>
         </div>
         <!-- Modal body -->
-        <div class="flex items-center justify-center space-y-4 p-4 md:p-8">
+        <div class="flex items-center justify-center space-y-4 px-8 py-6">
           <table>
             <tbody>
               <tr>

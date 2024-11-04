@@ -74,8 +74,8 @@ import type { ApiResponse } from "~/types/api";
 
 const { showToast } = useToast();
 const { t } = useI18n();
-const loading = ref(true);
 
+const loading = ref(true);
 const content = ref<Content>();
 const currentQuestion = shallowRef<any>(Question1);
 const currentQuestionKey = ref("q1");

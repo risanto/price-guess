@@ -10,6 +10,7 @@
             >{{ $t("Tebak Harga Emas") }}</span
           >
         </a>
+
         <div class="flex items-center lg:order-2">
           <!-- Login/Register: Web -->
           <template v-if="!isAuthenticated">

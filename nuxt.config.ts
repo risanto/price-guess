@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@nuxtjs/supabase",
     "@nuxt/image",
+    "pinia-plugin-persistedstate/nuxt",
   ],
 
   // add postcss support for tailwindcss
