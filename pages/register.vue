@@ -67,9 +67,15 @@
 
             <button
               type="submit"
-              class="w-full rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
-              {{ $t("Daftar") }}
+              <template v-if="!loading">
+                {{ $t("Masuk") }}
+              </template>
+
+              <div v-else role="status">
+                <LoadingCircle />
+              </div>
             </button>
 
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
@@ -100,6 +106,7 @@ import type { Database } from "~/types/supabase";
 const supabase = useSupabaseClient<Database>();
 const { showToast } = useToast();
 const { t } = useI18n();
+const loading = ref(false);
 
 const email = ref("");
 const password = ref("");
@@ -107,7 +114,8 @@ const phone = ref("");
 const error = ref("");
 
 const register = async () => {
-  error.value = ""; // Reset the error
+  error.value = "";
+  loading.value = true;
 
   const { data: existingUser, error: checkError } = await supabase
     .from("users")
@@ -116,10 +124,12 @@ const register = async () => {
 
   if (checkError) {
     error.value = t(checkError.message);
+    loading.value = false;
     return;
   }
   if (existingUser!.length > 0) {
     error.value = t("Email sudah terdaftar");
+    loading.value = false;
     return;
   }
 
@@ -135,6 +145,7 @@ const register = async () => {
   });
   if (registerError) {
     error.value = t(registerError.message);
+    loading.value = false;
     return;
   }
 
@@ -149,6 +160,7 @@ const register = async () => {
 
   if (insertError) {
     error.value = t(insertError.message);
+    loading.value = false;
     return;
   }
 
