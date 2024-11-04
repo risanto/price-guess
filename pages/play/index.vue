@@ -152,6 +152,15 @@ const fetchContent = async () => {
   }
 };
 fetchContent();
+
+if (import.meta.client) {
+  onMounted(async () => {
+    useFlowbite(async () => {
+      const { initFlowbite } = await import("flowbite");
+      initFlowbite();
+    });
+  });
+}
 </script>
 
 <style scoped>

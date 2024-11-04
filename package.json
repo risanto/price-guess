@@ -18,6 +18,7 @@
     "flowbite": "^2.5.2",
     "i18n": "^0.15.1",
     "nuxt": "^3.13.0",
+    "pinia": "^2.2.5",
     "vue": "latest",
     "vue-router": "latest"
   },

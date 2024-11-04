@@ -31,8 +31,8 @@
 
       <div
         v-if="isAuthenticated"
-        @click="handleLogout()"
-        class="inline-block cursor-pointer rounded-lg border-2 px-12 py-3.5 text-center font-medium hover:bg-primary-200 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+        @click="logout()"
+        class="ml-8 inline-block cursor-pointer rounded-lg border-2 px-12 py-3.5 text-center font-medium hover:bg-primary-200 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
       >
         {{ $t("Keluar") }}
       </div>
@@ -41,6 +41,7 @@
 </template>
 
 <script setup lang="ts">
-const { isAuthenticated } = useAuth();
-const { handleLogout } = useSupabase();
+import { useAuthStore } from "~/stores/auth";
+
+const { isAuthenticated, logout } = useAuthStore();
 </script>
