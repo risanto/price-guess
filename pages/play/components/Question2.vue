@@ -39,17 +39,21 @@
       </div>
 
       <div v-if="error" class="mt-4 text-center text-red-600">{{ error }}</div>
-      <div v-if="success" class="mt-4 text-center text-green-500">
-        {{ success }}
-      </div>
+      <div
+        v-if="success"
+        class="mt-4 text-center text-green-500"
+        v-html="success"
+      />
     </div>
   </SectionParent>
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/stores/auth";
 import SectionParent from "./SectionParent.vue";
 
 const { t } = useI18n();
+const { isAuthenticated } = useAuthStore();
 
 const { q2Answer, changeToFinished } = defineProps({
   q2Answer: {
@@ -110,7 +114,12 @@ const handleAnswer = () => {
   }
 
   if (answer.value[currentSection.value].join("") === q2Answer) {
-    success.value = t("Hebat! Jawabanmu benar!");
+    let winMessage = t("Hebat! Jawabanmu benar! ");
+
+    if (isAuthenticated) {
+      winMessage += t("<br/>Poinmu bertambah 5000");
+    }
+    success.value = winMessage;
     triggerWinningAnimation(currentSection.value);
     changeToFinished();
     return;

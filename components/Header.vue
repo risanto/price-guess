@@ -61,6 +61,7 @@
 
           <!-- Profile: Mobile -->
           <button
+            v-if="isAuthenticated"
             class="mr-2 block md:hidden"
             data-modal-target="profile-modal"
             data-modal-toggle="profile-modal"
@@ -151,6 +152,7 @@
 
             <!-- Profile: Web -->
             <li
+              v-if="isAuthenticated"
               class="hidden cursor-pointer p-2 hover:bg-gray-200 md:block"
               data-modal-target="profile-modal"
               data-modal-toggle="profile-modal"
