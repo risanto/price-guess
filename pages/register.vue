@@ -136,12 +136,6 @@ const register = async () => {
   const { error: registerError } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
-    options: {
-      data: {
-        phone: phone.value,
-        points: 0,
-      },
-    },
   });
   if (registerError) {
     error.value = t(registerError.message);

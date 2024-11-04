@@ -38,12 +38,20 @@
         </button>
       </div>
 
-      <div v-if="error" class="mt-4 text-center text-red-600">{{ error }}</div>
-      <div
-        v-if="success"
-        class="mt-4 text-center text-green-500"
-        v-html="success"
-      />
+      <template v-if="!loading">
+        <div v-if="error" class="mt-4 text-center text-red-600">
+          {{ error }}
+        </div>
+        <div
+          v-if="success"
+          class="mt-4 text-center text-green-500"
+          v-html="success"
+        />
+      </template>
+
+      <div v-else class="flex items-center justify-center">
+        <LoadingCircle />
+      </div>
     </div>
   </SectionParent>
 </template>
@@ -51,9 +59,11 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/auth";
 import SectionParent from "./SectionParent.vue";
+import type { UserProfileUpdate } from "~/types/userProfile";
 
 const { t } = useI18n();
-const { isAuthenticated } = useAuthStore();
+const { isAuthenticated, user, fetchUser } = useAuthStore();
+const loading = ref(false);
 
 const { q2Answer, changeToFinished } = defineProps({
   q2Answer: {
@@ -114,15 +124,7 @@ const handleAnswer = () => {
   }
 
   if (answer.value[currentSection.value].join("") === q2Answer) {
-    let winMessage = t("Hebat! Jawabanmu benar! ");
-
-    if (isAuthenticated) {
-      winMessage += t("<br/>Poinmu bertambah 5000");
-    }
-    success.value = winMessage;
-    triggerWinningAnimation(currentSection.value);
-    changeToFinished();
-    return;
+    return handleWin();
   }
 
   if (currentSection.value === 2) {
@@ -153,6 +155,39 @@ const handleInput = (answerSection: number, idx: number) => {
     nextInput.focus();
   }
 };
+
+async function handleWin() {
+  loading.value = true;
+  const response = await fetch("/api/users/" + user?.id, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      points: user?.points ? user.points + 5000 : 5000,
+      points_last_added: new Date().toISOString(),
+    } as UserProfileUpdate),
+  });
+  const { error: insertError } = await response.json();
+
+  if (insertError) {
+    error.value = t(insertError.message);
+    loading.value = false;
+    return;
+  }
+
+  await fetchUser();
+  loading.value = false;
+
+  let winMessage = t("Hebat! Jawabanmu benar! ");
+
+  if (isAuthenticated) {
+    winMessage += t("<br/>Poinmu bertambah 5000");
+  }
+  success.value = winMessage;
+  triggerWinningAnimation(currentSection.value);
+  changeToFinished();
+}
 
 function triggerWinningAnimation(idx: number) {
   const letterBoxes = document.querySelectorAll<HTMLElement>(".row-" + idx);

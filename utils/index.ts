@@ -6,3 +6,15 @@ export function getHomePageUrl() {
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function isToday(timestamptz: string): boolean {
+  const date = new Date(timestamptz); // Parse timestamptz to a Date object
+  const today = new Date(); // Get current date
+
+  // Compare year, month, and date
+  return (
+    date.getUTCFullYear() === today.getUTCFullYear() &&
+    date.getUTCMonth() === today.getUTCMonth() &&
+    date.getUTCDate() === today.getUTCDate()
+  );
+}

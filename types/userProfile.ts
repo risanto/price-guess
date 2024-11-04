@@ -1,9 +1,3 @@
-export type UserData = {
-  email: string;
-  phone: string;
-  points: number;
-};
-
 export type UserProfile = {
   id?: number;
   created_at?: string;
@@ -11,4 +5,11 @@ export type UserProfile = {
   role: string;
   points: number;
   points_last_added: string;
+};
+
+export type UserProfileUpdate = {
+  email?: string;
+  role?: string;
+  points?: number;
+  points_last_added?: string;
 };
