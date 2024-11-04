@@ -10,6 +10,9 @@ export default {
   "Kata sandi": "Kata sandi",
   "Lupa kata sandi?": "Lupa kata sandi?",
   "Belum punya akun?": "Belum punya akun?",
+  atau: "atau",
+  main: "main",
+  dulu: "dulu",
 
   "Invalid login credentials": "Email/password salah",
   "Password should be at least 6 characters.": "Kata sandi minimum 6 karakter",

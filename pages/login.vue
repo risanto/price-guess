@@ -55,9 +55,15 @@
             </div>
             <button
               type="submit"
-              class="w-full rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
-              {{ $t("Masuk") }}
+              <template v-if="!loading">
+                {{ $t("Masuk") }}
+              </template>
+
+              <div v-else role="status">
+                <LoadingCircle />
+              </div>
             </button>
 
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
@@ -67,6 +73,13 @@
                 class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >{{ $t("Daftar") }}</NuxtLink
               >
+              {{ $t("atau") }}
+              <NuxtLink
+                to="/play"
+                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >{{ $t("main") }}</NuxtLink
+              >
+              {{ $t("dulu") }}
             </p>
           </form>
         </div>
@@ -76,35 +89,34 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  middleware: "auth",
-});
+import { useAuthStore } from "~/stores/auth";
 
-const supabase = useSupabaseClient();
-const { saveUser } = useAuth();
+const { t } = useI18n();
+const loading = ref(false);
 
 const email = ref("");
 const password = ref("");
 const error = ref("");
+const { fetchUser } = useAuthStore();
 
 const login = async () => {
-  error.value = ""; // Reset the error
+  error.value = "";
+  loading.value = true;
 
-  const { data, error: loginError } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value,
+  const { error: errorAuthLogin } = await $fetch("/api/auth/login", {
+    method: "POST",
+    body: { email: email.value, password: password.value },
   });
 
-  if (loginError) {
-    error.value = loginError.message; // Show the error message
-  } else {
-    saveUser({
-      email: data.user.email as string,
-      phone: data.user.user_metadata.phone,
-      points: data.user.user_metadata.points,
-    });
-    navigateTo("/");
+  if (errorAuthLogin) {
+    console.error("errorAuthLogin:", errorAuthLogin);
+
+    error.value = t(errorAuthLogin.message);
+    loading.value = false;
+    return;
   }
+  await fetchUser();
+  navigateTo("/");
 };
 
 watch(email, () => {

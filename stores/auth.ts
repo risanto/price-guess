@@ -1,0 +1,51 @@
+// stores/authStore.js
+import { defineStore } from "pinia";
+import type { ApiResponse } from "~/types/api";
+import type { UserProfile } from "~/types/auth";
+
+export const useAuthStore = defineStore("auth", () => {
+  const client = useSupabaseClient();
+  const { showToast } = useToast();
+
+  // Global user state
+  const user = ref<UserProfile>();
+
+  // Fetch user data
+  const fetchUser = async () => {
+    const { data, error } = await $fetch<ApiResponse>("/api/auth/validate", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (error) {
+      console.error("fetchUser:", error);
+      showToast(error.message, "danger");
+    }
+
+    user.value = data.profile;
+  };
+
+  // Logout function
+  const logout = async () => {
+    await client.auth.signOut();
+    user.value = undefined;
+    await $fetch("/api/auth/logout", { method: "POST" });
+    window.location.reload();
+  };
+
+  // Subscribe to auth changes
+  const subscribeToAuthChanges = () => {
+    client.auth.onAuthStateChange(async (_event, session) => {
+      if (session) {
+        await fetchUser();
+      } else {
+        user.value = undefined;
+      }
+    });
+  };
+  subscribeToAuthChanges();
+
+  const isAuthenticated = computed(() => !!user.value);
+
+  return { user, logout, isAuthenticated, fetchUser };
+});

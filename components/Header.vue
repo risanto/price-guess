@@ -28,7 +28,7 @@
           <!-- Logout: Web -->
           <button
             v-if="isAuthenticated"
-            @click="handleLogout()"
+            @click="logout()"
             class="mr-2 hidden rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:block lg:px-5 lg:py-2.5"
           >
             {{ $t("Keluar") }}
@@ -193,7 +193,7 @@
             <!-- Logout: Mobile -->
             <li
               v-if="isAuthenticated"
-              @click="handleLogout()"
+              @click="logout()"
               class="inline-block cursor-pointer rounded-lg border-2 px-12 py-3.5 text-center font-medium hover:bg-primary-200 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 md:hidden"
             >
               {{ $t("Keluar") }}
@@ -209,9 +209,9 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/stores/auth";
 import HintModal from "./Modals/HintModal.vue";
 import ProfileModal from "./Modals/ProfileModal.vue";
 
-const { isAuthenticated } = useAuth();
-const { handleLogout } = useSupabase();
+const { isAuthenticated, logout } = useAuthStore();
 </script>

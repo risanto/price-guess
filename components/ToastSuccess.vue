@@ -22,7 +22,7 @@
       <span class="sr-only">Check icon</span>
     </div>
 
-    <div class="ms-3 px-2 text-sm font-normal">{{ message }}</div>
+    <div class="ms-3 px-2 text-sm font-normal" v-html="message" />
 
     <button
       type="button"

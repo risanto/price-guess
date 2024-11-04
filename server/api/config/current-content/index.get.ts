@@ -31,7 +31,7 @@ export default eventHandler(
     const { data: configData, error: errorConfigData } = await client
       .from("config")
       .select("*")
-      .order("created_at", { ascending: false });
+      .single();
 
     if (errorConfigData) {
       return {
@@ -40,7 +40,7 @@ export default eventHandler(
       };
     }
 
-    const currentContent = (configData[0] as Config).items.current_content;
+    const currentContent = (configData as Config).items.current_content;
 
     // check if content hasn't expired
     if (new Date(currentContent.expires_at) > new Date()) {
@@ -97,7 +97,7 @@ export default eventHandler(
     // If there's no ID greater than current_id, get the first ID
     if (dataNextId.length === 0) {
       const { data: dataFirstId, error: errorFirstId } = await client
-        .from("items")
+        .from("content")
         .select("id")
         .order("id", { ascending: true })
         .limit(1);

@@ -4,45 +4,20 @@
 </template>
 
 <script setup lang="ts">
-const router = useRouter();
-const supabase = useSupabaseClient();
-const { user, saveUser } = useAuth();
-
-if (!user.value) {
-  try {
-    const { data, error } = await supabase.auth.getSession();
-
-    if (error) {
-      console.error("Error", error);
-    } else if (!data.session) {
-      user.value = null;
-    } else {
-      saveUser({
-        email: data.session?.user.email as string,
-        phone: data.session?.user.user_metadata.phone,
-        points: data.session?.user.user_metadata.points,
-      });
-    }
-  } catch (error) {
-    console.error("Error", error);
-  }
-}
+import { useAuthStore } from "./stores/auth";
+const { isAuthenticated, fetchUser } = useAuthStore();
 
 if (import.meta.client) {
-  onMounted(() => {
+  onMounted(async () => {
+    // Fetch user data if it's not already loaded
+    if (!isAuthenticated) {
+      await fetchUser();
+    }
+
     useFlowbite(async () => {
       const { initFlowbite } = await import("flowbite");
       initFlowbite();
     });
   });
 }
-watch(
-  () => router.currentRoute.value,
-  () => {
-    useFlowbite(async () => {
-      const { initFlowbite } = await import("flowbite");
-      initFlowbite();
-    });
-  },
-);
 </script>

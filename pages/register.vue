@@ -79,6 +79,13 @@
                 class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >{{ $t("Masuk") }}</NuxtLink
               >
+              {{ $t("atau") }}
+              <NuxtLink
+                to="/play"
+                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >{{ $t("main") }}</NuxtLink
+              >
+              {{ $t("dulu") }}
             </p>
           </form>
         </div>
@@ -89,10 +96,6 @@
 
 <script setup lang="ts">
 import type { Database } from "~/types/supabase";
-
-definePageMeta({
-  middleware: "auth",
-});
 
 const supabase = useSupabaseClient<Database>();
 const { showToast } = useToast();

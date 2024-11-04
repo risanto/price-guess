@@ -101,11 +101,23 @@ const doesPriceGoUp = (answer: boolean) => {
 
 const fetchContent = async () => {
   try {
-    const { data: dataCurrentContent, error: errorCurrentContent } =
-      await useFetch("/api/config/current-content");
+    const {
+      data: { value: currentContentVal },
+      error: errorCurrentContent,
+    } = await useFetch("/api/config/current-content");
 
+    if (currentContentVal?.error) {
+      console.error("currentContentVal?.error:", currentContentVal.error);
+      showToast(t("Error dari database, coba refresh"), "danger");
+      return;
+    }
     if (errorCurrentContent.value) {
-      console.error("/api/current-content:", errorCurrentContent.value);
+      console.error("errorCurrentContent.value:", errorCurrentContent.value);
+      showToast(t("Error dari database, coba refresh"), "danger");
+      return;
+    }
+    if (!currentContentVal?.data) {
+      console.error("error !currentContentVal?.data");
       showToast(t("Error dari database, coba refresh"), "danger");
       return;
     }
@@ -114,16 +126,16 @@ const fetchContent = async () => {
       data: { value: contentVal },
       error,
     } = await useFetch<ApiResponse>(
-      "/api/content/" + dataCurrentContent.value?.data?.id,
+      "/api/content/" + currentContentVal.data.id,
     );
 
-    if (error.value) {
-      console.error("fetchError /api/content:", error.value);
+    if (contentVal?.error) {
+      console.error("contentVal?.error:", contentVal?.error);
       showToast(t("Error dari database, coba refresh"), "danger");
       return;
     }
-    if (contentVal?.error) {
-      console.error("API content error:", contentVal?.error);
+    if (error.value) {
+      console.error("fetchError /api/content:", error.value);
       showToast(t("Error dari database, coba refresh"), "danger");
       return;
     }
@@ -140,6 +152,15 @@ const fetchContent = async () => {
   }
 };
 fetchContent();
+
+if (import.meta.client) {
+  onMounted(async () => {
+    useFlowbite(async () => {
+      const { initFlowbite } = await import("flowbite");
+      initFlowbite();
+    });
+  });
+}
 </script>
 
 <style scoped>
