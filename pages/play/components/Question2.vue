@@ -130,6 +130,19 @@ const handleInput = (answerSection: number, idx: number) => {
     /[^0-9.]/g,
     "",
   );
+
+  let nextInput = document.querySelector(
+    `.box-${answerSection}-${idx + 1}`,
+  ) as HTMLElement;
+
+  if (nextInput) {
+    if (nextInput.classList.contains("bg-slate-100")) {
+      nextInput = document.querySelector(
+        `.box-${answerSection}-${idx + 2}`,
+      ) as HTMLElement;
+    }
+    nextInput.focus();
+  }
 };
 
 function triggerWinningAnimation(idx: number) {

@@ -13,18 +13,18 @@
       v-else
       class="flex flex-col overflow-hidden px-4 py-2 md:grid md:grid-cols-3 md:px-6 md:py-4"
     >
-      <transition name="enlarge" mode="out-in">
-        <ZoomableImg
-          v-if="!finished"
-          :src="content?.initial_img_url as string"
-          class="col-span-2"
-        />
-        <ZoomableImg
-          v-else
-          :src="content?.answer_img_url as string"
-          class="col-span-2"
-        />
-      </transition>
+      <div class="col-span-2">
+        <transition name="enlarge" mode="out-in">
+          <ZoomableImg
+            v-if="!finished"
+            :src="content?.initial_img_url as string"
+          />
+          <ZoomableImg v-else :src="content?.answer_img_url as string" />
+        </transition>
+        <div class="text-center text-xs">
+          {{ $t("*Gambar bisa digeser & diperbesar") }}
+        </div>
+      </div>
 
       <transition name="slide" mode="out-in">
         <component
