@@ -100,6 +100,17 @@ const handleAnswer = () => {
 
   const correctNumbers = [q2Answer[2], q2Answer[3], q2Answer[5]];
 
+  let correctNumbersAmount: { [key: string]: number } = {};
+  let correctAnswers: { [key: string]: number } = {};
+
+  correctNumbers.forEach((n: string) => {
+    if (n in correctNumbersAmount === false) {
+      correctNumbersAmount[n] = 0;
+      correctAnswers[n] = 0;
+    }
+    correctNumbersAmount[n]++;
+  });
+
   // loop through all boxes except 4 (dot)
   for (let i = 2; i < 6; i++) {
     if (i === 4) continue;
@@ -113,8 +124,12 @@ const handleAnswer = () => {
 
     if (currentAnswer[i] === q2Answer[i]) {
       // correct
+      correctAnswers[currentAnswer[i]]++;
       answerBgColors.value[currentSection.value][i] = "bg-green-400";
-    } else if (correctNumbers.includes(currentAnswer[i])) {
+    } else if (
+      currentAnswer[i] in correctAnswers &&
+      correctNumbersAmount[currentAnswer[i]] > correctAnswers[currentAnswer[i]]
+    ) {
       // still wrong placement
       answerBgColors.value[currentSection.value][i] = "bg-amber-400";
     } else {
