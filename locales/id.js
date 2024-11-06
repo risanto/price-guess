@@ -42,4 +42,12 @@ export default {
   Profil: "Profil",
   "*Gambar bisa digeser & diperbesar": "*Gambar bisa digeser & diperbesar",
   Poin: "Poin",
+
+  "Benar! Harga emas akan": "Benar! Harga emas akan",
+  "Salah! Harga emas akan": "Salah! Harga emas akan",
+  turun: "turun",
+  "setelah ini.": "setelah ini.",
+  "Hebat! Jawabanmu benar! ": "Hebat! Jawabanmu benar! ",
+  "<br/>Poinmu bertambah 5000": "<br/>Poinmu bertambah 5000",
+  Penjelasan: "Penjelasan",
 };

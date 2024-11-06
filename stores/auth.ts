@@ -12,7 +12,6 @@ export const useAuthStore = defineStore(
     // Global user state
     const user = ref<UserProfile>();
 
-    // Fetch user data
     const fetchUser = async () => {
       const { data, error } = await $fetch<ApiResponse>("/api/auth/validate", {
         method: "GET",
@@ -27,7 +26,6 @@ export const useAuthStore = defineStore(
       user.value = data?.profile;
     };
 
-    // Logout function
     const logout = async () => {
       await client.auth.signOut();
       user.value = undefined;

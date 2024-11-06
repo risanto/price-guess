@@ -25,6 +25,15 @@ export default eventHandler(async (event): Promise<ApiResponse> => {
     .eq("id", id)
     .single();
 
+  if (errorUserProfile) {
+    return {
+      statusCode: 500,
+      error: {
+        message: errorUserProfile.message,
+      },
+    };
+  }
+
   const pointsLastAdded = (userProfile as UserProfile).points_last_added;
 
   if (isToday(pointsLastAdded)) {
@@ -47,7 +56,7 @@ export default eventHandler(async (event): Promise<ApiResponse> => {
   }
 
   // Perform the update
-  const { error } = await client.from("users").update(body).eq("id", id);
+  const { error, data } = await client.from("users").update(body).eq("id", id);
 
   if (error) {
     return {
@@ -58,5 +67,6 @@ export default eventHandler(async (event): Promise<ApiResponse> => {
 
   return {
     statusCode: 200,
+    data,
   };
 });

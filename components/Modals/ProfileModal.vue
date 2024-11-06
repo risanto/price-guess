@@ -51,7 +51,7 @@
                 <td>
                   {{
                     user?.points
-                      ? new Intl.NumberFormat("id-ID").format(user.points)
+                      ? new Intl.NumberFormat("id-ID").format(user?.points)
                       : 0
                   }}
                 </td>
@@ -65,7 +65,9 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useAuthStore } from "~/stores/auth";
 
-const { user } = useAuthStore();
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
 </script>

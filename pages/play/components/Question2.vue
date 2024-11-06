@@ -181,6 +181,7 @@ const handleInput = (answerSection: number, idx: number) => {
 
 async function handleWin() {
   loading.value = true;
+
   const response = await fetch("/api/users/" + user?.id, {
     method: "PATCH",
     headers: {
