@@ -111,6 +111,12 @@ const handleAnswer = () => {
     correctNumbersAmount[n]++;
   });
 
+  const anyCorrect: { [key: string]: boolean } = {
+    [currentAnswer[2]]: currentAnswer[2] === correctNumbers[0],
+    [currentAnswer[3]]: currentAnswer[3] === correctNumbers[1],
+    [currentAnswer[5]]: currentAnswer[5] === correctNumbers[2],
+  };
+
   // loop through all boxes except 4 (dot)
   for (let i = 2; i < 6; i++) {
     if (i === 4) continue;
@@ -128,7 +134,9 @@ const handleAnswer = () => {
       answerBgColors.value[currentSection.value][i] = "bg-green-400";
     } else if (
       currentAnswer[i] in correctAnswers &&
-      correctNumbersAmount[currentAnswer[i]] > correctAnswers[currentAnswer[i]]
+      correctNumbersAmount[currentAnswer[i]] >
+        correctAnswers[currentAnswer[i]] &&
+      !anyCorrect[currentAnswer[i]]
     ) {
       // still wrong placement
       answerBgColors.value[currentSection.value][i] = "bg-amber-400";
