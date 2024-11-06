@@ -8,12 +8,14 @@ export default {
   Email: "Email",
   "Nomor handphone": "Nomor handphone",
   "Kata sandi": "Kata sandi",
+  "Konfirmasi kata sandi": "Konfirmasi kata sandi",
   "Lupa kata sandi?": "Lupa kata sandi?",
   "Belum punya akun?": "Belum punya akun?",
   atau: "atau",
   main: "main",
   dulu: "dulu",
 
+  "Konfirmasi kata sandi harus sama": "Konfirmasi kata sandi harus sama",
   "Invalid login credentials": "Email/password salah",
   "Password should be at least 6 characters.": "Kata sandi minimum 6 karakter",
 

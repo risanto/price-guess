@@ -30,7 +30,7 @@
               />
             </div>
 
-            <div>
+            <!-- <div>
               <label
                 for="phone"
                 class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -42,10 +42,10 @@
                 id="phone"
                 v-model="phone"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder="mail@gmail.com"
+                placeholder="08121333"
                 required="true"
               />
-            </div>
+            </div> -->
 
             <div>
               <label
@@ -63,6 +63,24 @@
                 required="true"
               />
             </div>
+
+            <div>
+              <label
+                for="password"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                >{{ $t("Konfirmasi kata sandi") }}</label
+              >
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="••••••••"
+                v-model="confirmPassword"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                required="true"
+              />
+            </div>
+
             <div v-if="error" class="text-red-500">{{ $t(`${error}`) }}</div>
 
             <button
@@ -70,7 +88,7 @@
               class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
               <template v-if="!loading">
-                {{ $t("Masuk") }}
+                {{ $t("Daftar") }}
               </template>
 
               <div v-else role="status">
@@ -110,10 +128,15 @@ const loading = ref(false);
 
 const email = ref("");
 const password = ref("");
+const confirmPassword = ref("");
 const phone = ref("");
 const error = ref("");
 
 const register = async () => {
+  if (confirmPassword.value !== password.value) {
+    error.value = t("Konfirmasi kata sandi harus sama");
+    return;
+  }
   error.value = "";
   loading.value = true;
 
@@ -169,6 +192,9 @@ watch(phone, () => {
   if (error.value) error.value = "";
 });
 watch(password, () => {
+  if (error.value) error.value = "";
+});
+watch(confirmPassword, () => {
   if (error.value) error.value = "";
 });
 </script>
