@@ -48,7 +48,13 @@
               </tr>
               <tr>
                 <th scope="row" class="pr-2 text-right">{{ $t("Poin") }}</th>
-                <td>{{ user?.points ? user.points : 0 }}</td>
+                <td>
+                  {{
+                    user?.points
+                      ? new Intl.NumberFormat("id-ID").format(user.points)
+                      : 0
+                  }}
+                </td>
               </tr>
             </tbody>
           </table>
