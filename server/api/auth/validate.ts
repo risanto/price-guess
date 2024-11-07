@@ -12,6 +12,7 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
   const refreshToken = cookies["sb:refresh_token"];
 
   const client = serverSupabaseServiceRole<Database>(event);
+  const config = useRuntimeConfig();
 
   // No refresh token case
   if (!refreshToken) {
@@ -55,17 +56,11 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
   const { data: refreshResponse, error: refreshError } =
     await client.auth.refreshSession({ refresh_token: refreshToken });
 
-  console.log("refreshResponse ===>", refreshResponse);
-
   if (refreshError || !refreshResponse.session) {
+    await fetch(`${config.public.apiBase}/api/auth/logout`, { method: "POST" });
     return {
-      statusCode: 401,
-      error: refreshError ?? { message: "Tidak bisa refresh access token" },
+      statusCode: 204,
     };
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Unable to refresh access token.",
-    });
   }
 
   // Update cookies with the new access token and refresh token
