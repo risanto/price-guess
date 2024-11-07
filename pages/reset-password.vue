@@ -10,30 +10,14 @@
           <h1
             class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl"
           >
-            {{ $t("Masuk") }}
+            {{ $t("Reset Kata Sandi") }}
           </h1>
-          <form class="space-y-4 md:space-y-6" @submit.prevent="login">
-            <div>
-              <label
-                for="email"
-                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >{{ $t("Email") }}</label
-              >
-              <input
-                type="email"
-                name="email"
-                id="email"
-                v-model="email"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder="mail@gmail.com"
-                required="true"
-              />
-            </div>
+          <form class="space-y-4 md:space-y-6" @submit.prevent="resetPassword">
             <div>
               <label
                 for="password"
                 class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >{{ $t("Kata sandi") }}</label
+                >{{ $t("Kata sandi baru") }}</label
               >
               <input
                 type="password"
@@ -45,20 +29,33 @@
                 required="true"
               />
             </div>
-            <div v-if="error" class="text-red-500">{{ $t(`${error}`) }}</div>
-            <div class="flex items-center justify-end">
-              <a
-                href="/forgot-password"
-                class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >{{ $t("Lupa kata sandi?") }}</a
+
+            <div>
+              <label
+                for="confirmPassword"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                >{{ $t("Konfirmasi kata sandi baru") }}</label
               >
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="••••••••"
+                v-model="confirmPassword"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                required="true"
+              />
             </div>
+
+            <div v-if="error" class="text-red-500">{{ $t(`${error}`) }}</div>
+
             <button
+              :disabled="!!error"
               type="submit"
               class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
               <template v-if="!loading">
-                {{ $t("Masuk") }}
+                {{ $t("Reset Kata Sandi") }}
               </template>
 
               <div v-else role="status">
@@ -67,19 +64,18 @@
             </button>
 
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-              {{ $t("Belum punya akun?") }}
+              {{ $t("Kembali ke ") }}
               <NuxtLink
-                to="/register"
+                to="/forgot-password"
                 class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >{{ $t("Daftar") }}</NuxtLink
+                >{{ $t("lupa kata sandi? ") }}</NuxtLink
               >
-              {{ $t("atau") }}
+              {{ $t("atau ") }}
               <NuxtLink
-                to="/play"
+                to="/"
                 class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >{{ $t("main") }}</NuxtLink
+                >{{ $t("halaman awal") }}</NuxtLink
               >
-              {{ $t("dulu") }}
             </p>
           </form>
         </div>
@@ -89,40 +85,57 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth";
-
+const { showToast } = useToast();
 const { t } = useI18n();
 const loading = ref(false);
 
 const email = ref("");
 const password = ref("");
+const confirmPassword = ref("");
 const error = ref("");
-const { fetchUser } = useAuthStore();
+const accessToken = ref("");
 
-const login = async () => {
+const resetPassword = async () => {
+  if (confirmPassword.value !== password.value) {
+    error.value = t("Konfirmasi kata sandi baru harus sama");
+    return;
+  }
   error.value = "";
   loading.value = true;
 
-  const { error: errorAuthLogin } = await $fetch("/api/auth/login", {
-    method: "POST",
-    body: { email: email.value, password: password.value },
-  });
+  const { error: errorUpdatePassword } = await $fetch(
+    "/api/auth/update-password",
+    {
+      method: "POST",
+      body: { accessToken: accessToken.value, newPassword: password.value },
+    },
+  );
 
-  if (errorAuthLogin) {
-    console.error("errorAuthLogin:", errorAuthLogin);
+  if (errorUpdatePassword) {
+    console.error("errorUpdatePassword:", errorUpdatePassword);
 
-    error.value = t(errorAuthLogin.message);
+    error.value = t(errorUpdatePassword.message);
     loading.value = false;
     return;
   }
-  await fetchUser();
-  navigateTo("/");
+  showToast(t("Berhasil reset kata sandi"));
+  navigateTo("/login");
 };
 
-watch(email, () => {
+onMounted(() => {
+  // Parse the hash part of the URL to extract the access token
+  const hashParams = new URLSearchParams(window.location.hash.slice(1));
+  accessToken.value = hashParams.get("access_token") ?? "";
+
+  if (hashParams.get("error")) {
+    error.value = hashParams.get("error_description") ?? "";
+  }
+});
+
+watch(password, () => {
   if (error.value) error.value = "";
 });
-watch(password, () => {
+watch(confirmPassword, () => {
   if (error.value) error.value = "";
 });
 </script>

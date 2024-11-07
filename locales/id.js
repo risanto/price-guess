@@ -4,6 +4,20 @@ export default {
   Daftar: "Daftar",
   Main: "Main",
   Keluar: "Keluar",
+  "Kembali ke ": "Kembali ke ",
+  "halaman awal": "halaman awal",
+  "Kirim Tautan Reset": "Kirim Tautan Reset",
+  "Email reset kata sandi telah dikirim, silakan cek":
+    "Email reset kata sandi telah dikirim, silakan cek",
+
+  "Reset Kata Sandi": "Reset Kata Sandi",
+  "Kata sandi baru": "Kata sandi baru",
+  "Konfirmasi kata sandi baru": "Konfirmasi kata sandi baru",
+  "Konfirmasi kata sandi baru harus sama":
+    "Konfirmasi kata sandi baru harus sama",
+  "Berhasil reset kata sandi": "Berhasil reset kata sandi",
+  "lupa kata sandi? ": "lupa kata sandi? ",
+  "atau ": "atau ",
 
   Email: "Email",
   "Nomor handphone": "Nomor handphone",
