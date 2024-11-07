@@ -21,7 +21,7 @@
           />
           <ZoomableImg v-else :src="content?.answer_img_url as string" />
         </transition>
-        <div class="text-center text-xs">
+        <div class="text-center text-xs text-gray-500">
           {{ $t("*Gambar bisa digeser & diperbesar") }}
         </div>
       </div>
@@ -52,7 +52,7 @@
         </ul>
       </section>
 
-      <section class="mt-2 bg-primary-50 p-4 md:col-span-1">
+      <section class="bg-primary-50 p-4 md:col-span-1 md:mt-2">
         <template v-if="finished">
           <h3 class="font-medium">{{ $t("Penjelasan") }}</h3>
 
