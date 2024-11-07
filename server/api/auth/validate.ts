@@ -55,7 +55,13 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
   const { data: refreshResponse, error: refreshError } =
     await client.auth.refreshSession({ refresh_token: refreshToken });
 
+  console.log("refreshResponse ===>", refreshResponse);
+
   if (refreshError || !refreshResponse.session) {
+    return {
+      statusCode: 401,
+      error: refreshError ?? { message: "Tidak bisa refresh access token" },
+    };
     throw createError({
       statusCode: 401,
       statusMessage: "Unable to refresh access token.",
