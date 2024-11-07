@@ -57,12 +57,19 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
     await client.auth.refreshSession({ refresh_token: refreshToken });
 
   if (refreshError || !refreshResponse.session) {
-    await fetch(`${config.public.apiBase}/api/auth/logout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    // Clear the HTTP-only cookie by setting it with an expired date
+    setCookie(event, "sb:token", "", {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(0), // Set the expiration date to the past
     });
+
+    setCookie(event, "sb:refresh_token", "", {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(0), // Set the expiration date to the past
+    });
+
     return {
       statusCode: 204,
     };
