@@ -207,8 +207,8 @@
     </nav>
   </header>
 
-  <ProfileModal />
   <HintModal />
+  <ProfileModal v-if="isAuthenticated" />
 </template>
 
 <script setup lang="ts">
