@@ -1,10 +1,5 @@
 import { serverSupabaseServiceRole } from "#supabase/server";
-import { useFetch } from "nuxt/app";
-import {
-  ApiResponse,
-  Config,
-  // Config
-} from "~/types/api";
+import { ApiResponse, Config } from "~/types/api";
 import { Database } from "~/types/supabase"; // Adjust the import path as needed
 
 function getTodayMidnight() {
@@ -34,6 +29,7 @@ export default eventHandler(
       .single();
 
     if (errorConfigData) {
+      console.error("errorConfigData:", errorConfigData);
       return {
         statusCode: 500,
         error: errorConfigData,
@@ -59,6 +55,7 @@ export default eventHandler(
       .limit(1);
 
     if (errorNextId) {
+      console.error("errorNextId:", errorNextId);
       return {
         statusCode: 500,
         error: errorNextId,
@@ -85,6 +82,7 @@ export default eventHandler(
       const { error: errorUpdateConfig } = await res.json();
 
       if (errorUpdateConfig) {
+        console.error("errorUpdateConfig:", errorUpdateConfig);
         return { statusCode: 500, error: errorUpdateConfig };
       }
 
@@ -103,6 +101,7 @@ export default eventHandler(
         .limit(1);
 
       if (errorFirstId) {
+        console.error("errorFirstId:", errorFirstId);
         return {
           statusCode: 500,
           error: errorFirstId,
@@ -128,6 +127,7 @@ export default eventHandler(
       const { error: errorUpdateConfig } = await res.json();
 
       if (errorUpdateConfig) {
+        console.error("errorUpdateConfig:", errorUpdateConfig);
         return { statusCode: 500, error: errorUpdateConfig };
       }
 
@@ -137,6 +137,7 @@ export default eventHandler(
       };
     }
 
+    console.error("error getting /config/current-content");
     return {
       statusCode: 500,
     };
