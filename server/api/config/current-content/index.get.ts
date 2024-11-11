@@ -24,6 +24,8 @@ export default eventHandler(
       const client = serverSupabaseServiceRole<Database>(event);
       const config = useRuntimeConfig();
 
+      console.log("config.public.apiBase:", config.public.apiBase);
+
       const { data: configData, error: errorConfigData } = await client
         .from("config")
         .select("*")
