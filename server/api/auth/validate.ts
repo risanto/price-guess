@@ -1,9 +1,23 @@
 // server/api/auth/validate.ts
 import { Database } from "#supabase/database";
 import { serverSupabaseServiceRole } from "#supabase/server";
-import { parseCookies, setCookie } from "h3"; // Use Nuxt's h3 library to parse and set cookies
+import { EventHandlerRequest, H3Event, parseCookies, setCookie } from "h3"; // Use Nuxt's h3 library to parse and set cookies
 import { ApiResponse } from "~/types/api";
 import { UserProfile } from "~/types/auth";
+
+function clearCookies(event: H3Event<EventHandlerRequest>) {
+  // Clear the HTTP-only cookie by setting it with an expired date
+  setCookie(event, "sb:token", "", {
+    httpOnly: true,
+    path: "/",
+    expires: new Date(0), // Set the expiration date to the past
+  });
+  setCookie(event, "sb:refresh_token", "", {
+    httpOnly: true,
+    path: "/",
+    expires: new Date(0), // Set the expiration date to the past
+  });
+}
 
 export default defineEventHandler(async (event): Promise<ApiResponse> => {
   // Extract cookies from the request
@@ -12,64 +26,51 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
   const refreshToken = cookies["sb:refresh_token"];
 
   const client = serverSupabaseServiceRole<Database>(event);
-  const config = useRuntimeConfig();
 
-  // No refresh token case
-  if (!refreshToken) {
-    if (token) {
-      // Fetch auth user data
-      const { data: authUserResponse, error: authError } =
-        await client.auth.getUser(token);
+  if (token) {
+    // Fetch auth user data
+    const { data: authUserResponse, error: authError } =
+      await client.auth.getUser(token);
 
-      if (authError || !authUserResponse.user) {
-        throw createError({
-          statusCode: 500,
-          message: authError?.message || "User authentication failed.",
-        });
-      }
-
-      const authUser = authUserResponse.user;
-
-      // Fetch additional user data from `public.users` table
-      const { data: userProfile, error: userProfileError } = await client
-        .from("users")
-        .select("*")
-        .eq("email", authUser.email!)
-        .single();
-
-      if (userProfileError) {
-        throw createError({
-          statusCode: 500,
-          message: userProfileError.message,
-        });
-      }
-
+    if (authError || !authUserResponse.user) {
+      clearCookies(event);
       return {
-        data: { ...authUser, profile: { ...(userProfile as UserProfile) } },
+        statusCode: 500,
+        error: {
+          message: authError?.message ?? "User authentication failed.",
+        },
       };
     }
 
-    return {}; // Return empty if no token
+    const authUser = authUserResponse.user;
+
+    // Fetch additional user data from `public.users` table
+    const { data: userProfile, error: userProfileError } = await client
+      .from("users")
+      .select("*")
+      .eq("email", authUser.email!)
+      .single();
+
+    if (userProfileError) {
+      clearCookies(event);
+      return {
+        statusCode: 500,
+        error: userProfileError,
+      };
+    }
+
+    return {
+      statusCode: 200,
+      data: { ...authUser, profile: { ...(userProfile as UserProfile) } },
+    };
   }
 
-  // When refresh token is provided
+  // If no token but refresh token is provided
   const { data: refreshResponse, error: refreshError } =
     await client.auth.refreshSession({ refresh_token: refreshToken });
 
   if (refreshError || !refreshResponse.session) {
-    // Clear the HTTP-only cookie by setting it with an expired date
-    setCookie(event, "sb:token", "", {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(0), // Set the expiration date to the past
-    });
-
-    setCookie(event, "sb:refresh_token", "", {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(0), // Set the expiration date to the past
-    });
-
+    clearCookies(event);
     return {
       statusCode: 204,
     };
@@ -81,7 +82,7 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
     secure: process.env.NODE_ENV === "production",
     path: "/",
     sameSite: "strict",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: refreshResponse.session.expires_in,
   });
 
   if (refreshResponse.session.refresh_token) {
@@ -104,6 +105,7 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
     await client.auth.getUser(refreshResponse.session.access_token);
 
   if (newUserError || !refreshedUserData.user) {
+    clearCookies(event);
     throw createError({
       statusCode: 401,
       statusMessage: "Invalid refreshed token or user not authenticated",
@@ -120,14 +122,16 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
     .single();
 
   if (userProfileError) {
-    throw createError({
+    clearCookies(event);
+    return {
       statusCode: 500,
-      message: userProfileError.message,
-    });
+      error: userProfileError,
+    };
   }
 
   // Return the merged user data with additional profile information
   return {
+    statusCode: 200,
     data: { ...refreshedUser, profile: { ...(userProfile as UserProfile) } },
   };
 });
