@@ -18,6 +18,7 @@
     "@pinia/nuxt": "^0.7.0",
     "flowbite": "^2.5.2",
     "i18n": "^0.15.1",
+    "jwt-decode": "^4.0.0",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.5",
     "pinia-plugin-persistedstate": "^4.1.2",

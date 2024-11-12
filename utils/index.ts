@@ -1,3 +1,20 @@
+import { jwtDecode } from "jwt-decode";
+
+// Function to check if the token is expired
+export function isTokenExpired(token: string) {
+  try {
+    const decodedToken = jwtDecode(token);
+
+    if (!decodedToken.exp) return false;
+
+    const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+    return decodedToken.exp < currentTime;
+  } catch (error) {
+    // If decoding fails, consider the token invalid/expired
+    return true;
+  }
+}
+
 export function getHomePageUrl() {
   return `${window.location.protocol}//${window.location.host}/`; // This will give you the home page URL
 }

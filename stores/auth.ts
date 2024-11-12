@@ -20,7 +20,7 @@ export const useAuthStore = defineStore(
 
       if (error) {
         console.error("fetchUser:", error);
-        showToast(error.message, "danger");
+        // showToast(error.message, "danger");
       }
 
       user.value = data?.profile;

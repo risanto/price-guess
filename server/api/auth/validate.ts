@@ -4,6 +4,7 @@ import { serverSupabaseServiceRole } from "#supabase/server";
 import { EventHandlerRequest, H3Event, parseCookies, setCookie } from "h3"; // Use Nuxt's h3 library to parse and set cookies
 import { ApiResponse } from "~/types/api";
 import { UserProfile } from "~/types/auth";
+import { isTokenExpired } from "~/utils";
 
 function clearCookies(event: H3Event<EventHandlerRequest>) {
   // Clear the HTTP-only cookie by setting it with an expired date
@@ -27,7 +28,7 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
 
   const client = serverSupabaseServiceRole<Database>(event);
 
-  if (token) {
+  if (token && !isTokenExpired(token)) {
     // Fetch auth user data
     const { data: authUserResponse, error: authError } =
       await client.auth.getUser(token);
@@ -65,7 +66,7 @@ export default defineEventHandler(async (event): Promise<ApiResponse> => {
     };
   }
 
-  // If no token but refresh token is provided
+  // If no token or invalid but refresh token is provided
   const { data: refreshResponse, error: refreshError } =
     await client.auth.refreshSession({ refresh_token: refreshToken });
 
