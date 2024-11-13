@@ -13,52 +13,58 @@
       v-else
       class="flex flex-col overflow-hidden px-4 py-2 md:grid md:grid-cols-3 md:px-6 md:py-4"
     >
-      <div class="col-span-2">
-        <transition name="enlarge" mode="out-in">
-          <ZoomableImg
-            v-if="!finished"
-            :src="content?.initial_img_url as string"
-          />
-          <ZoomableImg v-else :src="content?.answer_img_url as string" />
-        </transition>
-        <div class="text-center text-xs text-gray-500">
-          {{ $t("*Gambar bisa digeser & diperbesar") }}
+      <p v-if="!content" class="mt-48 text-center text-red-500 md:col-span-3">
+        {{ $t("Error dari database, coba refresh kembali") }}
+      </p>
+
+      <template v-else>
+        <div class="col-span-2">
+          <transition name="enlarge" mode="out-in">
+            <ZoomableImg
+              v-if="!finished"
+              :src="content?.initial_img_url as string"
+            />
+            <ZoomableImg v-else :src="content?.answer_img_url as string" />
+          </transition>
+          <div class="text-center text-xs text-gray-500">
+            {{ $t("*Gambar bisa digeser & diperbesar") }}
+          </div>
         </div>
-      </div>
 
-      <transition name="slide" mode="out-in">
-        <component
-          :is="currentQuestion"
-          :key="currentQuestionKey"
-          :doesPriceGoUp="doesPriceGoUp"
-          :q1Correct="q1Correct"
-          :q2Answer="content?.answer.toFixed(1) + ''"
-          :priceGoesUp="content?.price_goes_up"
-          :changeToFinished="changeToFinished"
-        />
-      </transition>
+        <transition name="slide" mode="out-in">
+          <component
+            :is="currentQuestion"
+            :key="currentQuestionKey"
+            :doesPriceGoUp="doesPriceGoUp"
+            :q1Correct="q1Correct"
+            :q2Answer="content?.answer.toFixed(1) + ''"
+            :priceGoesUp="content?.price_goes_up"
+            :changeToFinished="changeToFinished"
+          />
+        </transition>
 
-      <section class="mt-2 bg-primary-50 p-4 md:col-span-2">
-        <h3 class="font-medium">{{ $t("Berita Relevan") }}</h3>
+        <section class="mt-2 bg-primary-50 p-4 md:col-span-2">
+          <h3 class="font-medium">{{ $t("Berita Relevan") }}</h3>
 
-        <ul
-          v-for="(news, idx) in content?.info.news_items"
-          :key="idx"
-          class="mt-2 list-inside list-disc"
-        >
-          <li class="hover:text-primary-600">
-            <a :href="news.link" target="_blank">{{ news.title }}</a>
-          </li>
-        </ul>
-      </section>
+          <ul
+            v-for="(news, idx) in content?.info.news_items"
+            :key="idx"
+            class="mt-2 list-inside list-disc"
+          >
+            <li class="hover:text-primary-600">
+              <a :href="news.link" target="_blank">{{ news.title }}</a>
+            </li>
+          </ul>
+        </section>
 
-      <section class="bg-primary-50 p-4 md:col-span-1 md:mt-2">
-        <template v-if="finished">
-          <h3 class="font-medium">{{ $t("Penjelasan") }}</h3>
+        <section class="bg-primary-50 p-4 md:col-span-1 md:mt-2">
+          <template v-if="finished">
+            <h3 class="font-medium">{{ $t("Penjelasan") }}</h3>
 
-          <p class="mt-2">{{ content?.analysis }}</p>
-        </template>
-      </section>
+            <p class="mt-2">{{ content?.analysis }}</p>
+          </template>
+        </section>
+      </template>
     </main>
   </ClientOnly>
 </template>
@@ -106,7 +112,10 @@ const fetchContent = async () => {
 
     if (errorCurrentContent) {
       console.error("errorCurrentContent:", errorCurrentContent);
-      showToast(t("Error dari database, coba refresh"), "danger");
+      showToast(
+        t(errorCurrentContent.message ?? "Error dari database, coba refresh"),
+        "danger",
+      );
       return;
     }
     if (!currentContentVal) {
@@ -120,7 +129,10 @@ const fetchContent = async () => {
     );
     if (errorContent) {
       console.error("errorContent:", errorContent);
-      showToast(t("Error dari database, coba refresh"), "danger");
+      showToast(
+        t(errorContent.message ?? "Error dari database, coba refresh"),
+        "danger",
+      );
       return;
     }
     if (!contentVal) {
@@ -131,10 +143,13 @@ const fetchContent = async () => {
 
     const contentData = contentVal as Content;
     content.value = contentData;
-  } catch (error) {
+  } catch (error: any) {
     if (error) {
       console.error("/api/content:", error);
-      showToast(t("Error dari database, coba refresh"), "danger");
+      showToast(
+        t(error.message ?? "Error dari database, coba refresh"),
+        "danger",
+      );
     }
   } finally {
     loading.value = false;
