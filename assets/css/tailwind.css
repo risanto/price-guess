@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply font-sans;
+}
+
+.main-header {
+  @apply text-center text-3xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl;
+}
+.input {
+  @apply block w-full rounded-lg border-[0.5px] border-black bg-gray-50 px-[14px] py-[7px] text-gray-900 focus:border-primary-600 focus:ring-primary-600;
+}
+.main-btn {
+  @apply flex w-full items-center justify-center rounded-lg bg-black px-5 py-[7px] text-center text-sm font-bold text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300;
+}

@@ -12,18 +12,21 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Source Sans 3"', "sans-serif"], // Ensure this matches your import
+      },
       colors: {
         primary: {
-          50: "#EFF6FF", // Add your custom shades
-          100: "#DBEAFE",
-          200: "#BFDBFE",
-          300: "#93C5FD",
-          400: "#60A5FA",
-          500: "#3B82F6",
-          600: "#2563EB",
-          700: "#1D4ED8", // Primary 700
-          800: "#1E40AF",
-          900: "#1E3A8A",
+          50: "#D69A00",
+          100: "#D69A00",
+          200: "#D69A00",
+          300: "#D69A00",
+          400: "#D69A00",
+          500: "#D69A00", // BASE - Gold
+          600: "#D69A00",
+          700: "#D69A00",
+          800: "#D69A00",
+          900: "#D69A00",
         },
       },
     },

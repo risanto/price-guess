@@ -1,7 +1,7 @@
 export default {
   "Tebak Harga Emas": "Tebak Harga Emas",
-  Masuk: "Masuk",
-  Daftar: "Daftar",
+  Login: "Login",
+  "Daftar Akun": "Daftar Akun",
   Main: "Main",
   Keluar: "Keluar",
   "Kembali ke ": "Kembali ke ",
@@ -19,10 +19,11 @@ export default {
   "lupa kata sandi? ": "lupa kata sandi? ",
   "atau ": "atau ",
 
+  "Alamat Email": "Alamat Email",
   Email: "Email",
   "Nomor handphone": "Nomor handphone",
-  "Kata sandi": "Kata sandi",
-  "Konfirmasi kata sandi": "Konfirmasi kata sandi",
+  "Kata Sandi": "Kata Sandi",
+  "Konfirmasi Kata Sandi": "Konfirmasi Kata Sandi",
   "Lupa kata sandi?": "Lupa kata sandi?",
   "Belum punya akun?": "Belum punya akun?",
   atau: "atau",
@@ -33,7 +34,11 @@ export default {
   "Invalid login credentials": "Email/password salah",
   "Password should be at least 6 characters.": "Kata sandi minimum 6 karakter",
 
-  "Sudah punya akun?": "Sudah punya akun?",
+  "Jika sudah punya akun, ": "Jika sudah punya akun, ",
+  "Login di sini": "Login di sini",
+  "Jika belum punya akun, ": "Jika belum punya akun, ",
+  "Daftar di sini": "Daftar di sini",
+
   "Email sudah terdaftar": "Email sudah terdaftar",
   "Registrasi berhasil!<br/> Silakan verifikasi email":
     "Registrasi berhasil!<br/> Silakan verifikasi email",

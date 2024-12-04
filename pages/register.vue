@@ -6,26 +6,20 @@
       <div
         class="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0"
       >
-        <div class="space-y-4 p-6 sm:p-8 md:space-y-6">
-          <h1
-            class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl"
-          >
-            {{ $t("Daftar") }}
+        <div class="space-y-6 p-6 sm:p-8 md:space-y-8">
+          <h1 class="main-header">
+            {{ $t("Daftar Akun") }}
           </h1>
-          <form class="space-y-4 md:space-y-6" @submit.prevent="register">
+
+          <form class="space-y-2 md:space-y-4" @submit.prevent="register">
             <div>
-              <label
-                for="email"
-                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >{{ $t("Email") }}</label
-              >
               <input
                 type="email"
                 name="email"
                 id="email"
                 v-model="email"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder="mail@gmail.com"
+                class="input"
+                :placeholder="label.email"
                 required="true"
               />
             </div>
@@ -41,52 +35,39 @@
                 name="phone"
                 id="phone"
                 v-model="phone"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                class="block w-full rounded-lg border border-black bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 placeholder="08121333"
                 required="true"
               />
             </div> -->
 
             <div>
-              <label
-                for="password"
-                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >{{ $t("Kata sandi") }}</label
-              >
               <input
                 type="password"
                 name="password"
                 id="password"
-                placeholder="••••••••"
+                :placeholder="label.password"
                 v-model="password"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                class="input"
                 required="true"
               />
             </div>
 
             <div>
-              <label
-                for="password"
-                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >{{ $t("Konfirmasi kata sandi") }}</label
-              >
               <input
                 type="password"
                 name="confirmPassword"
                 id="confirmPassword"
-                placeholder="••••••••"
+                :placeholder="label.confirmPassword"
                 v-model="confirmPassword"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                class="input"
                 required="true"
               />
             </div>
 
             <div v-if="error" class="text-red-500">{{ $t(`${error}`) }}</div>
 
-            <button
-              type="submit"
-              class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            >
+            <button type="submit" class="main-btn">
               <template v-if="!loading">
                 {{ $t("Daftar") }}
               </template>
@@ -95,23 +76,15 @@
                 <LoadingCircle />
               </div>
             </button>
-
-            <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-              {{ $t("Sudah punya akun?") }}
-              <NuxtLink
-                href="/login"
-                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >{{ $t("Masuk") }}</NuxtLink
-              >
-              {{ $t("atau") }}
-              <NuxtLink
-                to="/play"
-                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >{{ $t("main") }}</NuxtLink
-              >
-              {{ $t("dulu") }}
-            </p>
           </form>
+
+          <p class="text-center text-sm">
+            {{ $t("Jika sudah punya akun, ") }}
+
+            <NuxtLink href="/login" class="text-primary-600 underline">{{
+              $t("Login di sini")
+            }}</NuxtLink>
+          </p>
         </div>
       </div>
     </div>
@@ -131,6 +104,12 @@ const password = ref("");
 const confirmPassword = ref("");
 const phone = ref("");
 const error = ref("");
+
+const label = {
+  password: t("Kata Sandi"),
+  confirmPassword: t("Konfirmasi Kata Sandi"),
+  email: t("Alamat Email"),
+};
 
 const register = async () => {
   if (confirmPassword.value !== password.value) {

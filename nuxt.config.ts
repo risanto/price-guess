@@ -4,6 +4,16 @@ import { defineNuxtConfig } from "nuxt/config";
 export default defineNuxtConfig({
   compatibilityDate: "2024-10-10",
   devtools: { enabled: false },
+  app: {
+    head: {
+      link: [
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap",
+        },
+      ],
+    },
+  },
   modules: [
     "@nuxtjs/eslint-module",
     "@nuxtjs/tailwindcss",
