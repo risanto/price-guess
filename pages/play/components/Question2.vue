@@ -32,7 +32,7 @@
         <button
           v-if="currentSection === answerSection"
           @click="handleAnswer"
-          class="absolute h-[2.1rem] w-12 translate-x-[500%] transform rounded-sm bg-primary-100 hover:bg-primary-200"
+          class="absolute h-[32px] w-12 translate-x-[500%] transform rounded-sm bg-primary-100 text-white hover:bg-primary-200"
         >
           {{ $t("Ok") }}
         </button>
@@ -182,25 +182,28 @@ const handleInput = (answerSection: number, idx: number) => {
 async function handleWin() {
   loading.value = true;
 
-  const response = await fetch("/api/users/" + user?.id, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      points: user?.points ? user.points + 5000 : 5000,
-      points_last_added: new Date().toISOString(),
-    } as UserProfileUpdate),
-  });
-  const { error: insertError } = await response.json();
+  if (user?.id) {
+    const response = await fetch("/api/users/" + user?.id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        points: user?.points ? user.points + 5000 : 5000,
+        points_last_added: new Date().toISOString(),
+      } as UserProfileUpdate),
+    });
+    const { error: insertError } = await response.json();
 
-  if (insertError) {
-    error.value = t(insertError.message);
-    loading.value = false;
-    return;
+    if (insertError) {
+      error.value = t(insertError.message);
+      loading.value = false;
+      return;
+    }
+
+    await fetchUser();
   }
 
-  await fetchUser();
   loading.value = false;
 
   let winMessage = t("Hebat! Jawabanmu benar! ");

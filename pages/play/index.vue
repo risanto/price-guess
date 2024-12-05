@@ -11,88 +11,109 @@
 
     <main
       v-else
-      class="flex flex-col overflow-hidden px-4 py-2 md:grid md:grid-cols-3 md:px-6 md:py-4"
+      class="flex flex-col overflow-hidden px-[9px] py-[39px] md:grid md:grid-cols-3 md:px-6 md:py-4"
     >
       <p v-if="!content" class="mt-48 text-center text-red-500 md:col-span-3">
         {{ $t("Error dari database, coba refresh kembali") }}
       </p>
 
       <template v-else>
-        <div class="relative col-span-2">
-          <transition name="enlarge" mode="out-in">
-            <ZoomableImg
-              v-if="!finished"
-              :src="content?.initial_img_url as string"
+        <div class="rounded-lg border-[0.5px] border-black p-[11px]">
+          <div class="relative col-span-2">
+            <transition name="enlarge" mode="out-in">
+              <ZoomableImg
+                v-if="!finished"
+                :src="content?.initial_img_url as string"
+              />
+              <ZoomableImg v-else :src="content?.answer_img_url as string" />
+            </transition>
+
+            <div
+              class="absolute left-1 top-1 flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
+            >
+              <NuxtImg
+                src="https://www.hsb.co.id/price-guess/gold-icon.png"
+                alt="gold icon"
+                class="h-2 w-2"
+              />
+              <span class="ml-[1px] text-[9px] font-bold"> XAUUSD </span>
+            </div>
+
+            <div
+              class="absolute left-16 top-1 flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
+            >
+              <span class="text-[9px] font-bold"> 30m </span>
+            </div>
+
+            <div
+              class="absolute bottom-1.5 left-1 flex flex-col justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
+            >
+              <span class="text-[4px] italic"> Source: </span>
+
+              <NuxtImg
+                src="https://www.hsb.co.id/price-guess/trading-view-logo.png"
+                alt="tradingview icon"
+                class="w-[75px]"
+              />
+            </div>
+          </div>
+
+          <div class="mt-2 text-center text-xs text-gray-500">
+            {{ $t("*Gambar bisa digeser & diperbesar") }}
+          </div>
+
+          <transition name="slide" mode="out-in">
+            <component
+              :is="currentQuestion"
+              :key="currentQuestionKey"
+              :doesPriceGoUp="doesPriceGoUp"
+              :q1Correct="q1Correct"
+              :q2Answer="content?.answer.toFixed(1) + ''"
+              :priceGoesUp="content?.price_goes_up"
+              :changeToFinished="changeToFinished"
             />
-            <ZoomableImg v-else :src="content?.answer_img_url as string" />
           </transition>
-
-          <div
-            class="absolute left-1 top-1 flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
-          >
-            <NuxtImg
-              src="https://www.hsb.co.id/price-guess/gold-icon.png"
-              alt="gold icon"
-              class="h-2 w-2"
-            />
-            <span class="ml-[1px] text-[9px] font-bold"> XAUUSD </span>
-          </div>
-
-          <div
-            class="absolute left-16 top-1 flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
-          >
-            <span class="text-[9px] font-bold"> 30m </span>
-          </div>
-
-          <div
-            class="absolute bottom-1.5 left-1 flex flex-col justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
-          >
-            <span class="text-[4px] italic"> Source: </span>
-
-            <NuxtImg
-              src="https://www.hsb.co.id/price-guess/trading-view-logo.png"
-              alt="tradingview icon"
-              class="w-[75px]"
-            />
-          </div>
         </div>
 
-        <div class="mt-2 text-center text-xs text-gray-500">
-          {{ $t("*Gambar bisa digeser & diperbesar") }}
-        </div>
+        <section
+          v-if="finished"
+          class="mt-4 space-y-2 rounded-lg border-[0.5px] border-black p-4 md:col-span-2"
+        >
+          <h3 class="text-center text-xl font-bold">{{ $t("Penjelasan") }}</h3>
 
-        <transition name="slide" mode="out-in">
-          <component
-            :is="currentQuestion"
-            :key="currentQuestionKey"
-            :doesPriceGoUp="doesPriceGoUp"
-            :q1Correct="q1Correct"
-            :q2Answer="content?.answer.toFixed(1) + ''"
-            :priceGoesUp="content?.price_goes_up"
-            :changeToFinished="changeToFinished"
-          />
-        </transition>
-
-        <section class="mt-2 bg-primary-50 p-4 md:col-span-2">
-          <h3 class="font-medium">{{ $t("Berita Relevan") }}</h3>
-
-          <ul
-            v-for="(news, idx) in content?.info.news_items"
-            :key="idx"
-            class="mt-2 list-inside list-disc"
-          >
-            <li class="hover:text-primary-600">
-              <a :href="news.link" target="_blank">{{ news.title }}</a>
-            </li>
-          </ul>
+          <p class="mt-2">{{ content?.analysis }}</p>
         </section>
 
-        <section class="bg-primary-50 p-4 md:col-span-1 md:mt-2">
-          <template v-if="finished">
-            <h3 class="font-medium">{{ $t("Penjelasan") }}</h3>
+        <section
+          class="mt-4 space-y-2 rounded-lg border-[0.5px] border-black p-4 md:col-span-2"
+        >
+          <h3 class="text-xl font-bold">{{ $t("Berita Relevan") }}</h3>
 
-            <p class="mt-2">{{ content?.analysis }}</p>
-          </template>
+          <ul v-for="(news, idx) in content?.info.news_items" :key="idx">
+            <li
+              class="relative w-full rounded-lg border-[0.5px] border-black bg-primary-500 p-2 text-white"
+            >
+              <a
+                :href="news.link"
+                target="_blank"
+                class="inline-block w-[calc(100%-60px)]"
+                >{{ news.title }}</a
+              >
+
+              <div
+                class="absolute bottom-1.5 right-1.5 flex h-[13px] items-center justify-center space-x-1 rounded bg-white px-1 py-0.5 text-[7px] text-black"
+              >
+                <div>
+                  {{ $t("Baca berita") }}
+                </div>
+
+                <NuxtImg
+                  class="h-1.5 w-1.5"
+                  src="https://www.hsb.co.id/price-guess/link-logo.png"
+                />
+              </div>
+            </li>
+          </ul>
         </section>
       </template>
     </main>

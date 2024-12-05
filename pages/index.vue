@@ -87,7 +87,7 @@
       </div>
     </div>
 
-    <div class="mt-16 px-5 text-sm">
+    <div class="mb-8 mt-16 px-5 text-sm">
       <div
         class="relative w-full rounded-lg border-[0.5px] border-black bg-primary-500 px-[13px] pb-[10px] pt-[23px] text-white"
       >
