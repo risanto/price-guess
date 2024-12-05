@@ -15,3 +15,7 @@ body {
 .main-btn {
   @apply flex w-full items-center justify-center rounded-lg bg-black px-5 py-[7px] text-center text-sm font-bold text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300;
 }
+
+.base-btn {
+  @apply rounded-lg border-[0.5px] border-black p-2.5 text-center font-bold text-white;
+}

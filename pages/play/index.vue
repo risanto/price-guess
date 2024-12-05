@@ -18,7 +18,7 @@
       </p>
 
       <template v-else>
-        <div class="col-span-2">
+        <div class="relative col-span-2">
           <transition name="enlarge" mode="out-in">
             <ZoomableImg
               v-if="!finished"
@@ -26,9 +26,39 @@
             />
             <ZoomableImg v-else :src="content?.answer_img_url as string" />
           </transition>
-          <div class="text-center text-xs text-gray-500">
-            {{ $t("*Gambar bisa digeser & diperbesar") }}
+
+          <div
+            class="absolute left-1 top-1 flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
+          >
+            <NuxtImg
+              src="https://www.hsb.co.id/price-guess/gold-icon.png"
+              alt="gold icon"
+              class="h-2 w-2"
+            />
+            <span class="ml-[1px] text-[9px] font-bold"> XAUUSD </span>
           </div>
+
+          <div
+            class="absolute left-16 top-1 flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
+          >
+            <span class="text-[9px] font-bold"> 30m </span>
+          </div>
+
+          <div
+            class="absolute bottom-1.5 left-1 flex flex-col justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
+          >
+            <span class="text-[4px] italic"> Source: </span>
+
+            <NuxtImg
+              src="https://www.hsb.co.id/price-guess/trading-view-logo.png"
+              alt="tradingview icon"
+              class="w-[75px]"
+            />
+          </div>
+        </div>
+
+        <div class="mt-2 text-center text-xs text-gray-500">
+          {{ $t("*Gambar bisa digeser & diperbesar") }}
         </div>
 
         <transition name="slide" mode="out-in">

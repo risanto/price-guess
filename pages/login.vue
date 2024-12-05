@@ -36,10 +36,10 @@
             </div>
             <div v-if="error" class="text-red-500">{{ $t(`${error}`) }}</div>
             <div class="flex items-center justify-end">
-              <a
-                href="/forgot-password"
+              <NuxtLink
+                to="/forgot-password"
                 class="text-sm text-primary-600 underline"
-                >{{ $t("Lupa kata sandi?") }}</a
+                >{{ $t("Lupa kata sandi?") }}</NuxtLink
               >
             </div>
             <button type="submit" class="main-btn">
@@ -55,8 +55,14 @@
 
           <p class="text-center text-sm">
             {{ $t("Jika belum punya akun, ") }}
-            <NuxtLink to="/register" class="text-primary-600 underline">{{
+            <NuxtLink to="/register" class="text-primary-500 underline">{{
               $t("Daftar di sini")
+            }}</NuxtLink>
+
+            {{ " / " }}
+
+            <NuxtLink to="/" class="text-sm text-primary-500 underline">{{
+              $t("Beranda")
             }}</NuxtLink>
           </p>
         </div>

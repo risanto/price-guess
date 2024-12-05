@@ -71,4 +71,19 @@ export default {
   "Hebat! Jawabanmu benar! ": "Hebat! Jawabanmu benar! ",
   "<br/>Poinmu bertambah 5000": "<br/>Poinmu bertambah 5000",
   Penjelasan: "Penjelasan",
+
+  "Menurut Kamu Kita Harus Membeli atau Menjual pada Candle Selanjutnya?":
+    "Menurut Kamu Kita Harus Membeli atau Menjual pada Candle Selanjutnya?",
+  Sell: "Sell",
+  Buy: "Buy",
+  "Tebak Harga Emas dan Dapatkan Hadiah Uang Tunai!":
+    "Tebak Harga Emas dan Dapatkan Hadiah Uang Tunai!",
+  "Mulai Main": "Mulai Main",
+  "Login/Register": "Login/Register",
+  Kembali: "Kembali",
+  Beranda: "Beranda",
+
+  "Berita Harga Emas Terkini:": "Berita Harga Emas Terkini:",
+  "Harga Emas Hari Ini": "Harga Emas Hari Ini",
+  "Baca berita": "Baca berita",
 };

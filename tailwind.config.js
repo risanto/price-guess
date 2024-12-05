@@ -12,6 +12,15 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        bounceOnce: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+      },
+      animation: {
+        bounceOnce: "bounceOnce 0.5s ease-out",
+      },
       fontFamily: {
         sans: ['"Source Sans 3"', "sans-serif"], // Ensure this matches your import
       },

@@ -84,6 +84,12 @@
             <NuxtLink href="/login" class="text-primary-600 underline">{{
               $t("Login di sini")
             }}</NuxtLink>
+
+            {{ " / " }}
+
+            <NuxtLink to="/" class="text-sm text-primary-600 underline">{{
+              $t("Beranda")
+            }}</NuxtLink>
           </p>
         </div>
       </div>
