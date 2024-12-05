@@ -6,34 +6,39 @@
       <div
         class="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0"
       >
-        <div class="space-y-6 p-6 sm:p-8 md:space-y-8">
+        <div class="relative space-y-6 p-6 sm:p-8 md:space-y-8">
+          <NuxtLink to="/" class="absolute right-2.5 top-2.5">
+            <NuxtImg
+              class="h-4 w-4"
+              src="https://www.hsb.co.id/price-guess/close-btn.png"
+            />
+          </NuxtLink>
+
           <h1 class="main-header">
             {{ $t("Login") }}
           </h1>
 
           <form class="space-y-2 md:space-y-4" @submit.prevent="login">
-            <div>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                v-model="email"
-                class="input"
-                :placeholder="label.email"
-                required="true"
-              />
-            </div>
-            <div>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                :placeholder="label.password"
-                v-model="password"
-                class="input"
-                required="true"
-              />
-            </div>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              v-model="email"
+              class="input"
+              :placeholder="label.email"
+              required="true"
+            />
+
+            <input
+              type="password"
+              name="password"
+              id="password"
+              :placeholder="label.password"
+              v-model="password"
+              class="input"
+              required="true"
+            />
+
             <div v-if="error" class="text-red-500">{{ $t(`${error}`) }}</div>
             <div class="flex items-center justify-end">
               <NuxtLink
@@ -57,12 +62,6 @@
             {{ $t("Jika belum punya akun, ") }}
             <NuxtLink to="/register" class="text-primary-500 underline">{{
               $t("Daftar di sini")
-            }}</NuxtLink>
-
-            {{ " / " }}
-
-            <NuxtLink to="/" class="text-sm text-primary-500 underline">{{
-              $t("Beranda")
             }}</NuxtLink>
           </p>
         </div>

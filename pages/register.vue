@@ -6,7 +6,14 @@
       <div
         class="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0"
       >
-        <div class="space-y-6 p-6 sm:p-8 md:space-y-8">
+        <div class="relative space-y-6 p-6 sm:p-8 md:space-y-8">
+          <NuxtLink to="/" class="absolute right-2.5 top-2.5">
+            <NuxtImg
+              class="h-4 w-4"
+              src="https://www.hsb.co.id/price-guess/close-btn.png"
+            />
+          </NuxtLink>
+
           <h1 class="main-header">
             {{ $t("Daftar Akun") }}
           </h1>
@@ -83,12 +90,6 @@
 
             <NuxtLink href="/login" class="text-primary-600 underline">{{
               $t("Login di sini")
-            }}</NuxtLink>
-
-            {{ " / " }}
-
-            <NuxtLink to="/" class="text-sm text-primary-600 underline">{{
-              $t("Beranda")
             }}</NuxtLink>
           </p>
         </div>
