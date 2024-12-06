@@ -2,13 +2,19 @@
   <header
     class="flex w-full items-center justify-between border-b-[0.5px] border-black px-5 py-3"
   >
-    <NuxtImg
-      src="https://www.hsb.co.id/price-guess/logo.png"
-      alt="logo"
-      class="w-[87px]"
-    />
+    <NuxtLink to="/">
+      <NuxtImg
+        src="https://www.hsb.co.id/price-guess/logo.png"
+        alt="logo"
+        class="w-[87px]"
+      />
+    </NuxtLink>
 
-    <button class="hover:animate-bounceOnce">
+    <button
+      class="hover:animate-bounceOnce"
+      data-modal-target="hint-modal"
+      data-modal-toggle="hint-modal"
+    >
       <NuxtImg
         class="h-[26px] w-[26px]"
         src="https://www.hsb.co.id/price-guess/how-to-btn.png"
@@ -26,13 +32,21 @@
           alt="coin"
         />
 
-        <span class="text-xs font-bold"> 0 </span>
+        <span class="text-xs font-bold">
+          {{ userPoints }}
+        </span>
 
-        <NuxtImg
-          class="h-3 w-3"
-          src="https://www.hsb.co.id/price-guess/tooltip-score.png"
-          alt="coin tooltip"
-        />
+        <button
+          data-tooltip-target="tooltip-bottom"
+          data-tooltip-placement="bottom"
+          :data-tooltip-trigger="isMobile ? 'click' : 'hover'"
+        >
+          <NuxtImg
+            class="h-3 w-3"
+            src="https://www.hsb.co.id/price-guess/tooltip-score.png"
+            alt="coin tooltip"
+          />
+        </button>
       </div>
 
       <button
@@ -43,11 +57,49 @@
           {{ $t("Login/Register") }}
         </NuxtLink>
       </button>
+
+      <div
+        v-if="isAuthenticated"
+        class="relative flex h-[31px] w-[92px] items-center rounded-[6px] border-[0.5px] border-black px-1"
+      >
+        <div class="flex flex-col space-y-[1.5px]">
+          <div
+            class="flex w-[67px] items-center rounded-[3px] border-[0.5px] border-black bg-black px-1 text-[8px] font-bold text-white"
+          >
+            {{ user?.email.split("@")[0] }}
+          </div>
+
+          <button
+            class="flex w-[42px] items-center rounded-[3px] border-[0.5px] border-black bg-primary-500 px-1 text-left text-[5.5px] font-bold text-white"
+            data-modal-target="profile-modal"
+            data-modal-toggle="profile-modal"
+          >
+            {{ $t("Redeem Poin") }}
+          </button>
+        </div>
+
+        <NuxtImg
+          class="absolute bottom-0 right-0.5 h-[44px] w-[33px]"
+          src="https://www.hsb.co.id/price-guess/profile-icon.png"
+        />
+      </div>
     </div>
   </header>
 
   <HintModal />
   <ProfileModal v-if="isAuthenticated" />
+
+  <div
+    id="tooltip-bottom"
+    role="tooltip"
+    class="tooltip invisible absolute z-10 inline-block max-w-[300px] rounded-lg border border-black bg-white px-3 py-2 text-sm font-medium text-gray-900 opacity-0 shadow-sm"
+  >
+    {{
+      $t(
+        "Kamu harus login untuk mendapatkan poin yang dapat ditukar menjadi uang",
+      )
+    }}
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -55,5 +107,32 @@ import { useAuthStore } from "~/stores/auth";
 import HintModal from "./Modals/HintModal.vue";
 import ProfileModal from "./Modals/ProfileModal.vue";
 
-const { isAuthenticated, logout } = useAuthStore();
+const { isAuthenticated, user } = useAuthStore();
+const userPoints = ref(0);
+const isMobile = ref(false);
+
+const detectMobile = () => {
+  isMobile.value = window.innerWidth <= 768;
+};
+
+if (import.meta.client) {
+  onMounted(() => {
+    detectMobile();
+    window.addEventListener("resize", detectMobile);
+
+    if (isAuthenticated) {
+      userPoints.value = user?.points ?? 0;
+    } else {
+      const nonUserPoints = localStorage.getItem("nonUserPoints");
+
+      if (nonUserPoints) {
+        userPoints.value = +nonUserPoints;
+      }
+    }
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener("resize", detectMobile);
+  });
+}
 </script>

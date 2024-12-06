@@ -86,4 +86,8 @@ export default {
   "Berita Harga Emas Terkini:": "Berita Harga Emas Terkini:",
   "Harga Emas Hari Ini": "Harga Emas Hari Ini",
   "Baca berita": "Baca berita",
+  "Redeem Poin": "Redeem Poin",
+
+  "Kamu harus login untuk mendapatkan poin yang dapat ditukar menjadi uang":
+    "Kamu harus login untuk mendapatkan poin yang dapat ditukar menjadi uang",
 };

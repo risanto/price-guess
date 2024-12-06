@@ -46,7 +46,7 @@
             </div>
 
             <div
-              class="absolute bottom-1.5 left-1 flex flex-col justify-center rounded-md border-[0.3px] border-black bg-white p-[5px]"
+              class="absolute bottom-1.5 left-1 flex flex-col justify-center rounded-md border-[0.3px] border-black bg-white px-[5px] pb-[4px] pt-[3px]"
             >
               <span class="text-[4px] italic"> Source: </span>
 
