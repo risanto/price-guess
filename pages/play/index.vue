@@ -18,7 +18,9 @@
       </p>
 
       <template v-else>
-        <div class="h-[510px] rounded-lg border-[0.5px] border-black p-[11px]">
+        <div
+          class="flex flex-col h-[510px] rounded-lg border-[0.5px] border-black p-[11px]"
+        >
           <div class="relative col-span-2">
             <transition name="enlarge" mode="out-in">
               <ZoomableImg

@@ -1,12 +1,14 @@
 <template>
   <SectionParent>
-    <h2 class="mt-4 text-center">
-      {{ $t("Tebak apakah harga akan naik atau turun di bar selanjutnya?") }}
+    <h2 class="mt-11 max-w-[292px] text-center text-xl font-semibold">
+      {{ $t("Tebak apakah harga akan naik atau turun di ") }}
+      <span class="italic">{{ $t("candle ") }}</span>
+      {{ $t("selanjutnya?") }}
     </h2>
 
-    <div class="mt-4 space-x-8">
+    <div class="mt-9 flex flex-col space-y-2">
       <button
-        class="base-btn w-[127px] bg-[#089981] hover:bg-green-400"
+        class="base-btn w-[193px] bg-[#089981] hover:bg-green-400"
         @click="doesPriceGoUp(true)"
         type="button"
       >
@@ -15,7 +17,7 @@
       </button>
 
       <button
-        class="base-btn w-[127px] bg-[#F23645] hover:bg-red-400"
+        class="base-btn w-[193px] bg-[#F23645] hover:bg-red-400"
         @click="doesPriceGoUp(false)"
         type="button"
       >

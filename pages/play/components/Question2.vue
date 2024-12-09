@@ -1,9 +1,9 @@
 <template>
   <SectionParent>
-    <h2 class="max-w-[292px] text-center text-xl font-semibold">
-      {{ $t("Tebak apakah harga akan naik atau turun di ") }}
+    <h2 class="mt-5 max-w-[320px] text-center text-xl font-semibold">
+      {{ $t("Tebak nominal harga emas terhadap USD di ") }}
       <span class="italic">{{ $t("candle ") }}</span>
-      {{ $t("selanjutnya?") }}
+      {{ $t("selanjutnya") }}
     </h2>
 
     <div class="mx-auto mt-4 flex flex-col space-y-2">
@@ -41,7 +41,10 @@
       </div>
 
       <template v-if="!loading">
-        <div v-if="error" class="mt-4 text-center text-red-600">
+        <div
+          v-if="error"
+          class="mt-4 text-center text-xs font-bold text-red-600"
+        >
           {{ error }}
         </div>
         <div
@@ -49,6 +52,13 @@
           class="mt-4 text-center text-green-500"
           v-html="success"
         />
+
+        <button
+          v-if="finished"
+          class="m-auto w-[141px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
+        >
+          {{ $t("Lihat Penjelasan") }}
+        </button>
       </template>
 
       <div v-else class="flex items-center justify-center">
@@ -96,10 +106,6 @@ const answerBgColors = ref([
   ["bg-slate-100", "bg-slate-100", "", "", "bg-slate-100", ""],
 ]);
 
-onMounted(() => {
-  const currentInput = document.querySelector(`.box-0-2`) as HTMLElement;
-  currentInput.focus();
-});
 watch(currentSection, async () => {
   // Wait for DOM updates after the reactive value changes
   await nextTick();
@@ -111,7 +117,6 @@ watch(currentSection, async () => {
 });
 
 const handleAnswer = () => {
-  console.log("currentSection.value ===>", currentSection.value);
   const currentAnswer = answer.value[currentSection.value];
 
   if (currentAnswer.includes("")) {
@@ -173,7 +178,7 @@ const handleAnswer = () => {
   }
 
   if (currentSection.value === 2) {
-    error.value = t("Jawaban masih belum tepat :(");
+    error.value = t("Jawaban masih belum tepat!");
     changeToFinished();
     return;
   }
