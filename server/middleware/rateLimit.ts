@@ -2,16 +2,6 @@
 import { RateLimiterMemory } from "rate-limiter-flexible";
 import { defineEventHandler } from "h3";
 
-class HttpError extends Error {
-  statusCode: number;
-
-  constructor(message: string, statusCode: number) {
-    super(message);
-    this.statusCode = statusCode;
-    this.name = this.constructor.name;
-  }
-}
-
 // Configure rate limiting
 const rateLimiter = new RateLimiterMemory({
   points: 10, // 10 requests
@@ -25,8 +15,10 @@ export default defineEventHandler(async (event) => {
     (typeof ipHeader === "string" ? ipHeader.split(",")[0] : ipHeader?.[0]) ||
     event.node.req.socket.remoteAddress;
 
+  const userKey = event.node.req.headers["authorization"] || ip;
+
   try {
-    await rateLimiter.consume(ip as string);
+    await rateLimiter.consume(userKey as string);
   } catch (err) {
     const error = createError({
       statusCode: 429,
