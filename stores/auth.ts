@@ -7,7 +7,6 @@ export const useAuthStore = defineStore(
   "auth",
   () => {
     const client = useSupabaseClient();
-    const { showToast } = useToast();
 
     // Global user state
     const user = ref<UserProfile>();
@@ -30,7 +29,7 @@ export const useAuthStore = defineStore(
       await client.auth.signOut();
       user.value = undefined;
       await $fetch("/api/auth/logout", { method: "POST" });
-      window.location.reload();
+      window.location.href = "/";
     };
 
     const isAuthenticated = computed(() => !!user.value);

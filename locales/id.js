@@ -93,4 +93,6 @@ export default {
   "Apa Syarat Redeem?": "Apa Syarat Redeem?",
 
   "Cara Bermain": "Cara Bermain",
+  Masuk: "Masuk",
+  "Log out": "Log out",
 };

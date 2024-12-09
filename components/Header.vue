@@ -82,6 +82,13 @@
           class="absolute bottom-0 right-0.5 h-[44px] w-[33px]"
           src="https://www.hsb.co.id/price-guess/profile-icon.png"
         />
+
+        <button
+          class="absolute -bottom-[13px] right-0 flex w-[42px] items-center justify-center rounded-[3px] border-[0.5px] border-black px-1 text-[6px] font-bold"
+          @click="logout()"
+        >
+          {{ $t("Log out") }}
+        </button>
       </div>
     </div>
   </header>
@@ -112,6 +119,8 @@ import RedeemModal from "./Modals/RedeemModal.vue";
 const authStore = useAuthStore();
 
 const { isAuthenticated, user } = storeToRefs(authStore);
+const { logout } = authStore;
+
 const userPoints = ref(0);
 const isMobile = ref(false);
 
