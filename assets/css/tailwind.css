@@ -19,3 +19,10 @@ body {
 .base-btn {
   @apply rounded-lg border-[0.5px] border-black p-2.5 text-center font-bold text-white;
 }
+
+.number-box {
+  @apply flex h-[32px] w-[35px] items-center justify-center rounded-md border-[0.5px] border-black font-bold;
+}
+.number-box-sm {
+  @apply flex h-[14px] w-[15px] items-center justify-center rounded-[3px] border-[0.5px] border-black font-bold;
+}

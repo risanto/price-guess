@@ -69,10 +69,15 @@
           </NuxtLink>
         </button>
 
-        <button class="hover:animate-bounceOnce">
+        <button
+          class="hover:animate-bounceOnce"
+          data-modal-target="hint-modal"
+          data-modal-toggle="hint-modal"
+        >
           <NuxtImg
             class="mx-3 h-[26px] w-[26px]"
             src="https://www.hsb.co.id/price-guess/how-to-btn.png"
+            alt="petunjuk"
           />
         </button>
 
@@ -135,10 +140,13 @@
       </div>
     </div>
   </div>
+
+  <HintModal :location="'Home'" />
 </template>
 
 <script setup lang="ts">
+import HintModal from "~/components/Modals/HintModal.vue";
 import { useAuthStore } from "~/stores/auth";
 
-const { isAuthenticated, logout } = useAuthStore();
+const { isAuthenticated } = useAuthStore();
 </script>
