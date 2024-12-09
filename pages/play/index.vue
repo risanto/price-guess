@@ -18,7 +18,7 @@
       </p>
 
       <template v-else>
-        <div class="rounded-lg border-[0.5px] border-black p-[11px]">
+        <div class="h-[510px] rounded-lg border-[0.5px] border-black p-[11px]">
           <div class="relative col-span-2">
             <transition name="enlarge" mode="out-in">
               <ZoomableImg
@@ -71,6 +71,7 @@
               :q2Answer="content?.answer.toFixed(1) + ''"
               :priceGoesUp="content?.price_goes_up"
               :changeToFinished="changeToFinished"
+              :finished="finished"
             />
           </transition>
         </div>

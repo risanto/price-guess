@@ -1,21 +1,20 @@
 <template>
   <SectionParent>
-    <h2 class="mt-4 text-center md:mt-0">
-      {{ $t("Tebak nominal harga emas terhadap USD di bar selanjutnya") }}
+    <h2 class="max-w-[292px] text-center text-xl font-semibold">
+      {{ $t("Tebak apakah harga akan naik atau turun di ") }}
+      <span class="italic">{{ $t("candle ") }}</span>
+      {{ $t("selanjutnya?") }}
     </h2>
 
-    <div class="mx-auto mt-4 flex flex-col">
-      <div
-        v-for="(_, answerSection) in answer"
-        :class="['flex', { 'mt-4': currentSection > 0 }]"
-      >
+    <div class="mx-auto mt-4 flex flex-col space-y-2">
+      <div v-for="(_, answerSection) in answer" class="flex space-x-1">
         <input
           v-for="(_, idx) in q2Answer"
           @keyup.enter="handleAnswer"
           type="text"
           v-model="answer[answerSection][idx]"
           :class="[
-            'mb-4 me-2 h-8 w-8 border border-gray-300 p-0 text-center',
+            'number-box text-center',
             `row-${answerSection}`,
             `box-${answerSection}-${idx}`,
             answerBgColors[answerSection][idx],
@@ -31,10 +30,13 @@
         />
         <button
           v-if="currentSection === answerSection"
-          @click="handleAnswer"
-          class="absolute h-[32px] w-12 translate-x-[500%] transform rounded-sm bg-primary-100 text-white hover:bg-primary-200"
+          @click="!finished && handleAnswer"
+          :class="[
+            'absolute h-[32px] w-12 translate-x-[480%] transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-primary-200',
+            { 'bg-slate-300 hover:bg-slate-300': finished },
+          ]"
         >
-          {{ $t("Ok") }}
+          {{ $t("OK") }}
         </button>
       </div>
 
@@ -74,6 +76,10 @@ const { q2Answer, changeToFinished } = defineProps({
     type: Function,
     required: true,
   },
+  finished: {
+    type: Boolean,
+    required: true,
+  },
 });
 const error = ref("");
 const success = ref("");
@@ -90,7 +96,22 @@ const answerBgColors = ref([
   ["bg-slate-100", "bg-slate-100", "", "", "bg-slate-100", ""],
 ]);
 
+onMounted(() => {
+  const currentInput = document.querySelector(`.box-0-2`) as HTMLElement;
+  currentInput.focus();
+});
+watch(currentSection, async () => {
+  // Wait for DOM updates after the reactive value changes
+  await nextTick();
+
+  const currentInput = document.querySelector(
+    `.box-${currentSection.value}-2`,
+  ) as HTMLElement;
+  currentInput.focus();
+});
+
 const handleAnswer = () => {
+  console.log("currentSection.value ===>", currentSection.value);
   const currentAnswer = answer.value[currentSection.value];
 
   if (currentAnswer.includes("")) {
@@ -131,7 +152,7 @@ const handleAnswer = () => {
     if (currentAnswer[i] === q2Answer[i]) {
       // correct
       correctAnswers[currentAnswer[i]]++;
-      answerBgColors.value[currentSection.value][i] = "bg-green-400";
+      answerBgColors.value[currentSection.value][i] = "bg-[#B9FFB8]";
     } else if (
       currentAnswer[i] in correctAnswers &&
       correctNumbersAmount[currentAnswer[i]] >
@@ -139,15 +160,16 @@ const handleAnswer = () => {
       !anyCorrect[currentAnswer[i]]
     ) {
       // still wrong placement
-      answerBgColors.value[currentSection.value][i] = "bg-amber-400";
+      answerBgColors.value[currentSection.value][i] = "bg-[#FFE7AA]";
     } else {
       // no placement
-      answerBgColors.value[currentSection.value][i] = "bg-red-400";
+      answerBgColors.value[currentSection.value][i] = "bg-[#FFB8B8]";
     }
   }
 
   if (answer.value[currentSection.value].join("") === q2Answer) {
-    return handleWin();
+    handleWin();
+    return;
   }
 
   if (currentSection.value === 2) {
