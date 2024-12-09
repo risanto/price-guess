@@ -19,7 +19,7 @@
 
       <template v-else>
         <div
-          class="flex flex-col h-[510px] rounded-lg border-[0.5px] border-black p-[11px]"
+          class="flex h-[510px] flex-col rounded-lg border-[0.5px] border-black p-[11px]"
         >
           <div class="relative col-span-2">
             <transition name="enlarge" mode="out-in">
@@ -74,18 +74,10 @@
               :priceGoesUp="content?.price_goes_up"
               :changeToFinished="changeToFinished"
               :finished="finished"
+              :analysis="content?.analysis"
             />
           </transition>
         </div>
-
-        <section
-          v-if="finished"
-          class="mt-4 space-y-2 rounded-lg border-[0.5px] border-black p-4 md:col-span-2"
-        >
-          <h3 class="text-center text-xl font-bold">{{ $t("Penjelasan") }}</h3>
-
-          <p class="mt-2">{{ content?.analysis }}</p>
-        </section>
 
         <section
           class="mt-4 space-y-2 rounded-lg border-[0.5px] border-black p-4 md:col-span-2"

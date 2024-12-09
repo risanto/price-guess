@@ -1,70 +1,124 @@
 <template>
   <SectionParent>
-    <h2 class="mt-5 max-w-[320px] text-center text-xl font-semibold">
-      {{ $t("Tebak nominal harga emas terhadap USD di ") }}
-      <span class="italic">{{ $t("candle ") }}</span>
-      {{ $t("selanjutnya") }}
-    </h2>
+    <template v-if="showExplanation">
+      <div class="flex flex-1 flex-col justify-between p-4">
+        <div>
+          <h3 class="mt-3 text-center text-xl font-bold">
+            {{ $t("Penjelasan") }}
+          </h3>
 
-    <div class="mx-auto mt-4 flex flex-col space-y-2">
-      <div v-for="(_, answerSection) in answer" class="flex space-x-1">
-        <input
-          v-for="(_, idx) in q2Answer"
-          @keyup.enter="handleAnswer"
-          type="text"
-          v-model="answer[answerSection][idx]"
-          :class="[
-            'number-box text-center',
-            `row-${answerSection}`,
-            `box-${answerSection}-${idx}`,
-            answerBgColors[answerSection][idx],
-          ]"
-          :disabled="
-            idx < 2 ||
-            idx === q2Answer.length - 2 ||
-            (answerSection < currentSection ? true : false) ||
-            currentSection < answerSection
-          "
-          @input="handleInput(answerSection, idx)"
-          maxlength="1"
-        />
-        <button
-          v-if="currentSection === answerSection"
-          @click="!finished && handleAnswer"
-          :class="[
-            'absolute h-[32px] w-12 translate-x-[480%] transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-primary-200',
-            { 'bg-slate-300 hover:bg-slate-300': finished },
-          ]"
-        >
-          {{ $t("OK") }}
-        </button>
-      </div>
-
-      <template v-if="!loading">
-        <div
-          v-if="error"
-          class="mt-4 text-center text-xs font-bold text-red-600"
-        >
-          {{ error }}
+          <p class="mt-4 px-4">{{ analysis }}</p>
         </div>
-        <div
-          v-if="success"
-          class="mt-4 text-center text-green-500"
-          v-html="success"
-        />
 
-        <button
-          v-if="finished"
-          class="m-auto w-[141px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
-        >
-          {{ $t("Lihat Penjelasan") }}
-        </button>
-      </template>
-
-      <div v-else class="flex items-center justify-center">
-        <LoadingCircle />
+        <div class="flex justify-end">
+          <button
+            @click="
+              showExplanation = false;
+              showThankYou = true;
+            "
+            :class="[
+              'h-9 w-14 transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-primary-200',
+            ]"
+          >
+            {{ $t("OK") }}
+          </button>
+        </div>
       </div>
-    </div>
+    </template>
+
+    <template v-else-if="showThankYou">
+      <div class="flex flex-1 flex-col justify-between p-4">
+        <div>
+          <h3 class="mt-3 text-center text-xl font-bold">
+            {{ $t("Terima kasih telah bermain!") }}
+          </h3>
+
+          <p class="mt-4 px-4 text-center">
+            Jangan lupa untuk kembali besok dan coba game penghasil uang
+            termudah ini lagi.
+          </p>
+        </div>
+
+        <div class="flex justify-center">
+          <button
+            class="m-auto mb-[73px] w-[167px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
+          >
+            <NuxtLink href="/">
+              {{ $t("Kembali ke Beranda") }}
+            </NuxtLink>
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <template v-else>
+      <h2 class="mt-5 max-w-[320px] text-center text-xl font-semibold">
+        {{ $t("Tebak nominal harga emas terhadap USD di ") }}
+        <span class="italic">{{ $t("candle ") }}</span>
+        {{ $t("selanjutnya") }}
+      </h2>
+
+      <div class="mx-auto mt-4 flex flex-col space-y-2">
+        <div v-for="(_, answerSection) in answer" class="flex space-x-1">
+          <input
+            v-for="(_, idx) in q2Answer"
+            @keyup.enter="handleAnswer"
+            type="text"
+            v-model="answer[answerSection][idx]"
+            :class="[
+              'number-box text-center',
+              `row-${answerSection}`,
+              `box-${answerSection}-${idx}`,
+              answerBgColors[answerSection][idx],
+            ]"
+            :disabled="
+              idx < 2 ||
+              idx === q2Answer.length - 2 ||
+              (answerSection < currentSection ? true : false) ||
+              currentSection < answerSection
+            "
+            @input="handleInput(answerSection, idx)"
+            maxlength="1"
+          />
+          <button
+            v-if="currentSection === answerSection && !finished"
+            @click="handleAnswer"
+            :class="[
+              'absolute h-[32px] w-12 translate-x-[480%] transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-primary-200',
+              { 'bg-slate-300 hover:bg-slate-300': finished },
+            ]"
+          >
+            {{ $t("OK") }}
+          </button>
+        </div>
+
+        <template v-if="!loading">
+          <div
+            v-if="error"
+            class="mt-4 text-center text-xs font-bold text-red-600"
+          >
+            {{ error }}
+          </div>
+          <div
+            v-if="success"
+            class="mt-4 text-center text-green-500"
+            v-html="success"
+          />
+
+          <button
+            v-if="finished"
+            @click="showExplanation = true"
+            class="m-auto w-[141px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
+          >
+            {{ $t("Lihat Penjelasan") }}
+          </button>
+        </template>
+
+        <div v-else class="flex items-center justify-center">
+          <LoadingCircle />
+        </div>
+      </div>
+    </template>
   </SectionParent>
 </template>
 
@@ -75,7 +129,10 @@ import type { UserProfileUpdate } from "~/types/userProfile";
 
 const { t } = useI18n();
 const { isAuthenticated, user, fetchUser } = useAuthStore();
+
 const loading = ref(false);
+const showExplanation = ref(false);
+const showThankYou = ref(false);
 
 const { q2Answer, changeToFinished } = defineProps({
   q2Answer: {
@@ -88,6 +145,10 @@ const { q2Answer, changeToFinished } = defineProps({
   },
   finished: {
     type: Boolean,
+    required: true,
+  },
+  analysis: {
+    type: String,
     required: true,
   },
 });
