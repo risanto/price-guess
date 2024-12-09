@@ -1,5 +1,11 @@
 import { jwtDecode } from "jwt-decode";
 
+export function formatNumber(n: number | undefined) {
+  if (!n) return 0;
+
+  return new Intl.NumberFormat("id-ID").format(n);
+}
+
 // Function to check if the token is expired
 export function isTokenExpired(token: string) {
   try {

@@ -90,4 +90,5 @@ export default {
 
   "Kamu harus login untuk mendapatkan poin yang dapat ditukar menjadi uang":
     "Kamu harus login untuk mendapatkan poin yang dapat ditukar menjadi uang",
+  "Apa Syarat Redeem?": "Apa Syarat Redeem?",
 };

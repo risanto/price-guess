@@ -33,7 +33,7 @@
         />
 
         <span class="text-xs font-bold">
-          {{ userPoints }}
+          {{ formatNumber(userPoints) }}
         </span>
 
         <button
@@ -71,8 +71,8 @@
 
           <button
             class="flex w-[42px] items-center rounded-[3px] border-[0.5px] border-black bg-primary-500 px-1 text-left text-[5.5px] font-bold text-white"
-            data-modal-target="profile-modal"
-            data-modal-toggle="profile-modal"
+            data-modal-target="redeem-modal"
+            data-modal-toggle="redeem-modal"
           >
             {{ $t("Redeem Poin") }}
           </button>
@@ -86,9 +86,6 @@
     </div>
   </header>
 
-  <HintModal />
-  <ProfileModal v-if="isAuthenticated" />
-
   <div
     id="tooltip-bottom"
     role="tooltip"
@@ -100,14 +97,21 @@
       )
     }}
   </div>
+
+  <HintModal />
+  <RedeemModal v-if="isAuthenticated" />
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useAuthStore } from "~/stores/auth";
-import HintModal from "./Modals/HintModal.vue";
-import ProfileModal from "./Modals/ProfileModal.vue";
 
-const { isAuthenticated, user } = useAuthStore();
+import HintModal from "./Modals/HintModal.vue";
+import RedeemModal from "./Modals/RedeemModal.vue";
+
+const authStore = useAuthStore();
+
+const { isAuthenticated, user } = storeToRefs(authStore);
 const userPoints = ref(0);
 const isMobile = ref(false);
 
@@ -121,7 +125,7 @@ if (import.meta.client) {
     window.addEventListener("resize", detectMobile);
 
     if (isAuthenticated) {
-      userPoints.value = user?.points ?? 0;
+      userPoints.value = user?.value?.points ?? 0;
     } else {
       const nonUserPoints = localStorage.getItem("nonUserPoints");
 
