@@ -13,16 +13,20 @@ export const useAuthStore = defineStore(
     const userPoints = ref(0);
 
     const fetchUser = async () => {
-      const { data, error } = await $fetch<ApiResponse>("/api/auth/validate", {
-        method: "GET",
-        credentials: "include",
-      });
+      const { data, error }: { data?: { profile: UserProfile }; error?: any } =
+        await $fetch<ApiResponse>("/api/auth/validate", {
+          method: "GET",
+          credentials: "include",
+        });
 
       if (error) {
         console.error("fetchUser:", error);
       }
 
       user.value = data?.profile;
+      userPoints.value = data?.profile?.points ?? 0;
+
+      console.log("userPoints.value ===>", userPoints.value);
     };
 
     const logout = async () => {

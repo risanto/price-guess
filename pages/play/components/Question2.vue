@@ -52,7 +52,7 @@
     </template>
 
     <template v-else-if="!showExplanation && !showThankYou">
-      <div v-if="loading" class="flex items-center justify-center">
+      <div v-if="loading" class="flex h-full items-center justify-center">
         <LoadingCircle />
       </div>
 
@@ -65,7 +65,7 @@
 
           <div class="text-center text-xl font-semibold">
             <div>{{ $t("Selamat! Jawabanmu benar.") }}</div>
-            <div>{{ $t("Kamu mendapatkan 1000 poin.") }}</div>
+            <div>{{ $t("Kamu mendapatkan 5000 poin.") }}</div>
           </div>
         </template>
 
@@ -137,7 +137,7 @@ import SectionParent from "./SectionParent.vue";
 import type { UserProfileUpdate } from "~/types/userProfile";
 
 const { t } = useI18n();
-const { isAuthenticated, user, fetchUser } = useAuthStore();
+const { user, fetchUser } = useAuthStore();
 
 const loading = ref(false);
 const showExplanation = ref(false);
@@ -163,7 +163,6 @@ const { q2Answer, changeToFinished } = defineProps({
   },
 });
 const error = ref("");
-const success = ref("");
 const currentSection = ref(0);
 
 const answer = ref([
@@ -278,7 +277,10 @@ const handleInput = (answerSection: number, idx: number) => {
 };
 
 async function handleWin() {
-  showWinMessage.value = true;
+  triggerWinningAnimation(currentSection.value);
+  await delay(2000);
+
+  changeToFinished();
   loading.value = true;
 
   if (user?.id) {
@@ -304,15 +306,7 @@ async function handleWin() {
   }
 
   loading.value = false;
-
-  let winMessage = t("Hebat! Jawabanmu benar! ");
-
-  if (isAuthenticated) {
-    winMessage += t("<br/>Poinmu bertambah 5000");
-  }
-  success.value = winMessage;
-  triggerWinningAnimation(currentSection.value);
-  changeToFinished();
+  showWinMessage.value = true;
 }
 
 function triggerWinningAnimation(idx: number) {
