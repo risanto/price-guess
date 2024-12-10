@@ -129,7 +129,10 @@
           </ol>
 
           <div v-if="location === 'Home'">
-            <button class="base-btn mt-3 w-[126px] bg-black hover:bg-slate-500">
+            <button
+              class="base-btn mt-3 w-[126px] bg-black hover:bg-slate-500"
+              data-modal-hide="hint-modal"
+            >
               <NuxtLink href="/play">
                 {{ $t("Mulai Main") }}
               </NuxtLink>
@@ -147,5 +150,9 @@ defineProps({
     type: String,
     validator: (val) => val === "Home" || val === undefined,
   },
+});
+
+onBeforeUnmount(() => {
+  document.body.style.overflow = "auto"; // Reset scroll behavior when component unmounts
 });
 </script>
