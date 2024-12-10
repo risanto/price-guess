@@ -36,7 +36,9 @@
       class="hidden"
       aria-labelledby="accordion-collapse-heading-1"
     >
-      <div class="space-y-4 border border-b-0 border-gray-200 p-5">
+      <div
+        class="max-h-[200px] space-y-4 overflow-y-auto border border-b-0 border-gray-200 p-5"
+      >
         <div>
           <h3 class="font-bold">Game apa yang menghasilkan uang?</h3>
           <p>
@@ -183,7 +185,7 @@
       aria-labelledby="accordion-collapse-heading-2"
     >
       <div
-        class="border-b-1 space-y-4 border border-gray-200 p-5 dark:border-gray-700"
+        class="border-b-1 max-h-[200px] space-y-4 overflow-y-auto border border-gray-200 p-5 dark:border-gray-700"
       >
         <p>
           Terbakhargaemas adalah situs yang kamu butuhkan buat mencari game
