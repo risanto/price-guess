@@ -8,8 +8,9 @@ export const useAuthStore = defineStore(
   () => {
     const client = useSupabaseClient();
 
-    // Global user state
+    // Global states
     const user = ref<UserProfile>();
+    const userPoints = ref(0);
 
     const fetchUser = async () => {
       const { data, error } = await $fetch<ApiResponse>("/api/auth/validate", {
@@ -19,7 +20,6 @@ export const useAuthStore = defineStore(
 
       if (error) {
         console.error("fetchUser:", error);
-        // showToast(error.message, "danger");
       }
 
       user.value = data?.profile;
@@ -32,9 +32,45 @@ export const useAuthStore = defineStore(
       window.location.href = "/";
     };
 
+    const userPointsFn = {
+      save: (points: number) => {
+        const expiryDate = new Date();
+        expiryDate.setHours(23, 59, 59, 999); // Set to midnight of today
+        expiryDate.setDate(expiryDate.getDate() + 1); // Move to next day
+
+        const encryptedData = encryptUserPoints(points, expiryDate);
+
+        if (import.meta.client) {
+          localStorage.setItem("userPoints", encryptedData);
+        }
+        userPoints.value = points;
+      },
+
+      load: () => {
+        // Detect if the user is authenticated and set points
+        if (isAuthenticated) {
+          userPoints.value = user?.value?.points ?? 0;
+        } else {
+          const encrypted = localStorage.getItem("nonUserPoints");
+          const decrypted = encrypted ? decryptUserPoints(encrypted) : null;
+
+          if (decrypted) {
+            userPoints.value = decrypted;
+          }
+        }
+      },
+    };
+
     const isAuthenticated = computed(() => !!user.value);
 
-    return { user, logout, isAuthenticated, fetchUser };
+    return {
+      user,
+      logout,
+      isAuthenticated,
+      fetchUser,
+      userPoints,
+      userPointsFn,
+    };
   },
   {
     persist: {

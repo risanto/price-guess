@@ -51,73 +51,82 @@
       </div>
     </template>
 
-    <template v-else>
-      <h2 class="mt-5 max-w-[320px] text-center text-xl font-semibold">
-        {{ $t("Tebak nominal harga emas terhadap USD di ") }}
-        <span class="italic">{{ $t("candle ") }}</span>
-        {{ $t("selanjutnya") }}
-      </h2>
+    <template v-else-if="!showExplanation && !showThankYou">
+      <div v-if="loading" class="flex items-center justify-center">
+        <LoadingCircle />
+      </div>
 
-      <div class="mx-auto mt-4 flex flex-col space-y-2">
-        <div v-for="(_, answerSection) in answer" class="flex space-x-1">
-          <input
-            v-for="(_, idx) in q2Answer"
-            @keyup.enter="handleAnswer"
-            type="text"
-            v-model="answer[answerSection][idx]"
-            :class="[
-              'number-box text-center',
-              `row-${answerSection}`,
-              `box-${answerSection}-${idx}`,
-              answerBgColors[answerSection][idx],
-            ]"
-            :disabled="
-              idx < 2 ||
-              idx === q2Answer.length - 2 ||
-              (answerSection < currentSection ? true : false) ||
-              currentSection < answerSection
-            "
-            @input="handleInput(answerSection, idx)"
-            maxlength="1"
+      <template v-else-if="!loading">
+        <template v-if="showWinMessage">
+          <NuxtImg
+            class="m-auto w-12"
+            src="https://www.hsb.co.id/price-guess/coin-spin.gif"
           />
-          <button
-            v-if="currentSection === answerSection && !finished"
-            @click="handleAnswer"
-            :class="[
-              'absolute h-[32px] w-12 translate-x-[480%] transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-primary-200',
-              { 'bg-slate-300 hover:bg-slate-300': finished },
-            ]"
-          >
-            {{ $t("OK") }}
-          </button>
-        </div>
 
-        <template v-if="!loading">
-          <div
-            v-if="error"
-            class="mt-4 text-center text-xs font-bold text-red-600"
-          >
-            {{ error }}
+          <div class="text-center text-xl font-semibold">
+            <div>{{ $t("Selamat! Jawabanmu benar.") }}</div>
+            <div>{{ $t("Kamu mendapatkan 1000 poin.") }}</div>
           </div>
-          <div
-            v-if="success"
-            class="mt-4 text-center text-green-500"
-            v-html="success"
-          />
-
-          <button
-            v-if="finished"
-            @click="showExplanation = true"
-            class="m-auto w-[141px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
-          >
-            {{ $t("Lihat Penjelasan") }}
-          </button>
         </template>
 
-        <div v-else class="flex items-center justify-center">
-          <LoadingCircle />
-        </div>
-      </div>
+        <template v-else-if="!showWinMessage">
+          <h2 class="mt-5 max-w-[320px] text-center text-xl font-semibold">
+            {{ $t("Tebak nominal harga emas terhadap USD di ") }}
+            <span class="italic">{{ $t("candle ") }}</span>
+            {{ $t("selanjutnya") }}
+          </h2>
+
+          <div class="mx-auto mt-4 flex flex-col space-y-2">
+            <div v-for="(_, answerSection) in answer" class="flex space-x-1">
+              <input
+                v-for="(_, idx) in q2Answer"
+                @keyup.enter="handleAnswer"
+                type="text"
+                v-model="answer[answerSection][idx]"
+                :class="[
+                  'number-box text-center',
+                  `row-${answerSection}`,
+                  `box-${answerSection}-${idx}`,
+                  answerBgColors[answerSection][idx],
+                ]"
+                :disabled="
+                  idx < 2 ||
+                  idx === q2Answer.length - 2 ||
+                  (answerSection < currentSection ? true : false) ||
+                  currentSection < answerSection
+                "
+                @input="handleInput(answerSection, idx)"
+                maxlength="1"
+              />
+              <button
+                v-if="currentSection === answerSection && !finished"
+                @click="handleAnswer"
+                :class="[
+                  'absolute h-[32px] w-12 translate-x-[480%] transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-primary-200',
+                  { 'bg-slate-300 hover:bg-slate-300': finished },
+                ]"
+              >
+                {{ $t("OK") }}
+              </button>
+            </div>
+
+            <div
+              v-if="error"
+              class="mt-4 text-center text-xs font-bold text-red-600"
+            >
+              {{ error }}
+            </div>
+          </div>
+        </template>
+
+        <button
+          v-if="finished"
+          @click="showExplanation = true"
+          class="m-auto w-[141px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
+        >
+          {{ $t("Lihat Penjelasan") }}
+        </button>
+      </template>
     </template>
   </SectionParent>
 </template>
@@ -133,6 +142,7 @@ const { isAuthenticated, user, fetchUser } = useAuthStore();
 const loading = ref(false);
 const showExplanation = ref(false);
 const showThankYou = ref(false);
+const showWinMessage = ref(false);
 
 const { q2Answer, changeToFinished } = defineProps({
   q2Answer: {
@@ -268,6 +278,7 @@ const handleInput = (answerSection: number, idx: number) => {
 };
 
 async function handleWin() {
+  showWinMessage.value = true;
   loading.value = true;
 
   if (user?.id) {

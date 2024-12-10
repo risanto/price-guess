@@ -118,10 +118,9 @@ import RedeemModal from "./Modals/RedeemModal.vue";
 
 const authStore = useAuthStore();
 
-const { isAuthenticated, user } = storeToRefs(authStore);
-const { logout } = authStore;
+const { isAuthenticated, user, userPoints } = storeToRefs(authStore);
+const { logout, userPointsFn } = authStore;
 
-const userPoints = ref(0);
 const isMobile = ref(false);
 
 const detectMobile = () => {
@@ -133,15 +132,7 @@ if (import.meta.client) {
     detectMobile();
     window.addEventListener("resize", detectMobile);
 
-    if (isAuthenticated) {
-      userPoints.value = user?.value?.points ?? 0;
-    } else {
-      const nonUserPoints = localStorage.getItem("nonUserPoints");
-
-      if (nonUserPoints) {
-        userPoints.value = +nonUserPoints;
-      }
-    }
+    userPointsFn.load();
   });
 
   onBeforeUnmount(() => {

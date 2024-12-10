@@ -34,13 +34,13 @@
               />
 
               <span class="flex-1 text-center text-xs font-semibold">
-                {{ formatNumber(user?.points) }}
+                {{ formatNumber(userPoints) }}
               </span>
             </div>
 
             <div>=</div>
 
-            <div class="font-medium">Rp{{ formatNumber(user?.points) }}</div>
+            <div class="font-medium">Rp{{ formatNumber(userPoints) }}</div>
           </div>
 
           <h2 class="pt-2">{{ $t("Apa Syarat Redeem?") }}</h2>
@@ -52,7 +52,7 @@
                 <NuxtLink
                   to="https://www.hsb.co.id/"
                   target="_blank"
-                  class="underline text-primary-500"
+                  class="text-primary-500 underline"
                   >hsb.co.id</NuxtLink
                 >
               </li>
@@ -74,5 +74,5 @@ import { storeToRefs } from "pinia";
 import { useAuthStore } from "~/stores/auth";
 
 const authStore = useAuthStore();
-const { user } = storeToRefs(authStore);
+const { user, userPoints } = storeToRefs(authStore);
 </script>
