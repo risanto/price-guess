@@ -4,7 +4,7 @@ import { defineEventHandler } from "h3";
 
 // Configure rate limiting
 const rateLimiter = new RateLimiterMemory({
-  points: 10, // 10 requests
+  points: 30, // 30 requests
   duration: 60, // per 60 seconds
 });
 
