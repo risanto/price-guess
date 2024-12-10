@@ -10,6 +10,8 @@
 <script setup lang="ts">
 import LoadingCircle from "./components/LoadingCircle.vue";
 import { useAuthStore } from "./stores/auth";
+
+const router = useRouter();
 const { isAuthenticated, fetchUser } = useAuthStore();
 const isMounted = ref(false);
 
@@ -26,5 +28,16 @@ if (import.meta.client) {
     });
     isMounted.value = true;
   });
+
+  watch(
+    () => router.currentRoute.value,
+    (to, from) => {
+      useFlowbite(async () => {
+        const { initFlowbite } = await import("flowbite");
+        initFlowbite();
+      });
+    },
+    { immediate: true }, // Ensure this fires immediately
+  );
 }
 </script>
