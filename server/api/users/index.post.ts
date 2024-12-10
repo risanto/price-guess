@@ -7,7 +7,7 @@ export default eventHandler(async (event) => {
   const body = await readBody(event);
 
   // Assuming you have the email in the request body
-  const { email, points, points_last_added } = body;
+  const { email, points } = body;
 
   if (!email) {
     return {

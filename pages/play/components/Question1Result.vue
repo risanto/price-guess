@@ -5,7 +5,7 @@
         <NuxtImg
           src="https://www.hsb.co.id/price-guess/result-right.gif"
           alt="benar"
-          class="mx-auto my-0 w-[104px]"
+          class="mx-auto my-0 h-[104px] w-[104px]"
         />
 
         <div class="mt-2 text-center text-xl font-semibold">
@@ -21,7 +21,7 @@
         <NuxtImg
           src="https://www.hsb.co.id/price-guess/result-wrong.gif"
           alt="salah"
-          class="mx-auto my-0 w-[104px]"
+          class="mx-auto my-0 h-[104px] w-[104px]"
         />
 
         <div class="mt-2 text-center text-xl font-semibold">
