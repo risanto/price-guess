@@ -120,7 +120,7 @@
         </div>
       </div>
 
-      <div class="mt-10 space-y-5">
+      <section class="mt-10 space-y-5">
         <p class="text-justify">
           <span class="font-bold">Tebak Harga Emas.com</span> adalah game
           penghasil uang yang seru dan mudah, di mana kamu bisa menebak harga
@@ -137,7 +137,9 @@
           setiap hari. Bergabunglah sekarang dan buktikan kemampuanmu dalam
           menebak!
         </p>
-      </div>
+      </section>
+
+      <Faq />
     </div>
   </div>
 
@@ -145,6 +147,7 @@
 </template>
 
 <script setup lang="ts">
+import Faq from "~/components/Faq.vue";
 import HintModal from "~/components/Modals/HintModal.vue";
 import { useAuthStore } from "~/stores/auth";
 

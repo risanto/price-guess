@@ -31,7 +31,7 @@ if (import.meta.client) {
 
   watch(
     () => router.currentRoute.value,
-    (to, from) => {
+    () => {
       useFlowbite(async () => {
         const { initFlowbite } = await import("flowbite");
         initFlowbite();
