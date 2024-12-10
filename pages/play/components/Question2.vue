@@ -27,7 +27,7 @@
     </template>
 
     <template v-else-if="showThankYou">
-      <div class="flex flex-1 flex-col justify-between p-4">
+      <div class="flex flex-1 flex-col justify-around py-4 px-2">
         <div>
           <h3 class="mt-3 text-center text-xl font-bold">
             {{ $t("Terima kasih telah bermain!") }}
@@ -41,7 +41,7 @@
 
         <div class="flex justify-center">
           <button
-            class="m-auto mb-[73px] w-[167px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
+            class="mx-auto w-[167px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
           >
             <NuxtLink href="/">
               {{ $t("Kembali ke Beranda") }}
