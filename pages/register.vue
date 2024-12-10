@@ -99,9 +99,13 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/stores/auth";
 import type { Database } from "~/types/supabase";
 
+const { userPoints } = useAuthStore();
 const supabase = useSupabaseClient<Database>();
+const config = useRuntimeConfig();
+
 const { showToast } = useToast();
 const { t } = useI18n();
 const loading = ref(false);
@@ -145,6 +149,9 @@ const register = async () => {
   const { error: registerError } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
+    options: {
+      emailRedirectTo: config.public.apiBase + "/login",
+    },
   });
   if (registerError) {
     error.value = t(registerError.message);
@@ -157,7 +164,7 @@ const register = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email: email.value }),
+    body: JSON.stringify({ email: email.value, points: userPoints }),
   });
   const { error: insertError } = await response.json();
 

@@ -137,7 +137,7 @@ import SectionParent from "./SectionParent.vue";
 import type { UserProfileUpdate } from "~/types/userProfile";
 
 const { t } = useI18n();
-const { user, fetchUser } = useAuthStore();
+const { user, fetchUser, userPointsFn } = useAuthStore();
 
 const loading = ref(false);
 const showExplanation = ref(false);
@@ -303,6 +303,8 @@ async function handleWin() {
     }
 
     await fetchUser();
+  } else {
+    userPointsFn.save(5000);
   }
 
   loading.value = false;

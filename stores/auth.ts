@@ -25,8 +25,6 @@ export const useAuthStore = defineStore(
 
       user.value = data?.profile;
       userPoints.value = data?.profile?.points ?? 0;
-
-      console.log("userPoints.value ===>", userPoints.value);
     };
 
     const logout = async () => {
