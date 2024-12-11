@@ -69,7 +69,7 @@
           class="mt-5 flex items-center justify-center md:mt-16 md:w-[500px] md:justify-between"
         >
           <button
-            class="base-btn w-[126px] bg-black hover:bg-slate-500 md:w-[200px] md:text-2xl"
+            class="base-btn w-[126px] bg-black hover:bg-slate-700 md:w-[200px] md:text-2xl"
           >
             <NuxtLink href="/play">
               {{ $t("Mulai Main") }}
@@ -130,7 +130,7 @@
         </div>
       </div>
 
-      <section class="mt-10 space-y-5">
+      <section class="mt-10 space-y-5 md:mt-20">
         <p class="text-justify">
           <span class="font-bold">Tebak Harga Emas.com</span> adalah game
           penghasil uang yang seru dan mudah, di mana kamu bisa menebak harga
@@ -150,6 +150,10 @@
       </section>
 
       <Faq />
+
+      <div class="mx-auto py-4 text-center md:py-12">
+        ©2024 Tebak Harga Emas
+      </div>
     </div>
   </div>
 

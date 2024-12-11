@@ -1,12 +1,12 @@
 <template>
   <header
-    class="flex w-full items-center justify-between border-b-[0.5px] border-black px-5 py-3"
+    class="flex w-full items-center justify-between border-b-[0.5px] border-black px-5 py-3 md:p-6"
   >
     <NuxtLink to="/">
       <NuxtImg
         src="https://www.hsb.co.id/price-guess/logo.png"
         alt="logo"
-        class="w-[87px]"
+        class="w-[87px] md:w-[186px]"
       />
     </NuxtLink>
 
@@ -16,23 +16,23 @@
       data-modal-toggle="hint-modal"
     >
       <NuxtImg
-        class="h-[26px] w-[26px]"
+        class="h-[26px] w-[26px] md:h-[42px] md:w-[42px]"
         src="https://www.hsb.co.id/price-guess/how-to-btn.png"
         alt="petunjuk"
       />
     </button>
 
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center space-x-2 md:space-x-4">
       <div
-        class="flex h-[19px] w-[85px] items-center justify-between rounded-2xl border border-black p-0.5"
+        class="flex h-[19px] w-[85px] items-center justify-between rounded-2xl border border-black p-0.5 md:h-[41px] md:w-[188px] md:rounded-[28px] md:p-1.5"
       >
         <NuxtImg
-          class="h-[15px] w-[15px]"
+          class="h-[15px] w-[15px] md:h-[28px] md:w-[28px]"
           src="https://www.hsb.co.id/price-guess/coin-score.png"
           alt="coin"
         />
 
-        <span class="text-xs font-bold">
+        <span class="text-xs font-bold md:text-2xl">
           {{ formatNumber(userPoints) }}
         </span>
 
@@ -42,7 +42,7 @@
           :data-tooltip-trigger="isMobile ? 'click' : 'hover'"
         >
           <NuxtImg
-            class="h-3 w-3"
+            class="h-3 w-3 md:h-4 md:w-4"
             src="https://www.hsb.co.id/price-guess/tooltip-score.png"
             alt="coin tooltip"
           />
@@ -51,7 +51,7 @@
 
       <button
         v-if="!isAuthenticated"
-        class="h-[31px] w-[92px] rounded-lg border-[0.5px] border-black bg-primary-500 text-center text-xs font-semibold text-white hover:bg-amber-500"
+        class="h-[31px] w-[92px] rounded-lg border-[0.5px] border-black bg-primary-500 text-center text-xs font-semibold text-white hover:bg-amber-500 md:h-[68px] md:w-[205px] md:rounded-xl md:text-[27px]"
       >
         <NuxtLink href="/login?from=play">
           {{ $t("Login/Register") }}

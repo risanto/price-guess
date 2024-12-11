@@ -2,7 +2,7 @@
   <section
     id="accordion-collapse"
     data-accordion="collapse"
-    class="mt-14 border-y-[1px] border-y-black py-8"
+    class="mt-14 border-y-[1px] border-y-black py-8 md:mt-20"
   >
     <h2 id="accordion-collapse-heading-1">
       <button

@@ -44,8 +44,11 @@ if (import.meta.client) {
 <style scoped>
 .zoom-container {
   position: relative;
-  max-width: 350px;
-  max-height: 194px;
+  width: 100%;
+  height: 100%;
+  
+  /* max-width: 350px;
+  max-height: 194px; */
 }
 
 .zoom-image {
