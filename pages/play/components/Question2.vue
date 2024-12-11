@@ -4,12 +4,14 @@
       <div
         class="flex flex-1 flex-col justify-between p-4 md:justify-center 2xl:p-9"
       >
-        <div>
+        <div class="space-y-4 md:space-y-12">
           <h3 class="mt-3 text-center text-xl font-bold md:text-4xl">
             {{ $t("Penjelasan") }}
           </h3>
 
-          <p class="mt-12 px-4 md:font-medium 2xl:text-2xl">{{ analysis }}</p>
+          <p class="text-sm md:text-lg md:font-medium 2xl:text-2xl">
+            {{ analysis }}
+          </p>
         </div>
 
         <div class="flex justify-end md:mt-12">
@@ -18,7 +20,7 @@
               showExplanation = false;
               showThankYou = true;
             "
-            class="absolute h-[32px] w-12 translate-x-[480%] transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-amber-500 md:static md:translate-x-0 2xl:h-[49px] 2xl:w-[82px] 2xl:text-[20px]"
+            class="h-9 w-14 transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-amber-500 md:static md:translate-x-0 2xl:h-[49px] 2xl:w-[82px] 2xl:text-[20px]"
           >
             {{ $t("OK") }}
           </button>
