@@ -53,7 +53,7 @@
         v-if="!isAuthenticated"
         class="h-[31px] w-[92px] rounded-lg border-[0.5px] border-black bg-primary-500 text-center text-xs font-semibold text-white hover:bg-amber-500"
       >
-        <NuxtLink href="/login">
+        <NuxtLink href="/login?from=play">
           {{ $t("Login/Register") }}
         </NuxtLink>
       </button>

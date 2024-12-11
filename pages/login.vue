@@ -7,7 +7,10 @@
         class="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0"
       >
         <div class="relative space-y-6 p-6 sm:p-8 md:space-y-8">
-          <NuxtLink to="/" class="absolute right-2.5 top-2.5">
+          <NuxtLink
+            :to="from ? (from as string) : '/'"
+            class="absolute right-2.5 top-2.5"
+          >
             <NuxtImg
               class="h-4 w-4"
               src="https://www.hsb.co.id/price-guess/close-btn.png"
@@ -60,9 +63,11 @@
 
           <p class="text-center text-sm">
             {{ $t("Jika belum punya akun, ") }}
-            <NuxtLink to="/register" class="text-primary-500 underline">{{
-              $t("Daftar di sini")
-            }}</NuxtLink>
+            <NuxtLink
+              :to="{ path: '/register', query: { from } }"
+              class="text-primary-500 underline"
+              >{{ $t("Daftar di sini") }}</NuxtLink
+            >
           </p>
         </div>
       </div>
@@ -79,7 +84,10 @@ const loading = ref(false);
 const email = ref("");
 const password = ref("");
 const error = ref("");
+
 const { fetchUser } = useAuthStore();
+const route = useRoute();
+const { from } = route.query;
 
 const label = {
   email: t("Email"),

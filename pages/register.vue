@@ -7,7 +7,10 @@
         class="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0"
       >
         <div class="relative space-y-6 p-6 sm:p-8 md:space-y-8">
-          <NuxtLink to="/" class="absolute right-2.5 top-2.5">
+          <NuxtLink
+            :to="from ? (from as string) : '/'"
+            class="absolute right-2.5 top-2.5"
+          >
             <NuxtImg
               class="h-4 w-4"
               src="https://www.hsb.co.id/price-guess/close-btn.png"
@@ -88,9 +91,11 @@
           <p class="text-center text-sm">
             {{ $t("Jika sudah punya akun, ") }}
 
-            <NuxtLink href="/login" class="text-primary-600 underline">{{
-              $t("Login di sini")
-            }}</NuxtLink>
+            <NuxtLink
+              :to="{ path: '/login', query: { from } }"
+              class="text-primary-600 underline"
+              >{{ $t("Login di sini") }}</NuxtLink
+            >
           </p>
         </div>
       </div>
@@ -105,6 +110,8 @@ import type { Database } from "~/types/supabase";
 const { userPoints } = useAuthStore();
 const supabase = useSupabaseClient<Database>();
 const config = useRuntimeConfig();
+const route = useRoute();
+const { from } = route.query;
 
 const { showToast } = useToast();
 const { t } = useI18n();

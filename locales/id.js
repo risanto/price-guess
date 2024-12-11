@@ -95,4 +95,10 @@ export default {
   "Cara Bermain": "Cara Bermain",
   Masuk: "Masuk",
   "Log out": "Log out",
+
+  "selanjutnya?": "selanjutnya?",
+  "candle ": "candle ",
+  "Tebak apakah harga akan naik atau turun di ":
+    "Tebak apakah harga akan naik atau turun di ",
+  Daftar: "Daftar",
 };
