@@ -97,7 +97,7 @@
               <input
                 v-for="(_, idx) in q2Answer"
                 @keyup.enter="handleAnswer"
-                type="text"
+                type="number"
                 v-model="answer[answerSection][idx]"
                 :class="[
                   'number-box text-center md:text-xl md:font-bold',
