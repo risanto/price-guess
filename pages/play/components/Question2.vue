@@ -97,7 +97,7 @@
               <input
                 v-for="(_, idx) in q2Answer"
                 @keyup.enter="handleAnswer"
-                type="number"
+                :type="idx === 4 ? 'text' : 'number'"
                 v-model="answer[answerSection][idx]"
                 :class="[
                   'number-box text-center md:text-xl md:font-bold',
@@ -227,12 +227,12 @@ const handleAnswer = () => {
     return;
   }
 
-  const correctNumbers = [q2Answer[2], q2Answer[3], q2Answer[5]];
+  const correctNumbers = [+q2Answer[2], +q2Answer[3], +q2Answer[5]];
 
   let correctNumbersAmount: { [key: string]: number } = {};
   let correctAnswers: { [key: string]: number } = {};
 
-  correctNumbers.forEach((n: string) => {
+  correctNumbers.forEach((n: number) => {
     if (n in correctNumbersAmount === false) {
       correctNumbersAmount[n] = 0;
       correctAnswers[n] = 0;
@@ -241,9 +241,9 @@ const handleAnswer = () => {
   });
 
   const anyCorrect: { [key: string]: boolean } = {
-    [currentAnswer[2]]: currentAnswer[2] === correctNumbers[0],
-    [currentAnswer[3]]: currentAnswer[3] === correctNumbers[1],
-    [currentAnswer[5]]: currentAnswer[5] === correctNumbers[2],
+    [currentAnswer[2]]: +currentAnswer[2] === correctNumbers[0],
+    [currentAnswer[3]]: +currentAnswer[3] === correctNumbers[1],
+    [currentAnswer[5]]: +currentAnswer[5] === correctNumbers[2],
   };
 
   // loop through all boxes except 4 (dot)
@@ -257,12 +257,12 @@ const handleAnswer = () => {
       box.style.animation = "flipIn 0.6s ease forwards";
     }
 
-    if (currentAnswer[i] === q2Answer[i]) {
+    if (+currentAnswer[i] === +q2Answer[i]) {
       // correct
       correctAnswers[currentAnswer[i]]++;
       answerBgColors.value[currentSection.value][i] = "bg-[#B9FFB8]";
     } else if (
-      currentAnswer[i] in correctAnswers &&
+      (+currentAnswer[i]) in correctAnswers &&
       correctNumbersAmount[currentAnswer[i]] >
         correctAnswers[currentAnswer[i]] &&
       !anyCorrect[currentAnswer[i]]
@@ -299,10 +299,6 @@ const handleInput = (answerSection: number, idx: number) => {
   if (value && (value > 9 || value < 0)) {
     value = +value.toString().slice(0, maxLength); // Slice it to 1 digit if it's more
   }
-  // answer.value[answerSection][idx] = answer.value[answerSection][idx].replace(
-  //   /[^0-9.]/g,
-  //   "",
-  // );
 
   let nextInput = document.querySelector(
     `.box-${answerSection}-${idx + 1}`,
