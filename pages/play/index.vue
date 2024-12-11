@@ -152,12 +152,12 @@
 
 <script setup lang="ts">
 import type { Content } from "~/types/content";
+import type { ApiResponse } from "~/types/api";
 
 import Question1 from "./components/Question1.vue";
 import Question1Result from "./components/Question1Result.vue";
 import Question2 from "./components/Question2.vue";
 import LoadingCircle from "~/components/LoadingCircle.vue";
-import type { ApiResponse } from "~/types/api";
 
 const { showToast } = useToast();
 const { t } = useI18n();

@@ -149,8 +149,9 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/auth";
-import SectionParent from "./SectionParent.vue";
 import type { UserProfileUpdate } from "~/types/userProfile";
+
+import SectionParent from "./SectionParent.vue";
 
 const { t } = useI18n();
 const { user, fetchUser, userPointsFn } = useAuthStore();
