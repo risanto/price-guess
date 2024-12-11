@@ -1,5 +1,9 @@
 <template>
-  <svg
+  <NuxtImg
+    src="https://www.hsb.co.id/price-guess/loader.gif"
+    class="h-20 w-20"
+  />
+  <!-- <svg
     aria-hidden="true"
     class="h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
     viewBox="0 0 100 101"
@@ -15,5 +19,5 @@
       fill="currentFill"
     />
   </svg>
-  <span class="sr-only">Loading...</span>
+  <span class="sr-only">Loading...</span> -->
 </template>
