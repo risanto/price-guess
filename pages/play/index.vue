@@ -12,7 +12,7 @@
 
       <main
         v-else-if="!loading"
-        class="flex flex-col overflow-hidden px-[9px] py-[39px] md:space-y-[34px] md:py-[26px]"
+        class="flex flex-col overflow-hidden px-[9px] py-[39px] md:space-y-6 md:py-[26px]"
       >
         <p v-if="!content" class="mt-48 text-center text-red-500 md:col-span-3">
           {{ $t("Error dari database, coba refresh kembali") }}
@@ -20,7 +20,7 @@
 
         <template v-else-if="content">
           <div
-            class="flex h-[510px] flex-col rounded-lg border-[0.5px] border-black p-[11px] md:col-span-3 md:grid md:h-[574px] md:grid-cols-3 md:space-x-9 md:border-0 md:p-0"
+            class="flex h-[510px] flex-col rounded-lg border-[0.5px] border-black p-[11px] md:col-span-3 md:grid md:h-[574px] md:grid-cols-3 md:space-x-6 md:border-0 md:p-0"
           >
             <div class="md:col-span-2">
               <div class="relative">

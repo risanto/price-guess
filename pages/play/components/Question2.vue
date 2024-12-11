@@ -1,24 +1,24 @@
 <template>
   <SectionParent>
     <template v-if="showExplanation">
-      <div class="flex flex-1 flex-col justify-between p-4">
+      <div
+        class="flex flex-1 flex-col justify-between p-4 md:justify-center 2xl:p-9"
+      >
         <div>
-          <h3 class="mt-3 text-center text-xl font-bold">
+          <h3 class="mt-3 text-center text-xl font-bold md:text-4xl">
             {{ $t("Penjelasan") }}
           </h3>
 
-          <p class="mt-4 px-4">{{ analysis }}</p>
+          <p class="mt-12 px-4 md:font-medium 2xl:text-2xl">{{ analysis }}</p>
         </div>
 
-        <div class="flex justify-end">
+        <div class="flex justify-end md:mt-12">
           <button
             @click="
               showExplanation = false;
               showThankYou = true;
             "
-            :class="[
-              'h-9 w-14 transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-primary-200',
-            ]"
+            class="absolute h-[32px] w-12 translate-x-[480%] transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-amber-500 md:static md:translate-x-0 2xl:h-[49px] 2xl:w-[82px] 2xl:text-[20px]"
           >
             {{ $t("OK") }}
           </button>
@@ -27,21 +27,25 @@
     </template>
 
     <template v-else-if="showThankYou">
-      <div class="flex flex-1 flex-col justify-around py-4 px-2">
+      <div
+        class="flex flex-1 flex-col justify-around px-2 py-4 md:justify-center md:px-6"
+      >
         <div>
-          <h3 class="mt-3 text-center text-xl font-bold">
+          <h3 class="mt-3 text-center text-xl font-bold md:text-4xl">
             {{ $t("Terima kasih telah bermain!") }}
           </h3>
 
-          <p class="mt-4 px-4 text-center">
+          <p
+            class="mt-4 px-4 text-center md:mt-6 md:p-0 md:text-xl md:font-medium"
+          >
             Jangan lupa untuk kembali besok dan coba game penghasil uang
             termudah ini lagi.
           </p>
         </div>
 
-        <div class="flex justify-center">
+        <div class="flex justify-center md:mt-10">
           <button
-            class="mx-auto w-[167px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
+            class="mx-auto w-[167px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500 md:w-[265px] md:py-2.5 md:text-2xl"
           >
             <NuxtLink href="/">
               {{ $t("Kembali ke Beranda") }}
@@ -59,32 +63,42 @@
       <template v-else-if="!loading">
         <template v-if="showWinMessage">
           <NuxtImg
-            class="m-auto w-12"
+            class="m-auto w-12 md:my-0 md:w-20"
             src="https://www.hsb.co.id/price-guess/coin-spin.gif"
           />
 
-          <div class="text-center text-xl font-semibold">
-            <div>{{ $t("Selamat! Jawabanmu benar.") }}</div>
+          <div
+            class="text-center text-xl font-semibold md:px-3 md:text-4xl md:font-bold"
+          >
+            <div>
+              {{ $t("Selamat! ") }} <br class="hidden md:block" />
+              {{ $t("Jawabanmu benar.") }}
+            </div>
             <div>{{ $t("Kamu mendapatkan 5000 poin.") }}</div>
           </div>
         </template>
 
         <template v-else-if="!showWinMessage">
-          <h2 class="mt-5 max-w-[320px] text-center text-xl font-semibold">
+          <h2
+            class="mt-5 max-w-[320px] text-center text-xl font-semibold md:max-w-full md:text-4xl md:font-bold"
+          >
             {{ $t("Tebak nominal harga emas terhadap USD di ") }}
             <span class="italic">{{ $t("candle ") }}</span>
             {{ $t("selanjutnya") }}
           </h2>
 
-          <div class="mx-auto mt-4 flex flex-col space-y-2">
-            <div v-for="(_, answerSection) in answer" class="flex space-x-1">
+          <div class="mx-auto mt-4 flex flex-col space-y-2 md:mt-5">
+            <div
+              v-for="(_, answerSection) in answer"
+              class="flex space-x-1 md:space-x-1.5"
+            >
               <input
                 v-for="(_, idx) in q2Answer"
                 @keyup.enter="handleAnswer"
                 type="text"
                 v-model="answer[answerSection][idx]"
                 :class="[
-                  'number-box text-center',
+                  'number-box text-center md:text-xl md:font-bold',
                   `row-${answerSection}`,
                   `box-${answerSection}-${idx}`,
                   answerBgColors[answerSection][idx],
@@ -102,7 +116,7 @@
                 v-if="currentSection === answerSection && !finished"
                 @click="handleAnswer"
                 :class="[
-                  'absolute h-[32px] w-12 translate-x-[480%] transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-primary-200',
+                  'absolute h-[32px] w-12 translate-x-[480%] transform rounded-md border-[0.5px] border-black bg-primary-100 text-[15px] font-bold text-white hover:bg-primary-200 md:static md:translate-x-0 md:text-[20px] 2xl:h-[49px] 2xl:w-[82px]',
                   { 'bg-slate-300 hover:bg-slate-300': finished },
                 ]"
               >
@@ -112,7 +126,7 @@
 
             <div
               v-if="error"
-              class="mt-4 text-center text-xs font-bold text-red-600"
+              class="mt-4 text-center text-xs font-bold text-red-600 md:text-xl"
             >
               {{ error }}
             </div>
@@ -122,7 +136,7 @@
         <button
           v-if="finished"
           @click="showExplanation = true"
-          class="m-auto w-[141px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500"
+          class="m-auto w-[141px] rounded-lg border-[0.5px] border-black bg-black px-2.5 py-1.5 text-center text-sm font-bold text-white hover:bg-slate-500 md:my-0 md:mt-2 md:w-[224px] md:text-2xl"
         >
           {{ $t("Lihat Penjelasan") }}
         </button>

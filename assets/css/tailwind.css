@@ -21,7 +21,7 @@ body {
 }
 
 .number-box {
-  @apply flex h-[32px] w-[35px] items-center justify-center rounded-md border-[0.5px] border-black font-bold;
+  @apply flex h-[32px] w-[35px] items-center justify-center rounded-md border-[0.5px] border-black font-bold 2xl:h-[49px] 2xl:w-[54px];
 }
 .number-box-sm {
   @apply flex h-[14px] w-[15px] items-center justify-center rounded-[3px] border-[0.5px] border-black font-bold;
