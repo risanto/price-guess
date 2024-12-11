@@ -158,7 +158,7 @@ const showExplanation = ref(false);
 const showThankYou = ref(false);
 const showWinMessage = ref(false);
 
-const { q2Answer, changeToFinished } = defineProps({
+const { q2Answer, changeToFinished, finished, analysis } = defineProps({
   q2Answer: {
     type: String,
     required: true,
@@ -199,6 +199,22 @@ watch(currentSection, async () => {
   ) as HTMLElement;
   currentInput.focus();
 });
+watch(
+  () => finished,
+  async () => {
+    if (finished) {
+      await nextTick();
+
+      // Get the currently focused element
+      const focusedElement = document.activeElement as HTMLElement;
+
+      // If there's an element that's currently focused
+      if (focusedElement) {
+        focusedElement.blur(); // Remove focus from the element
+      }
+    }
+  },
+);
 
 const handleAnswer = () => {
   const currentAnswer = answer.value[currentSection.value];
