@@ -290,10 +290,19 @@ const handleAnswer = () => {
 };
 const handleInput = (answerSection: number, idx: number) => {
   error.value = "";
-  answer.value[answerSection][idx] = answer.value[answerSection][idx].replace(
-    /[^0-9.]/g,
-    "",
-  );
+
+  const maxLength = 1; // Only allow a single digit
+
+  let value = +answer.value[answerSection][idx];
+
+  // Ensure the value is a valid single digit number
+  if (value && (value > 9 || value < 0)) {
+    value = +value.toString().slice(0, maxLength); // Slice it to 1 digit if it's more
+  }
+  // answer.value[answerSection][idx] = answer.value[answerSection][idx].replace(
+  //   /[^0-9.]/g,
+  //   "",
+  // );
 
   let nextInput = document.querySelector(
     `.box-${answerSection}-${idx + 1}`,
