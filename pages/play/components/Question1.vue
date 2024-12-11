@@ -1,6 +1,6 @@
 <template>
   <SectionParent>
-    <h2 class="mt-11 max-w-[292px] text-center text-xl font-semibold">
+    <h2 class="mt-11 max-w-[292px] text-center text-xl font-semibold md:m-0">
       {{ $t("Tebak apakah harga akan naik atau turun di ") }}
       <span class="italic">{{ $t("candle ") }}</span>
       {{ $t("selanjutnya?") }}
