@@ -180,7 +180,7 @@ const doesPriceGoUp = (answer: boolean) => {
   currentQuestion.value = Question1Result;
   currentQuestionKey.value = "q1R";
 
-  delay(5000).then(() => {
+  delay(4800).then(() => {
     currentQuestion.value = Question2;
     currentQuestionKey.value = "q2";
   });

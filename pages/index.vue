@@ -8,7 +8,7 @@
       <NuxtImg
         src="https://www.hsb.co.id/price-guess/logo.png"
         alt="logo"
-        class="w-[87px] lg:w-[186px] mt-8"
+        class="w-[87px] lg:w-[186px]"
       />
     </div>
 

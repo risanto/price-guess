@@ -60,17 +60,17 @@
 
       <div
         v-if="isAuthenticated"
-        class="relative flex h-[31px] w-[92px] items-center rounded-[6px] border-[0.5px] border-black px-1"
+        class="relative flex h-[31px] w-[92px] items-center rounded-[6px] border-[0.5px] border-black px-1 md:h-[68px] md:w-[205px] md:rounded-xl md:px-2"
       >
-        <div class="flex flex-col space-y-[1.5px]">
+        <div class="flex flex-col space-y-[1.5px] md:space-y-1">
           <div
-            class="flex w-[67px] items-center rounded-[3px] border-[0.5px] border-black bg-black px-1 text-[8px] font-bold text-white"
+            class="flex w-[67px] items-center rounded-[3px] border-[0.5px] border-black bg-black px-1 text-[8px] font-bold text-white md:w-[148px] md:rounded-md md:px-2 md:py-0.5 md:text-base"
           >
             {{ user?.email.split("@")[0] }}
           </div>
 
           <button
-            class="flex w-[42px] items-center rounded-[3px] border-[0.5px] border-black bg-primary-500 px-1 text-left text-[5.5px] font-bold text-white"
+            class="flex w-[42px] items-center rounded-[3px] border-[0.5px] border-black bg-primary-500 px-1 text-left text-[5.5px] font-bold text-white md:w-[93px] md:rounded-md md:px-2 md:py-0.5 md:text-xs"
             data-modal-target="redeem-modal"
             data-modal-toggle="redeem-modal"
           >
@@ -79,12 +79,12 @@
         </div>
 
         <NuxtImg
-          class="absolute bottom-0 right-0.5 h-[44px] w-[33px]"
+          class="absolute bottom-0 right-0.5 h-[44px] w-[33px] md:h-[97px] md:w-[73px]"
           src="https://www.hsb.co.id/price-guess/profile-icon.png"
         />
 
         <button
-          class="absolute -bottom-[13px] right-0 flex w-[42px] items-center justify-center rounded-[3px] border-[0.5px] border-black px-1 text-[6px] font-bold"
+          class="absolute -bottom-[13px] right-0 flex w-[42px] items-center justify-center rounded-[3px] border-[0.5px] border-black px-1 text-[6px] font-bold md:-bottom-[28px] md:w-[97px] md:text-base"
           @click="logout()"
         >
           {{ $t("Log out") }}
