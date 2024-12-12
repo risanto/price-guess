@@ -3,22 +3,22 @@
     class="mx-auto flex w-full max-w-[1620px] flex-col items-center justify-center"
   >
     <div
-      class="flex w-full items-center justify-center border-b-[0.5px] border-black py-3 md:py-6"
+      class="flex w-full items-center justify-center border-b-[0.5px] border-black py-3 lg:py-6"
     >
       <NuxtImg
         src="https://www.hsb.co.id/price-guess/logo.png"
         alt="logo"
-        class="w-[87px] md:w-[186px]"
+        class="w-[87px] lg:w-[186px] mt-8"
       />
     </div>
 
     <div
-      class="mx-[9px] mt-[39px] flex flex-col items-center justify-center rounded-lg border-[0.5px] border-black p-[11px] pb-[50px] md:mx-5 md:flex-row md:justify-around md:space-x-[29px] md:p-[29px]"
+      class="mx-[9px] mt-[39px] flex flex-col items-center justify-center rounded-lg border-[0.5px] border-black p-[11px] pb-[50px] lg:mx-5 lg:flex-row lg:justify-around lg:space-x-[29px] lg:p-[29px]"
     >
       <div
         class="relative overflow-hidden rounded-lg border-[0.5px] border-black"
       >
-        <video autoplay playsinline muted class="h-full w-full md:w-[861px]">
+        <video autoplay playsinline muted class="h-full w-full lg:w-[861px]">
           <source
             src="https://www.hsb.co.id/price-guess/initial-example.mp4"
             type="video/mp4"
@@ -55,8 +55,8 @@
         </div>
       </div>
 
-      <div class="md:flex md:max-w-[600px] md:flex-col md:items-center">
-        <div class="mt-8 text-center text-3xl font-bold md:mt-0 md:text-4xl">
+      <div class="lg:flex lg:max-w-[600px] lg:flex-col lg:items-center">
+        <div class="mt-8 text-center text-3xl font-bold lg:mt-0 lg:text-4xl">
           {{ $t("Tebak Harga Emas dan Dapatkan Hadiah Uang Tunai!") }}
 
           <NuxtImg
@@ -66,10 +66,10 @@
         </div>
 
         <div
-          class="mt-5 flex items-center justify-center md:mt-16 md:w-[500px] md:justify-between"
+          class="mt-5 flex items-center justify-center lg:mt-16 lg:w-[500px] lg:justify-between"
         >
           <button
-            class="base-btn w-[126px] bg-black hover:bg-slate-700 md:w-[200px] md:text-2xl"
+            class="base-btn w-[126px] bg-black hover:bg-slate-700 lg:w-[200px] lg:text-2xl"
           >
             <NuxtLink href="/play">
               {{ $t("Mulai Main") }}
@@ -82,7 +82,7 @@
             data-modal-toggle="hint-modal"
           >
             <NuxtImg
-              class="mx-3 h-[26px] w-[26px] md:h-[42px] md:w-[42px]"
+              class="mx-3 h-[26px] w-[26px] lg:h-[42px] lg:w-[42px]"
               src="https://www.hsb.co.id/price-guess/how-to-btn.png"
               alt="petunjuk"
             />
@@ -90,7 +90,7 @@
 
           <button
             v-if="!isAuthenticated"
-            class="base-btn w-[126px] bg-primary-500 hover:bg-amber-500 md:w-[200px] md:text-2xl"
+            class="base-btn w-[126px] bg-primary-500 hover:bg-amber-500 lg:w-[200px] lg:text-2xl"
           >
             <NuxtLink href="/login">
               {{ $t("Login/Register") }}
@@ -100,37 +100,37 @@
       </div>
     </div>
 
-    <div class="mb-8 mt-16 px-5 text-sm md:mt-24 md:text-2xl">
+    <div class="mb-8 mt-16 px-5 text-sm lg:mt-24 lg:text-2xl">
       <div
-        class="relative w-full rounded-lg border-[0.5px] border-black bg-primary-500 px-[13px] pb-[10px] pt-[23px] text-white md:h-[60px]"
+        class="relative w-full rounded-lg border-[0.5px] border-black bg-primary-500 px-[13px] pb-[10px] pt-[23px] text-white lg:h-[60px]"
       >
         <div
-          class="absolute -left-[1px] -top-[20px] rounded-lg border-[0.5px] border-black bg-black px-4 py-2 md:top-0 md:flex md:h-[60px] md:items-center"
+          class="absolute -left-[1px] -top-[20px] rounded-lg border-[0.5px] border-black bg-black px-4 py-2 lg:top-0 lg:flex lg:h-[60px] lg:items-center"
         >
           {{ $t("Berita Harga Emas Terkini:") }}
         </div>
 
         <div
-          class="min-h-[41px] md:absolute md:left-[320px] md:top-1/2 md:flex md:-translate-y-1/2 md:transform md:items-center"
+          class="min-h-[41px] lg:absolute lg:left-[320px] lg:top-1/2 lg:flex lg:-translate-y-1/2 lg:transform lg:items-center"
         >
           {{ $t("Harga Emas Hari Ini") }}
         </div>
 
         <div
-          class="absolute bottom-1.5 right-1.5 flex h-[13px] items-center justify-center space-x-1 rounded bg-white px-1 py-0.5 text-[7px] text-black md:right-[21px] md:top-[12px] md:h-[32px] md:w-[128px] md:text-xl"
+          class="absolute bottom-1.5 right-1.5 flex h-[13px] items-center justify-center space-x-1 rounded bg-white px-1 py-0.5 text-[7px] text-black lg:right-[21px] lg:top-[12px] lg:h-[32px] lg:w-[128px] lg:text-xl"
         >
           <div>
             {{ $t("Baca berita") }}
           </div>
 
           <NuxtImg
-            class="h-1.5 w-1.5 md:h-[15px] md:w-[15px]"
+            class="h-1.5 w-1.5 lg:h-[15px] lg:w-[15px]"
             src="https://www.hsb.co.id/price-guess/link-logo.png"
           />
         </div>
       </div>
 
-      <section class="mt-10 space-y-5 md:mt-20">
+      <section class="mt-10 space-y-5 lg:mt-20">
         <p class="text-justify">
           <span class="font-bold">Tebak Harga Emas.com</span> adalah game
           penghasil uang yang seru dan mudah, di mana kamu bisa menebak harga
@@ -151,7 +151,7 @@
 
       <Faq />
 
-      <div class="mx-auto py-4 text-center md:py-12">
+      <div class="mx-auto py-4 text-center lg:py-12">
         ©2024 Tebak Harga Emas
       </div>
     </div>

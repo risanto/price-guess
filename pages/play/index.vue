@@ -1,5 +1,5 @@
 <template>
-  <div class="md:mx-auto md:max-w-[1620px]">
+  <div class="lg:mx-auto lg:max-w-[1620px]">
     <Header />
 
     <ClientOnly>
@@ -12,85 +12,85 @@
 
       <main
         v-else-if="!loading"
-        class="flex flex-col overflow-hidden px-[9px] py-[39px] md:space-y-6 md:py-[26px]"
+        class="flex flex-col overflow-hidden px-[9px] py-[39px] lg:space-y-6 lg:py-[26px]"
       >
-        <p v-if="!content" class="mt-48 text-center text-red-500 md:col-span-3">
+        <p v-if="!content" class="mt-48 text-center text-red-500 lg:col-span-3">
           {{ $t("Error dari database, coba refresh kembali") }}
         </p>
 
         <template v-else-if="content">
           <div
-            class="flex h-[510px] flex-col rounded-lg border-[0.5px] border-black p-[11px] md:col-span-3 md:grid md:h-[574px] md:grid-cols-3 md:space-x-6 md:border-0 md:p-0"
+            class="flex min-h-[510px] flex-col rounded-lg border-[0.5px] border-black p-[11px] lg:col-span-3 lg:grid lg:h-[574px] lg:grid-cols-3 lg:space-x-6 lg:border-0 lg:p-0"
           >
-            <div class="md:col-span-2">
+            <div class="lg:col-span-2">
               <div class="relative">
                 <transition name="enlarge" mode="out-in">
                   <div v-if="!finished">
                     <NuxtImg
-                      class="hidden h-[574px] w-full rounded-2xl border border-black md:block"
+                      class="hidden h-[574px] w-full rounded-2xl border border-black lg:block"
                       :src="content?.initial_img_url as string"
                     />
 
                     <ZoomableImg
                       :src="content?.initial_img_url as string"
-                      :className="'md:hidden'"
+                      :className="'lg:hidden'"
                     />
                   </div>
 
                   <div v-else>
                     <NuxtImg
-                      class="hidden h-[574px] w-full rounded-2xl border border-black md:block"
+                      class="hidden h-[574px] w-full rounded-2xl border border-black lg:block"
                       :src="content?.answer_img_url as string"
                     />
 
                     <ZoomableImg
                       :src="content?.answer_img_url as string"
-                      :className="'md:hidden'"
+                      :className="'lg:hidden'"
                     />
                   </div>
                 </transition>
 
                 <div
-                  class="absolute left-1 top-1 flex space-x-1 md:left-4 md:top-4 md:space-x-4"
+                  class="absolute left-1 top-1 flex space-x-1 lg:left-4 lg:top-4 lg:space-x-4"
                 >
                   <div
-                    class="flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px] md:rounded-xl"
+                    class="flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px] lg:rounded-xl"
                   >
                     <NuxtImg
                       src="https://www.hsb.co.id/price-guess/gold-icon.png"
                       alt="gold icon"
-                      class="h-2 w-2 md:h-7 md:w-7"
+                      class="h-2 w-2 lg:h-7 lg:w-7"
                     />
-                    <span class="ml-[1px] text-[9px] font-bold md:text-[27px]">
+                    <span class="ml-[1px] text-[9px] font-bold lg:text-[27px]">
                       XAUUSD
                     </span>
                   </div>
 
                   <div
-                    class="flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px] md:rounded-xl"
+                    class="flex items-center justify-center rounded-md border-[0.3px] border-black bg-white p-[5px] lg:rounded-xl"
                   >
-                    <span class="text-[9px] font-bold md:text-[27px]">
+                    <span class="text-[9px] font-bold lg:text-[27px]">
                       30m
                     </span>
                   </div>
                 </div>
 
                 <div
-                  class="absolute bottom-1.5 left-1 flex flex-col justify-center rounded-md border-[0.3px] border-black bg-white px-[5px] pb-[4px] pt-[3px] md:bottom-4 md:left-4 md:rounded-xl md:px-[14px] md:py-[12px]"
+                  class="absolute bottom-1.5 left-1 flex flex-col justify-center rounded-md border-[0.3px] border-black bg-white px-[5px] pb-[4px] pt-[3px] lg:bottom-4 lg:left-4 lg:rounded-xl lg:px-[14px] lg:py-[12px]"
                 >
-                  <span class="text-[4px] italic md:text-[11px]">
+                  <span class="text-[4px] italic lg:text-[11px]">
                     Source:
                   </span>
 
                   <NuxtImg
                     src="https://www.hsb.co.id/price-guess/trading-view-logo.png"
                     alt="tradingview icon"
-                    class="w-[75px] md:w-[221px]"
+                    class="w-[75px] lg:w-[221px]"
                   />
                 </div>
               </div>
 
-              <div class="mt-2 text-center text-xs text-gray-500 md:hidden">
+              <div class="mt-2 text-center text-xs text-gray-500 lg:hidden">
                 {{ $t("*Gambar bisa digeser & diperbesar") }}
               </div>
             </div>
@@ -111,31 +111,31 @@
           </div>
 
           <section
-            class="mt-4 space-y-2 rounded-lg border-[0.5px] border-black p-4 md:col-span-3"
+            class="mt-4 space-y-2 rounded-lg border-[0.5px] border-black p-4 lg:col-span-3"
           >
-            <h3 class="text-xl font-bold md:text-4xl">
+            <h3 class="text-xl font-bold lg:text-4xl">
               {{ $t("Berita Relevan") }}
             </h3>
 
             <ul v-for="(news, idx) in content?.info.news_items" :key="idx">
               <a :href="news.link" target="_blank">
                 <li
-                  class="relative w-full rounded-lg border-[0.5px] border-black bg-primary-500 p-2 text-white md:inline-block md:w-auto md:rounded-xl md:border md:px-3 md:py-1"
+                  class="relative w-full rounded-lg border-[0.5px] border-black bg-primary-500 p-2 text-white lg:inline-block lg:w-auto lg:rounded-xl lg:border lg:px-3 lg:py-1"
                 >
-                  <div class="md:flex md:items-center md:space-x-4">
+                  <div class="lg:flex lg:items-center lg:space-x-4">
                     <span
-                      class="inline-block w-[calc(100%-60px)] md:w-auto md:text-2xl"
+                      class="inline-block w-[calc(100%-60px)] lg:w-auto lg:text-2xl"
                       >{{ news.title }}</span
                     >
                     <div
-                      class="absolute bottom-1.5 right-1.5 flex h-[13px] items-center justify-center space-x-1 rounded bg-white px-1 py-0.5 text-[7px] text-black md:static md:h-auto md:rounded-md md:px-1.5 md:py-1 md:text-[12px] md:font-medium"
+                      class="absolute bottom-1.5 right-1.5 flex h-[13px] items-center justify-center space-x-1 rounded bg-white px-1 py-0.5 text-[7px] text-black lg:static lg:h-auto lg:rounded-md lg:px-1.5 lg:py-1 lg:text-[12px] lg:font-medium"
                     >
                       <div>
                         {{ $t("Baca berita") }}
                       </div>
 
                       <NuxtImg
-                        class="h-1.5 w-1.5 md:h-2.5 md:w-2.5"
+                        class="h-1.5 w-1.5 lg:h-2.5 lg:w-2.5"
                         src="https://www.hsb.co.id/price-guess/link-logo.png"
                       />
                     </div>

@@ -40,8 +40,11 @@
           <p
             class="mt-4 px-4 text-center md:mt-6 md:p-0 md:text-xl md:font-medium"
           >
-            Jangan lupa untuk kembali besok dan coba game penghasil uang
-            termudah ini lagi.
+            {{
+              $t(
+                " Jangan lupa untuk kembali besok dan coba game penghasil uang termudah ini lagi.",
+              )
+            }}
           </p>
         </div>
 
@@ -65,12 +68,12 @@
       <template v-else-if="!loading">
         <template v-if="showWinMessage">
           <NuxtImg
-            class="m-auto w-12 md:my-0 md:w-20"
+            class="mx-auto mt-8 w-12 md:my-0 md:w-20"
             src="https://www.hsb.co.id/price-guess/coin-spin.gif"
           />
 
           <div
-            class="text-center text-xl font-semibold md:px-3 md:text-4xl md:font-bold"
+            class="mt-8 text-center text-xl font-semibold md:px-3 md:text-4xl md:font-bold"
           >
             <div>
               {{ $t("Selamat! ") }} <br class="hidden md:block" />

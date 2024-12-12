@@ -85,7 +85,7 @@ const email = ref("");
 const password = ref("");
 const error = ref("");
 
-const { fetchUser } = useAuthStore();
+const { fetchUser, userPointsFn } = useAuthStore();
 const route = useRoute();
 const { from } = route.query;
 
@@ -98,9 +98,15 @@ const login = async () => {
   error.value = "";
   loading.value = true;
 
+  const pointsNoLogin = userPointsFn.load();
+
   const { error: errorAuthLogin } = await $fetch("/api/auth/login", {
     method: "POST",
-    body: { email: email.value, password: password.value },
+    body: {
+      email: email.value,
+      password: password.value,
+      addPoints: pointsNoLogin,
+    },
   });
 
   if (errorAuthLogin) {
