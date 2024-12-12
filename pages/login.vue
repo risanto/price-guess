@@ -80,14 +80,14 @@ import { useAuthStore } from "~/stores/auth";
 
 const { t } = useI18n();
 const loading = ref(false);
+const route = useRoute();
+const { from, email: emailParam } = route.query;
 
-const email = ref("");
+const email = ref(emailParam ?? "");
 const password = ref("");
 const error = ref("");
 
 const { fetchUser, userPointsFn } = useAuthStore();
-const route = useRoute();
-const { from } = route.query;
 
 const label = {
   email: t("Email"),
