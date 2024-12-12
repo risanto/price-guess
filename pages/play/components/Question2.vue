@@ -290,13 +290,11 @@ const handleAnswer = () => {
 const handleInput = (answerSection: number, idx: number) => {
   error.value = "";
 
-  const maxLength = 1; // Only allow a single digit
-
   let value = +answer.value[answerSection][idx];
 
   // Ensure the value is a valid single digit number
   if (value && (value > 9 || value < 0)) {
-    value = +value.toString().slice(0, maxLength); // Slice it to 1 digit if it's more
+    answer.value[answerSection][idx] = +value.toString().slice(-1); // Slice it to 1 digit if it's more
   }
 
   let nextInput = document.querySelector(
