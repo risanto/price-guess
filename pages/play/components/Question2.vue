@@ -267,7 +267,7 @@ const handleInput = (answerSection: number, idx: number) => {
     `.box-${answerSection}-${idx + 1}`,
   ) as HTMLElement;
 
-  if (value && nextInput) {
+  if (Number.isFinite(value) && nextInput) {
     if (nextInput.classList.contains("bg-slate-100")) {
       nextInput = document.querySelector(
         `.box-${answerSection}-${idx + 2}`,
