@@ -96,11 +96,12 @@
             >
               <input
                 v-for="(_, idx) in q2Answer"
+                @input="handleInput(answerSection, idx)"
                 @keyup.enter="handleAnswer"
                 :type="idx === 4 ? 'text' : 'number'"
                 v-model="answer[answerSection][idx]"
                 :class="[
-                  'number-box text-center md:text-xl md:font-bold',
+                  'number-box text-center md:font-bold lg:text-xl',
                   `row-${answerSection}`,
                   `box-${answerSection}-${idx}`,
                   answerBgColors[answerSection][idx],
@@ -111,8 +112,6 @@
                   (answerSection < currentSection ? true : false) ||
                   currentSection < answerSection
                 "
-                @input="handleInput(answerSection, idx)"
-                maxlength="1"
               />
               <button
                 v-if="currentSection === answerSection && !finished"
@@ -183,9 +182,9 @@ const error = ref("");
 const currentSection = ref(0);
 
 const answer = ref([
-  [q2Answer[0], q2Answer[1], "", "", ".", ""],
-  [q2Answer[0], q2Answer[1], "", "", ".", ""],
-  [q2Answer[0], q2Answer[1], "", "", ".", ""],
+  [+q2Answer[0], +q2Answer[1], "", "", ".", ""],
+  [+q2Answer[0], +q2Answer[1], "", "", ".", ""],
+  [+q2Answer[0], +q2Answer[1], "", "", ".", ""],
 ]);
 const answerBgColors = ref([
   ["bg-slate-100", "bg-slate-100", "", "", "bg-slate-100", ""],
@@ -362,6 +361,18 @@ function triggerWinningAnimation(idx: number) {
 </script>
 
 <style>
+/* Hide the spinner in Webkit browsers (Chrome, Safari) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide the spinner in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 @keyframes flipIn {
   0% {
     transform: rotateX(0);
