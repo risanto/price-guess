@@ -109,7 +109,6 @@ import type { Database } from "~/types/supabase";
 
 const { userPoints } = useAuthStore();
 const supabase = useSupabaseClient<Database>();
-const config = useRuntimeConfig();
 const route = useRoute();
 const { from } = route.query;
 
@@ -157,7 +156,7 @@ const register = async () => {
     email: email.value,
     password: password.value,
     options: {
-      emailRedirectTo: config.public.apiBase + "/login",
+      emailRedirectTo: window.location.origin + "/login",
     },
   });
   if (registerError) {
