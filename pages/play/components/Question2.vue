@@ -98,6 +98,7 @@
                 v-for="(_, idx) in q2Answer"
                 @input="handleInput(answerSection, idx)"
                 @keyup.enter="handleAnswer"
+                @keydown.backspace.prevent="handleBackspace(answerSection, idx)"
                 :type="idx === 4 ? 'text' : 'number'"
                 v-model="answer[answerSection][idx]"
                 :class="[
@@ -196,6 +197,7 @@ watch(currentSection, async () => {
   // Wait for DOM updates after the reactive value changes
   await nextTick();
 
+  // go to first empty box
   const currentInput = document.querySelector(
     `.box-${currentSection.value}-2`,
   ) as HTMLElement;
@@ -218,6 +220,62 @@ watch(
   },
 );
 
+const handleBackspace = (answerSection: number, idx: number) => {
+  const currentInput = document.querySelector(
+    `.box-${answerSection}-${idx}`,
+  ) as HTMLInputElement;
+
+  // If the input is not empty, do nothing
+  if (currentInput && currentInput.value !== "") {
+    answer.value[answerSection][idx] = "";
+    return;
+  }
+
+  let focusedIdx = idx - 1; // Try to move one step back
+
+  // Ensure we don't go below the minimum index (2 in your case)
+  focusedIdx = Math.max(focusedIdx, 2);
+
+  let prevInput = document.querySelector(
+    `.box-${answerSection}-${focusedIdx}`,
+  ) as HTMLElement;
+
+  if (prevInput) {
+    // Skip over inputs with certain classes (like 'bg-slate-100') if needed
+    if (prevInput.classList.contains("bg-slate-100")) {
+      focusedIdx = Math.max(focusedIdx - 1, 2); // Skip one more if it's non-interactive
+      prevInput = document.querySelector(
+        `.box-${answerSection}-${focusedIdx}`,
+      ) as HTMLElement;
+    }
+
+    // Focus the previous input
+    prevInput?.focus();
+  }
+};
+const handleInput = (answerSection: number, idx: number) => {
+  error.value = "";
+
+  let value = +answer.value[answerSection][idx];
+
+  // Ensure the value is a valid single digit number
+  if (value && (value > 9 || value < 0)) {
+    answer.value[answerSection][idx] = +value.toString().slice(-1); // Slice it to 1 digit if it's more
+  }
+
+  let nextInput = document.querySelector(
+    `.box-${answerSection}-${idx + 1}`,
+  ) as HTMLElement;
+
+  if (value && nextInput) {
+    if (nextInput.classList.contains("bg-slate-100")) {
+      nextInput = document.querySelector(
+        `.box-${answerSection}-${idx + 2}`,
+      ) as HTMLElement;
+    }
+    nextInput.focus();
+  }
+};
 const handleAnswer = () => {
   const currentAnswer = answer.value[currentSection.value];
 
@@ -286,29 +344,6 @@ const handleAnswer = () => {
   }
 
   currentSection.value++;
-};
-const handleInput = (answerSection: number, idx: number) => {
-  error.value = "";
-
-  let value = +answer.value[answerSection][idx];
-
-  // Ensure the value is a valid single digit number
-  if (value && (value > 9 || value < 0)) {
-    answer.value[answerSection][idx] = +value.toString().slice(-1); // Slice it to 1 digit if it's more
-  }
-
-  let nextInput = document.querySelector(
-    `.box-${answerSection}-${idx + 1}`,
-  ) as HTMLElement;
-
-  if (nextInput) {
-    if (nextInput.classList.contains("bg-slate-100")) {
-      nextInput = document.querySelector(
-        `.box-${answerSection}-${idx + 2}`,
-      ) as HTMLElement;
-    }
-    nextInput.focus();
-  }
 };
 
 async function handleWin() {
