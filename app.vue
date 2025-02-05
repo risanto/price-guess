@@ -1,48 +1,43 @@
 <template>
   <div id="toast-container" class="fixed right-5 top-5 space-y-2" />
-  <NuxtPage />
+  <NuxtPage v-if="isMounted" />
+
+  <div v-else class="flex h-screen w-screen items-center justify-center">
+    <LoadingCircle />
+  </div>
 </template>
 
 <script setup lang="ts">
+import LoadingCircle from "./components/LoadingCircle.vue";
+import { useAuthStore } from "./stores/auth";
+
 const router = useRouter();
-const supabase = useSupabaseClient();
-const { user, saveUser } = useAuth();
-
-if (!user.value) {
-  try {
-    const { data, error } = await supabase.auth.getSession();
-
-    if (error) {
-      console.error("Error", error);
-    } else if (!data.session) {
-      user.value = null;
-    } else {
-      saveUser({
-        email: data.session?.user.email as string,
-        phone: data.session?.user.user_metadata.phone,
-        points: data.session?.user.user_metadata.points,
-      });
-    }
-  } catch (error) {
-    console.error("Error", error);
-  }
-}
+const { isAuthenticated, fetchUser } = useAuthStore();
+const isMounted = ref(false);
 
 if (import.meta.client) {
-  onMounted(() => {
+  onMounted(async () => {
+    // Fetch user data if it's not already loaded
+    if (!isAuthenticated) {
+      await fetchUser();
+    }
+
     useFlowbite(async () => {
       const { initFlowbite } = await import("flowbite");
       initFlowbite();
     });
+    isMounted.value = true;
   });
+
+  watch(
+    () => router.currentRoute.value,
+    () => {
+      useFlowbite(async () => {
+        const { initFlowbite } = await import("flowbite");
+        initFlowbite();
+      });
+    },
+    { immediate: true }, // Ensure this fires immediately
+  );
 }
-watch(
-  () => router.currentRoute.value,
-  () => {
-    useFlowbite(async () => {
-      const { initFlowbite } = await import("flowbite");
-      initFlowbite();
-    });
-  },
-);
 </script>

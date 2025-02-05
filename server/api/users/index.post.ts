@@ -7,7 +7,7 @@ export default eventHandler(async (event) => {
   const body = await readBody(event);
 
   // Assuming you have the email in the request body
-  const email = body.email;
+  const { email, points } = body;
 
   if (!email) {
     return {
@@ -19,8 +19,15 @@ export default eventHandler(async (event) => {
   // Initialize the Supabase service role client
   const client = serverSupabaseServiceRole<Database>(event);
 
+  let payload: any = { email };
+
+  if (Number.isFinite(points)) {
+    payload["points"] = points;
+    payload["points_last_added"] = new Date().toISOString();
+  }
+
   // Insert the new user into the "users" table
-  const { data, error } = await client.from("users").insert([{ email }]);
+  const { data, error } = await client.from("users").insert([payload]);
 
   // Check for errors
   if (error) {

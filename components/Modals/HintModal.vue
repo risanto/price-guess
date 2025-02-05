@@ -5,74 +5,154 @@
     aria-hidden="true"
     class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
   >
-    <div class="relative max-h-full w-full max-w-2xl p-4">
+    <div class="relative max-h-full max-w-2xl p-4">
       <!-- Modal content -->
       <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
-        <!-- Modal header -->
+        <button class="absolute right-2.5 top-2.5" data-modal-hide="hint-modal">
+          <NuxtImg
+            class="h-4 w-4"
+            src="https://www.hsb.co.id/price-guess/close-btn.png"
+          />
+        </button>
+
         <div
-          class="flex items-center justify-between rounded-t border-b p-4 dark:border-gray-600 md:p-5"
+          class="flex flex-col items-center justify-center space-y-4 px-5 py-12"
         >
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-            {{ $t("Cara Bermain") }}
-          </h3>
-          <button
-            type="button"
-            class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-hide="hint-modal"
-          >
-            <svg
-              class="h-3 w-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
+          <h1 class="main-header">{{ $t("Cara Bermain") }}</h1>
+
+          <ol class="ml-4 list-decimal">
+            <li>Lakukan analisa untuk grafik yang tersedia.</li>
+            <li>
+              Kami menyediakan bantuan berupa berita yang rilis pada hari itu
+              sebagai alat analisa. Contoh:
+
+              <div class="mb-4 mt-2 space-y-2">
+                <div
+                  class="relative w-full rounded-lg border-[0.5px] border-black bg-primary-500 p-2 text-white"
+                >
+                  <a
+                    href="https://www.metrotvnews.com/read/NnjC4YRJ-dolar-as-menguat"
+                    target="_blank"
+                    class="inline-block w-[calc(100%-60px)]"
+                    >Dolar AS Menguat</a
+                  >
+                  <div
+                    class="absolute bottom-1.5 right-1.5 flex h-[13px] items-center justify-center space-x-1 rounded bg-white px-1 py-0.5 text-[7px] text-black"
+                  >
+                    <div>Baca berita</div>
+                    <img
+                      data-nuxt-img=""
+                      srcset="
+                        https://www.hsb.co.id/price-guess/link-logo.png 1x,
+                        https://www.hsb.co.id/price-guess/link-logo.png 2x
+                      "
+                      class="h-1.5 w-1.5"
+                      src="https://www.hsb.co.id/price-guess/link-logo.png"
+                    />
+                  </div>
+                </div>
+
+                <div
+                  class="relative w-full rounded-lg border-[0.5px] border-black bg-primary-500 p-2 text-white"
+                >
+                  <a
+                    href="https://www.medcom.id/ekonomi/global/8KyPRe3k-tingkat-pengangguran-as-naik-hingga-4-di-mei-2024"
+                    target="_blank"
+                    class="inline-block w-[calc(100%-60px)]"
+                    >Tingkat Pengangguran AS Naik hingga 4% di Mei 2024</a
+                  >
+                  <div
+                    class="absolute bottom-1.5 right-1.5 flex h-[13px] items-center justify-center space-x-1 rounded bg-white px-1 py-0.5 text-[7px] text-black"
+                  >
+                    <div>Baca berita</div>
+                    <img
+                      data-nuxt-img=""
+                      srcset="
+                        https://www.hsb.co.id/price-guess/link-logo.png 1x,
+                        https://www.hsb.co.id/price-guess/link-logo.png 2x
+                      "
+                      class="h-1.5 w-1.5"
+                      src="https://www.hsb.co.id/price-guess/link-logo.png"
+                    />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>Lakukan tebakan kemana arah grafik selanjutnya.</li>
+            <li>
+              Setelah menebak arah grafik, kamu harus menebak harga tertinggi
+              atau terendah grafik pada grafik selanjutnya.
+            </li>
+            <li>
+              Kamu diberikan 4 kesempatan menebak.
+
+              <div class="mt-2 flex space-x-1">
+                <div class="number-box bg-[#F0F0F0]">2</div>
+                <div class="number-box bg-[#F0F0F0]">3</div>
+                <div class="number-box bg-[#B9FFB8]">3</div>
+                <div class="number-box bg-[#FFB8B8]">4</div>
+                <div class="number-box bg-[#F0F0F0]">.</div>
+                <div class="number-box bg-[#FFE7AA]">5</div>
+              </div>
+
+              <div class="mb-4 mt-3">
+                <div class="flex items-center">
+                  <div class="number-box-sm bg-[#B9FFB8]"></div>
+
+                  <div class="ml-1 text-sm">
+                    Menandakan angka dan pada kotak yang tepat.
+                  </div>
+                </div>
+
+                <div class="flex items-center">
+                  <div class="number-box-sm bg-[#FFE7AA]"></div>
+
+                  <div class="ml-1 text-sm">
+                    Menandakan angka yang tepat tapi kotak yang salah.
+                  </div>
+                </div>
+
+                <div class="flex items-center">
+                  <div class="number-box-sm bg-[#FFB8B8]"></div>
+
+                  <div class="ml-1 text-sm">
+                    Menandakan angka yang tidak sesuai dimanapun.
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              Jika berhasil menebak maka kamu akan mendapat reward berupa koin
+              yang bisa ditukar jadi uang tunai.
+            </li>
+            <li>Jika gagal menebak maka kamu baru bisa mencoba lagi besok.</li>
+          </ol>
+
+          <div v-if="location === 'Home'">
+            <button
+              class="base-btn mt-3 w-[126px] bg-black hover:bg-slate-500"
+              data-modal-hide="hint-modal"
             >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-              />
-            </svg>
-            <span class="sr-only">Close modal</span>
-          </button>
-        </div>
-        <!-- Modal body -->
-        <div class="space-y-4 p-4 md:p-5">
-          <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            With less than a month to go before the European Union enacts new
-            consumer privacy laws for its citizens, companies around the world
-            are updating their terms of service agreements to comply.
-          </p>
-          <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            The European Union’s General Data Protection Regulation (G.D.P.R.)
-            goes into effect on May 25 and is meant to ensure a common set of
-            data rights in the European Union. It requires organizations to
-            notify users as soon as possible of high-risk data breaches that
-            could personally affect them.
-          </p>
-        </div>
-        <!-- Modal footer -->
-        <div
-          class="flex items-center rounded-b border-t border-gray-200 p-4 dark:border-gray-600 md:p-5"
-        >
-          <button
-            data-modal-hide="hint-modal"
-            type="button"
-            class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            I accept
-          </button>
-          <button
-            data-modal-hide="hint-modal"
-            type="button"
-            class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-          >
-            Decline
-          </button>
+              <NuxtLink href="/play">
+                {{ $t("Mulai Main") }}
+              </NuxtLink>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+defineProps({
+  location: {
+    type: String,
+    validator: (val) => val === "Home" || val === undefined,
+  },
+});
+
+onBeforeUnmount(() => {
+  document.body.style.overflow = "auto"; // Reset scroll behavior when component unmounts
+});
+</script>

@@ -6,31 +6,35 @@
       <div
         class="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0"
       >
-        <div class="space-y-4 p-6 sm:p-8 md:space-y-6">
-          <h1
-            class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl"
+        <div class="relative space-y-6 p-6 sm:p-8 md:space-y-8">
+          <NuxtLink
+            :to="from ? (from as string) : '/'"
+            class="absolute right-2.5 top-2.5"
           >
-            {{ $t("Daftar") }}
+            <NuxtImg
+              class="h-4 w-4"
+              src="https://www.hsb.co.id/price-guess/close-btn.png"
+            />
+          </NuxtLink>
+
+          <h1 class="main-header">
+            {{ $t("Daftar Akun") }}
           </h1>
-          <form class="space-y-4 md:space-y-6" @submit.prevent="register">
+
+          <form class="space-y-2 md:space-y-4" @submit.prevent="register">
             <div>
-              <label
-                for="email"
-                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >{{ $t("Email") }}</label
-              >
               <input
                 type="email"
                 name="email"
                 id="email"
                 v-model="email"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder="mail@gmail.com"
+                class="input"
+                :placeholder="label.email"
                 required="true"
               />
             </div>
 
-            <div>
+            <!-- <div>
               <label
                 for="phone"
                 class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -41,46 +45,58 @@
                 name="phone"
                 id="phone"
                 v-model="phone"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder="mail@gmail.com"
+                class="block w-full rounded-lg border border-black bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                placeholder="08121333"
+                required="true"
+              />
+            </div> -->
+
+            <div>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                :placeholder="label.password"
+                v-model="password"
+                class="input"
                 required="true"
               />
             </div>
 
             <div>
-              <label
-                for="password"
-                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >{{ $t("Kata sandi") }}</label
-              >
               <input
                 type="password"
-                name="password"
-                id="password"
-                placeholder="••••••••"
-                v-model="password"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                name="confirmPassword"
+                id="confirmPassword"
+                :placeholder="label.confirmPassword"
+                v-model="confirmPassword"
+                class="input"
                 required="true"
               />
             </div>
+
             <div v-if="error" class="text-red-500">{{ $t(`${error}`) }}</div>
 
-            <button
-              type="submit"
-              class="w-full rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            >
-              {{ $t("Daftar") }}
-            </button>
+            <button type="submit" class="main-btn">
+              <template v-if="!loading">
+                {{ $t("Daftar") }}
+              </template>
 
-            <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-              {{ $t("Sudah punya akun?") }}
-              <NuxtLink
-                href="/login"
-                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >{{ $t("Masuk") }}</NuxtLink
-              >
-            </p>
+              <div v-else role="status">
+                <LoadingCircle />
+              </div>
+            </button>
           </form>
+
+          <p class="text-center text-sm">
+            {{ $t("Jika sudah punya akun, ") }}
+
+            <NuxtLink
+              :to="{ path: '/login', query: { from } }"
+              class="text-primary-600 underline"
+              >{{ $t("Login di sini") }}</NuxtLink
+            >
+          </p>
         </div>
       </div>
     </div>
@@ -88,23 +104,37 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/stores/auth";
 import type { Database } from "~/types/supabase";
 
-definePageMeta({
-  middleware: "auth",
-});
-
+const { userPoints } = useAuthStore();
 const supabase = useSupabaseClient<Database>();
+const route = useRoute();
+const { from } = route.query;
+
 const { showToast } = useToast();
 const { t } = useI18n();
+const loading = ref(false);
 
 const email = ref("");
 const password = ref("");
+const confirmPassword = ref("");
 const phone = ref("");
 const error = ref("");
 
+const label = {
+  password: t("Kata Sandi"),
+  confirmPassword: t("Konfirmasi Kata Sandi"),
+  email: t("Alamat Email"),
+};
+
 const register = async () => {
-  error.value = ""; // Reset the error
+  if (confirmPassword.value !== password.value) {
+    error.value = t("Konfirmasi kata sandi harus sama");
+    return;
+  }
+  error.value = "";
+  loading.value = true;
 
   const { data: existingUser, error: checkError } = await supabase
     .from("users")
@@ -113,10 +143,12 @@ const register = async () => {
 
   if (checkError) {
     error.value = t(checkError.message);
+    loading.value = false;
     return;
   }
   if (existingUser!.length > 0) {
     error.value = t("Email sudah terdaftar");
+    loading.value = false;
     return;
   }
 
@@ -124,14 +156,12 @@ const register = async () => {
     email: email.value,
     password: password.value,
     options: {
-      data: {
-        phone: phone.value,
-        points: 0,
-      },
+      emailRedirectTo: window.location.origin + "/login",
     },
   });
   if (registerError) {
     error.value = t(registerError.message);
+    loading.value = false;
     return;
   }
 
@@ -140,12 +170,13 @@ const register = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email: email.value }),
+    body: JSON.stringify({ email: email.value, points: userPoints }),
   });
   const { error: insertError } = await response.json();
 
   if (insertError) {
     error.value = t(insertError.message);
+    loading.value = false;
     return;
   }
 
@@ -160,6 +191,9 @@ watch(phone, () => {
   if (error.value) error.value = "";
 });
 watch(password, () => {
+  if (error.value) error.value = "";
+});
+watch(confirmPassword, () => {
   if (error.value) error.value = "";
 });
 </script>

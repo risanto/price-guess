@@ -10,12 +10,21 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/image": "^1.8.1",
     "@nuxtjs/i18n": "^8.5.5",
     "@nuxtjs/supabase": "^1.4.1",
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "@panzoom/panzoom": "^4.5.1",
+    "@pinia/nuxt": "^0.7.0",
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.2.0",
     "flowbite": "^2.5.2",
     "i18n": "^0.15.1",
+    "jwt-decode": "^4.0.0",
     "nuxt": "^3.13.0",
+    "pinia": "^2.2.5",
+    "pinia-plugin-persistedstate": "^4.1.2",
+    "rate-limiter-flexible": "^5.0.4",
     "vue": "latest",
     "vue-router": "latest"
   },
